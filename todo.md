@@ -1,0 +1,5 @@
+- [] Change database to postgresql
+- [] Create database models
+- [] Create new app for render data
+- [] Create new app for rest api
+- [] Generate sitemap
