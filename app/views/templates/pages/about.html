@@ -2,26 +2,37 @@
 {% load static %}
 {% block content %}
     <style type="text/css">
-        #about-root {
+        #about-banner {
             background: #FFFFFF;
-            margin: 5% 0 5% 0;
+            padding: 5% 0 5% 0;
         }
 
-        #about-title {
+        #about-banner-body {
             margin: 0 0 5% 0;
         }
     </style>
-    <div id="about-root" class="home-blog-area">
+    <div id="about-banner" class="home-blog-area"
+         style="background: url('{% static 'img/banners/reduce.webp' %}');">
         <div class="container">
-            <div id="about-title" class="row">
+            <div id="about-banner-body" class="row">
                 <div class="col-lg-12">
-                    <div class="section-tittle">
-                        <h2>TENTANG KAMI</h2>
+                    <div class="section-tittle">F
+                        <h2 style="color: #FFFFFF;">TENTANG KAMI</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
-
+                <div class="col-6">
+                    <img id="slide-logo" src="{% static 'img/logo/logo-white.webp' %}"
+                         style="max-width: 300px; display: block; margin: auto;" alt="">
+                </div>
+                <div class="col-6">
+                    <h4 style="color: #FFFFFF; background-color: rgba(0,0,0,0.8); padding: 5%">Evaluatte merupakan
+                        agensi konsultasi
+                        yang hadir sebagai solusi
+                        atas permasalahan yang sering dihadapi oleh para pencari kerja/fresh
+                        graduate.</h4>
+                </div>
             </div>
         </div>
     </div>
