@@ -10,24 +10,50 @@
         #about-banner-body {
             margin: 0 0 5% 0;
         }
+
+        .center-container {
+            position: relative;
+        }
+
+        .center {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        #about-logo {
+            max-width: 300px;
+            display: block;
+            margin: auto;
+        }
+
+        #about-desc {
+            color: #FFFFFF;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 5%;
+        }
     </style>
     <div id="about-banner" class="home-blog-area"
          style="background: url('{% static 'img/banners/reduce.webp' %}');">
         <div class="container">
             <div id="about-banner-body" class="row">
                 <div class="col-lg-12">
-                    <div class="section-tittle">F
+                    <div class="section-tittle">
                         <h2 style="color: #FFFFFF;">TENTANG KAMI</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
-                    <img id="slide-logo" src="{% static 'img/logo/logo-white.webp' %}"
-                         style="max-width: 300px; display: block; margin: auto;" alt="">
+                <div class="col-6 center-container">
+                    <img id="about-logo" src="{% static 'img/logo/logo-white.webp' %}"
+                         class="center" alt="">
                 </div>
                 <div class="col-6">
-                    <h4 style="color: #FFFFFF; background-color: rgba(0,0,0,0.8); padding: 5%">Evaluatte merupakan
+                    <h4 id="about-desc">Evaluatte
+                        merupakan
                         agensi konsultasi
                         yang hadir sebagai solusi
                         atas permasalahan yang sering dihadapi oleh para pencari kerja/fresh
