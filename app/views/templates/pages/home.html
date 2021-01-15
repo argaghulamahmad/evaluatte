@@ -1,11 +1,83 @@
 {% extends "components/base.html" %}
 {% load static %}
 {% block content %}
+    <style type="text/css">
+        #standout-text {
+            font-size: 48px;
+            line-height: 48px;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 575px) {
+            #standout-text {
+                font-size: 24px;
+                line-height: 24px;
+                text-decoration: underline;
+                margin: 0;
+            }
+        }
+
+        #ceo-name {
+            margin: 0 0 8px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 575px) {
+            #ceo-name {
+                margin: 0 0 0 0;
+                font-size: 12px;
+                font-weight: bold;
+            }
+        }
+
+        #ceo-title {
+            margin: 0;
+            font-size: 24px;
+            font-style: italic;
+        }
+
+        @media (max-width: 575px) {
+            #ceo-title {
+                margin: 0;
+                font-size: 12px;
+                font-style: italic;
+            }
+        }
+
+        #cant-text {
+            font-size: 48px;
+            line-height: 48px;
+        }
+
+        @media (max-width: 575px) {
+            #cant-text {
+                font-size: 24px;
+                line-height: 24px;
+                margin: 0;
+            }
+        }
+
+        #slide-logo {
+            width: 600px;
+            padding: 15px 0 15px 0;
+        }
+
+
+        @media (max-width: 575px) {
+            #slide-logo {
+                width: 200px;
+                padding: 15px 0 15px 0;
+                margin: 0;
+            }
+        }
+    </style>
     <main>
 
         <div class="slider-area ">
             <div class="slider-active">
-                <div class="first-slide single-slider slider-height d-flex align-items-center" style="background: black;">
+                <div class="first-slide single-slider slider-height d-flex align-items-center"
+                     style="background: black;">
                     <div class="container">
                         <div class="row">
                             <div class="col-12 hero__caption">
@@ -41,32 +113,30 @@
                     </div>
                 </div>
 
-                <div class="third-slide single-slider slider-height d-flex align-items-center" style="background: black;">
+                <div class="third-slide single-slider slider-height d-flex align-items-center"
+                     style="background: black;">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-9 col-12 hero__caption">
                                 <div data-animation="fadeInLeft" data-delay=".5s"
                                      style="text-align: left !important; font-size: 48px; display: inline;">
-                                    <p style="font-size: 48px; line-height: 48px;">tidak bisa
+                                    <p id="cant-text">tidak bisa
                                         dipungkiri bahwa persaingan
                                         mencari kerja semakin ketat, untuk itu </p>
-                                    <img src="{% static 'img/logo/logo-white.webp' %}"
-                                         style="width: 600px; padding: 15px 0 15px 0;"
+                                    <img id="slide-logo" src="{% static 'img/logo/logo-white.webp' %}"
                                          alt="">
-                                    <div>
-                                        <p style="font-size: 48px; line-height: 48px; text-decoration: underline;">hadir
-                                            to help you stand out from
-                                            the crowd!</p>
-                                    </div>
+                                    <p id="standout-text">hadir
+                                        to help you stand out from
+                                        the crowd!</p>
                                 </div>
                             </div>
 
                             <div class="row col-12 hero__caption" style="position: relative;">
                                 <div class="col-lg-9"></div>
                                 <div class="col-lg-3 col-12" style="text-align: right;">
-                                    <p style="margin: 0 0 8px 0; font-size: 24px; font-weight: bold;">Teguh
+                                    <p id="ceo-name">Teguh
                                         Priyantono</p>
-                                    <p style="margin: 0; font-size: 24px; font-style: italic;">CEO EVALUATTE.</p>
+                                    <p id="ceo-title">CEO EVALUATTE.</p>
                                 </div>
                             </div>
                         </div>
