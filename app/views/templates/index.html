@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha512-iQQV+nXtBlmS3XiDrtmL+9/Z+ibux+YuowJjI4rcpO7NYgTzfTOiFNm09kWtfZzEB9fQ6TwOVc8lFVWooFuD/w=="
           crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.css"
           integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
           crossorigin="anonymous"/>
 
@@ -51,7 +51,7 @@
         <div class="preloader-inner position-relative">
             <div class="preloader-circle"></div>
             <div class="preloader-img pere-text">
-                <img src="assets/img/logo/logo-black.webp" alt="">
+                <img src="{% static 'img/logo/logo-black.webp' %}" alt="">
             </div>
         </div>
     </div>
@@ -66,7 +66,10 @@
 
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo">
-                                <a href="/"><img src="assets/img/logo/logo-white.webp" style="width: 200px;" alt=""></a>
+                                <a href="/">
+                                    <img src="{% static 'img/logo/logo-white.webp' %}" style="width: 200px;"
+                                         alt="">
+                                </a>
                             </div>
                         </div>
                         <div class="col-xl-10 col-lg-10">
@@ -166,7 +169,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="grow single-cat text-center mb-50">
                         <div class="cat-icon">
-                            <img src="assets/img/icons/cv.webp"/>
+                            <img src="{% static 'img/icons/cv.webp' %}" alt=""/>
                         </div>
                         <div class="cat-cap">
                             <h5 style="font-weight: 600; font-size: 24px;"><a>Konsultasi CV</a></h5>
@@ -187,7 +190,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="grow single-cat text-center mb-50">
                         <div class="cat-icon">
-                            <img src="assets/img/icons/interview.webp"/>
+                            <img src="{% static 'img/icons/interview.webp' %}}" alt=""/>
                         </div>
                         <div class="cat-cap">
                             <h5 style="font-weight: 600; font-size: 24px;"><a>Konsultasi Interview</a></h5>
@@ -233,7 +236,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
                     <div class="grow single-team mb-30">
                         <div class="team-img">
-                            <img src="assets/img/consultant/merina.webp" alt="">
+                            <img src="{% static 'img/consultant/merina.webp' %}" alt="">
                         </div>
                         <div class="team-caption">
                             <h3><a>Merina Anindita</a></h3>
@@ -244,7 +247,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
                     <div class="grow single-team mb-30">
                         <div class="team-img">
-                            <img src="assets/img/consultant/teguh.webp" alt="">
+                            <img src="{% static 'img/consultant/teguh.webp' %}" alt="">
                         </div>
                         <div class="team-caption">
                             <h3><a>Teguh Priyantono</a></h3>
@@ -255,7 +258,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
                     <div class="grow single-team mb-30">
                         <div class="team-img">
-                            <img src="assets/img/consultant/shofia.webp" alt="">
+                            <img src="{% static 'img/consultant/shofia.webp' %}" alt="">
                         </div>
                         <div class="team-caption">
                             <h3><a>Shofia A Hajaraswati</a></h3>
@@ -277,7 +280,7 @@
                                 <div class="testimonial-top-cap">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="67px" height="49px">
                                         <path fill-rule="evenodd" fill="rgb(252, 236, 68)"
-                                              d="M57.053,48.209 L42.790,48.209 L52.299,29.242 L38.036,29.242 L38.036,0.790 L66.562,0.790 L66.562,29.242 L57.053,48.209 ZM4.755,48.209 L14.263,29.242 L0.000,29.242 L0.000,0.790 L28.527,0.790 L28.527,29.242 L19.018,48.209 L4.755,48.209 Z"/>
+                                              d="M57.053,48.209 L42.790,48.209 L52.299,29.242 L38.036,29.242 L38.036,0.790 L66.562,0.790 L66.562,29.242 L57.053,48.209 ZM4.755,48.209 L14.263,29.242 L0.000,29.242 L0.000,0.790 L28.527,0.790 L28.527,29.242 L19.018,48.209 L4.755,48.209 Z"></path>
                                     </svg>
                                     <p style="color: black;">“Dulu saya tidak mengerti bagaimana cara membuat CV yang
                                         baik dan benar, namun setelah mengetahui Evaluatte, saya jadi tahu. Terima kasih
@@ -286,7 +289,7 @@
 
                                 <div class="testimonial-founder d-flex align-items-center justify-content-center">
                                     <div class="founder-img">
-                                        <img src="assets/img/users/budi.webp" alt="">
+                                        <img src="{% static 'img/users/budi.webp' %}" alt="">
                                     </div>
                                     <div class="founder-text">
                                         <span style="color: black">Budi </span>
@@ -310,7 +313,7 @@
 
                                 <div class="testimonial-founder d-flex align-items-center justify-content-center">
                                     <div class="founder-img">
-                                        <img src="assets/img/users/mira.webp" alt="">
+                                        <img src="{% static 'img/users/mira.webp' %}" alt="">
                                     </div>
                                     <div class="founder-text">
                                         <span style="color: black">Mira </span>
@@ -333,8 +336,10 @@
                     <div class="col-lg-4 col-12">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-logo" style="margin-bottom: 0;">
-                                <a href="index.html"><img src="assets/img/logo/logo-white.webp" style="width: 200px;"
-                                                          alt=""></a>
+                                <a href="index.html">
+                                    <img src="{% static 'img/logo/logo-white.webp' %}" style="width: 200px;"
+                                         alt="">
+                                </a>
                             </div>
                             <div class="footer-tittle">
                                 <div class="footer-pera">
