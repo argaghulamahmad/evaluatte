@@ -11,10 +11,10 @@
                                 <div class="main-menu d-none d-lg-block">
                                     <nav>
                                         <ul class="navigation">
-                                            <li><a href="/">Beranda</a></li>
-                                            <li><a href="/">Tentang</a></li>
-                                            <li><a href="/">Layanan</a></li>
-                                            <li><a href="/">Konsultan</a></li>
+                                            <li><a href="{% url 'home' %}">Beranda</a></li>
+                                            <li><a href="{% url 'about' %}">Tentang</a></li>
+                                            <li><a href="{% url 'services' %}">Layanan</a></li>
+                                            <li><a href="{% url 'consultants' %}">Konsultan</a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -23,7 +23,7 @@
 
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo">
-                                <a href="/">
+                                <a href="{% url 'home' %}">
                                     <img src="{% static 'img/logo/logo-white.webp' %}"
                                          style="width: 200px; display: block; margin: auto;"
                                          alt="">
@@ -37,10 +37,10 @@
                                 <div class="main-menu d-none d-lg-block">
                                     <nav>
                                         <ul class="navigation">
-                                            <li><a href="/">Testimoni</a></li>
-                                            <li><a href="/">Inspirasi</a></li>
-                                            <li><a href="/">Karir</a></li>
-                                            <li><a href="/">Subscribe</a></li>
+                                            <li><a href="{% url 'testimonials' %}">Testimoni</a></li>
+                                            <li><a href="{% url 'inspirations' %}">Inspirasi</a></li>
+                                            <li><a href="{% url 'careers' %}">Karir</a></li>
+                                            <li><a href="{% url 'subscribe' %}">Subscribe</a></li>
                                         </ul>
                                     </nav>
                                 </div>
