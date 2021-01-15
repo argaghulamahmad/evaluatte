@@ -4218,7 +4218,7 @@ div.cat-icon > img {
 }
 
 .home-blog-area .home-blog-single .blog-img-cap .blog-cap h3 a:hover {
-    color: #ffffff
+    color: black;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -4252,7 +4252,7 @@ div.cat-icon > img {
 }
 
 .home-blog-area .home-blog-single .blog-img-cap .blog-cap .more-btn {
-    color: #fcec44;
+    color: black;
     text-transform: capitalize;
     font-size: 14px;
     font-family: roboto, sans-serif;
@@ -4268,7 +4268,7 @@ div.cat-icon > img {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    background: #fcec44
+    background: black;
 }
 
 .home-blog-single:hover {
