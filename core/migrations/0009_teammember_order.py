@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='teammember',
             name='order',
-            field=models.IntegerField(default=None, unique=True),
+            field=models.IntegerField(blank=True, null=True),
             preserve_default=False,
         ),
     ]
