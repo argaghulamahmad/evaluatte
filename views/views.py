@@ -14,7 +14,7 @@ def home(request):
 
 
 def about(request):
-    all_team_members = TeamMember.objects.order_by('order').all()
+    all_team_members = TeamMember.objects.all()
 
     data = {
         "team_members": all_team_members
