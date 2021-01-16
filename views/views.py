@@ -1,8 +1,18 @@
 from django.shortcuts import render
 
+from core.models import Consultant
+
 
 def home(request):
-    return render(request, 'pages/home.html')
+    consultants = Consultant.objects.all()
+
+    data = {
+        "consultants": consultants
+    }
+
+    print('test')
+
+    return render(request, 'pages/home.html', data)
 
 
 def about(request):
