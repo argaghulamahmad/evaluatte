@@ -6637,7 +6637,6 @@ b, sup, sub, u, del {
 }
 
 .primary-checkbox input:checked + label {
-    background: url(../img/elements/primary-check.png) no-repeat center center/cover;
     border: none
 }
 
@@ -6675,7 +6674,6 @@ b, sup, sub, u, del {
 }
 
 .confirm-checkbox input:checked + label {
-    background: url(../img/elements/success-check.png) no-repeat center center/cover;
     border: none
 }
 
@@ -6718,7 +6716,6 @@ b, sup, sub, u, del {
 }
 
 .disabled-checkbox input:checked + label {
-    background: url(../img/elements/disabled-check.png) no-repeat center center/cover;
     border: none
 }
 
@@ -6756,7 +6753,6 @@ b, sup, sub, u, del {
 }
 
 .primary-radio input:checked + label {
-    background: url(../img/elements/primary-radio.png) no-repeat center center/cover;
     border: none
 }
 
@@ -6794,7 +6790,6 @@ b, sup, sub, u, del {
 }
 
 .confirm-radio input:checked + label {
-    background: url(../img/elements/success-radio.png) no-repeat center center/cover;
     border: none
 }
 
@@ -6837,7 +6832,6 @@ b, sup, sub, u, del {
 }
 
 .disabled-radio input:checked + label {
-    background: url(../img/elements/disabled-radio.png) no-repeat center center/cover;
     border: none
 }
 
