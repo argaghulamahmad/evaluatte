@@ -13,12 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='teammember',
             name='is_show',
-            field=models.BooleanField(default=1),
+            field=models.BooleanField(),
             preserve_default=False,
-        ),
-        migrations.AlterField(
-            model_name='teammember',
-            name='order',
-            field=models.IntegerField(blank=True, null=True, unique=True),
         ),
     ]
