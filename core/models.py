@@ -8,6 +8,9 @@ class TeamMember(models.Model):
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
 
+    def __str__(self):
+        return self.full_name + self.position
+
 
 class Consultant(models.Model):
     profile_image = models.CharField(max_length=254)
@@ -22,6 +25,9 @@ class Consultant(models.Model):
     experience = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.full_name + ' - ' + self.role + ' at ' + self.company
+
 
 class Client(models.Model):
     full_name = models.CharField(null=True, blank=True, max_length=254)
@@ -32,14 +38,19 @@ class Client(models.Model):
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
 
+    def __str__(self):
+        return self.full_name + ' - ' + self.email + ' - ' + self.phone_number
+
 
 class Interview(models.Model):
     consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
-    consultant_name = models.CharField(null=True, blank=True, max_length=254)
-    client_name = models.CharField(null=True, blank=True, max_length=254)
     datetime = models.DateTimeField()
     testimony = models.TextField(null=True, blank=True)
     rating = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     note = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.consultant.full_name + ' - ' + self.client.full_name + ' - ' + self.datetime.strftime("%m/%d/%Y, "
+                                                                                                          "%H:%M:%S")
