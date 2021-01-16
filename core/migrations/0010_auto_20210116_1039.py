@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='teammember',
             name='is_show',
-            field=models.BooleanField(),
+            field=models.BooleanField(default=False),
         ),
     ]
