@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from core.models import Consultant
+from core.models import Consultant, TeamMember
 
 
 def home(request):
@@ -14,7 +14,13 @@ def home(request):
 
 
 def about(request):
-    return render(request, 'pages/about.html')
+    all_team_members = TeamMember.objects.all()
+
+    data = {
+        "team_members": all_team_members
+    }
+
+    return render(request, 'pages/about.html', data)
 
 
 def services(request):

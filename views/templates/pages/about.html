@@ -158,62 +158,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-lg-3" style="margin-bottom: 200px;">
-                    <div class="team-member-card">
-                        <img src="https://i.ibb.co/CVz0CMP/img.png" alt="" class="person"/>
-                        <h1>Scott Farquhar</h1>
-                        <p>Co-Founder & co-ceo</p>
+                {% for team_member in team_members %}
+                    <div class="col-12 col-lg-3" style="margin-bottom: 200px;">
+                        <div class="team-member-card">
+                            <img src="{{ team_member.profile_image }}" alt="" class="person"/>
+                            <h1>{{ team_member.full_name }}</h1>
+                            <p>{{ team_member.position }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12 col-lg-3" style="margin-bottom: 200px;">
-                    <div class="team-member-card">
-                        <img src="https://i.ibb.co/CVz0CMP/img.png" alt="" class="person"/>
-                        <h1>Scott Farquhar</h1>
-                        <p>Co-Founder & co-ceo</p>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3" style="margin-bottom: 200px;">
-                    <div class="team-member-card">
-                        <img src="https://i.ibb.co/CVz0CMP/img.png" alt="" class="person"/>
-                        <h1>Scott Farquhar</h1>
-                        <p>Co-Founder & co-ceo</p>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3" style="margin-bottom: 200px;">
-                    <div class="team-member-card">
-                        <img src="https://i.ibb.co/CVz0CMP/img.png" alt="" class="person"/>
-                        <h1>Scott Farquhar</h1>
-                        <p>Co-Founder & co-ceo</p>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3" style="margin-bottom: 200px;">
-                    <div class="team-member-card">
-                        <img src="https://i.ibb.co/CVz0CMP/img.png" alt="" class="person"/>
-                        <h1>Scott Farquhar</h1>
-                        <p>Co-Founder & co-ceo</p>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3" style="margin-bottom: 200px;">
-                    <div class="team-member-card">
-                        <img src="https://i.ibb.co/CVz0CMP/img.png" alt="" class="person"/>
-                        <h1>Scott Farquhar</h1>
-                        <p>Co-Founder & co-ceo</p>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3" style="margin-bottom: 200px;">
-                    <div class="team-member-card">
-                        <img src="https://i.ibb.co/CVz0CMP/img.png" alt="" class="person"/>
-                        <h1>Scott Farquhar</h1>
-                        <p>Co-Founder & co-ceo</p>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3" style="margin-bottom: 200px;">
-                    <div class="team-member-card">
-                        <img src="https://i.ibb.co/CVz0CMP/img.png" alt="" class="person"/>
-                        <h1>Scott Farquhar</h1>
-                        <p>Co-Founder & co-ceo</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
