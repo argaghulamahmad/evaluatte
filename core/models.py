@@ -9,7 +9,7 @@ class TeamMember(models.Model):
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
 
     def __str__(self):
-        return self.full_name + self.position
+        return self.full_name + ' | ' + self.position
 
 
 class Consultant(models.Model):
