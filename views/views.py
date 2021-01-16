@@ -10,8 +10,6 @@ def home(request):
         "consultants": consultants
     }
 
-    print('test')
-
     return render(request, 'pages/home.html', data)
 
 
