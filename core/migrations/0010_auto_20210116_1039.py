@@ -14,6 +14,5 @@ class Migration(migrations.Migration):
             model_name='teammember',
             name='is_show',
             field=models.BooleanField(),
-            preserve_default=False,
         ),
     ]
