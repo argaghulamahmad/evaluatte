@@ -4,10 +4,10 @@ from core.models import Consultant
 
 
 def home(request):
-    consultants = Consultant.objects.all()
+    all_consultants = Consultant.objects.all()
 
     data = {
-        "consultants": consultants
+        "consultants": all_consultants
     }
 
     return render(request, 'pages/home.html', data)
