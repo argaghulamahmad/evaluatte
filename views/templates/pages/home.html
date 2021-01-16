@@ -233,39 +233,19 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="grow single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'img/consultant/merina.webp' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <h3><a>Merina Anindita</a></h3>
-                                <span style="color: black;">Sr. Talent Acquisition</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="grow single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'img/consultant/teguh.webp' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <h3><a>Teguh Priyantono</a></h3>
-                                <span style="color: black;">Talent Sourcer</span>
+                    {% for consultant in consultants %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
+                            <div class="grow single-team mb-30">
+                                <div class="team-img">
+                                    <img src="{{ consultant.profile_image }}" alt="">
+                                </div>
+                                <div class="team-caption">
+                                    <h3><a>{{ consultant.full_name }}</a></h3>
+                                    <span style="color: black;">{{ consultant.role }} at {{ consultant.company }}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="grow single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'img/consultant/shofia.webp' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <h3><a>Shofia A Hajaraswati</a></h3>
-                                <span style="color: black;">Talent Acquisition</span>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
