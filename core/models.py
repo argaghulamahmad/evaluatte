@@ -2,11 +2,13 @@ from django.db import models
 
 
 class TeamMember(models.Model):
+    profile_image = models.CharField(max_length=254)
     full_name = models.CharField(max_length=254)
     position = models.CharField(max_length=254)
 
 
 class Consultant(models.Model):
+    profile_image = models.CharField(max_length=254)
     full_name = models.CharField(null=True, blank=True, max_length=254)
     role = models.CharField(null=True, blank=True, max_length=254)
     company = models.CharField(null=True, blank=True, max_length=254)
