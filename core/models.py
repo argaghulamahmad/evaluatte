@@ -46,6 +46,7 @@ class Interview(models.Model):
     consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
     datetime = models.DateTimeField()
+    meet_url = models.CharField(null=True, blank=True, max_length=254)
     testimony = models.TextField(null=True, blank=True)
     rating = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
