@@ -140,4 +140,4 @@ dmypy.json
 cython_debug/
 
 # Generated static files
-/app/staticfiles/
+/staticfiles/
