@@ -6,7 +6,7 @@ class TeamMember(models.Model):
     full_name = models.CharField(max_length=254)
     position = models.CharField(max_length=254)
     order = models.IntegerField(null=True, blank=True)
-    is_show = models.BooleanField()
+    is_show = models.BooleanField(default=False)
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
 
