@@ -31,3 +31,15 @@ class Client(models.Model):
     phone_number = models.CharField(null=True, blank=True, max_length=254)
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
+
+
+class Interview(models.Model):
+    consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
+    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
+    consultant_name = models.CharField(null=True, blank=True, max_length=254)
+    client_name = models.CharField(null=True, blank=True, max_length=254)
+    datetime = models.DateTimeField()
+    testimony = models.TextField(null=True, blank=True)
+    rating = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    note = models.TextField(null=True, blank=True)
