@@ -10,7 +10,6 @@ class TeamMember(models.Model):
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
 
     class Meta:
-        managed = True
         db_table = 'core_teammember'
 
     def __str__(self):
@@ -31,7 +30,6 @@ class Consultant(models.Model):
     note = models.TextField(null=True, blank=True)
 
     class Meta:
-        managed = True
         db_table = 'core_consultant'
 
     def __str__(self):
@@ -49,7 +47,6 @@ class Client(models.Model):
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
 
     class Meta:
-        managed = True
         db_table = 'core_client'
 
     def __str__(self):
@@ -70,7 +67,6 @@ class Interview(models.Model):
     note = models.TextField(null=True, blank=True)
 
     class Meta:
-        managed = True
         db_table = 'core_interview'
 
     def __str__(self):
