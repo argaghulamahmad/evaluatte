@@ -14,7 +14,7 @@ def home(request):
 
 
 def about(request):
-    all_team_members = TeamMember.objects.all()
+    all_team_members = TeamMember.objects.all().filter(is_show=True)
 
     data = {
         "team_members": all_team_members
