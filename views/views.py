@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render
 
-from core.models import Consultant, TeamMember, Interview
+from core.models import Consultant, TeamMember, Meet
 
 
 def home(request):
@@ -13,7 +13,7 @@ def home(request):
     )
 
     three_latest_testimonials = (
-        Interview.objects
+        Meet.objects
             .filter(testimony__isnull=False, show_testimony=True)
             .only('client', 'testimony')
             .order_by('-id')[:3]
@@ -58,7 +58,7 @@ def consultants(request):
 
 def testimonials(request):
     all_testimonials = (
-        Interview.objects
+        Meet.objects
             .filter(testimony__isnull=False, show_testimony=True)
             .only('client', 'testimony')
             .order_by('-id')
