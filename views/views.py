@@ -6,9 +6,18 @@ from core.models import Consultant, TeamMember, Interview
 
 
 def home(request):
-    three_first_consultants = Consultant.objects.all().filter(~Q(is_active=False)).order_by('id')[:3]
-    three_latest_testimonials = (Interview.objects.filter(testimony__isnull=False, show_testimony=True)
-                                     .only('client', 'testimony').order_by('-id')[:3])
+    three_first_consultants = (
+        Consultant.objects
+            .filter(~Q(is_active=False))
+            .order_by('id')[:3]
+    )
+
+    three_latest_testimonials = (
+        Interview.objects
+            .filter(testimony__isnull=False, show_testimony=True)
+            .only('client', 'testimony')
+            .order_by('-id')[:3]
+    )
 
     data = {
         "consultants": three_first_consultants,
@@ -33,13 +42,27 @@ def services(request):
 
 
 def consultants(request):
-    return render(request, 'pages/consultants.html')
+    all_consultants = (
+        Consultant.objects
+            .filter(~Q(is_active=False))
+            .order_by('id')
+    )
+
+    paginator = Paginator(all_consultants, 10)
+
+    page_number = request.GET.get('page')
+    consultants_page = paginator.get_page(page_number)
+
+    return render(request, 'pages/consultants.html', {'consultants_page': consultants_page})
 
 
 def testimonials(request):
-    all_testimonials = Interview.objects.filter(testimony__isnull=False,
-                                                show_testimony=True) \
-        .only('client', 'testimony').order_by('-id')
+    all_testimonials = (
+        Interview.objects
+            .filter(testimony__isnull=False, show_testimony=True)
+            .only('client', 'testimony')
+            .order_by('-id')
+    )
 
     paginator = Paginator(all_testimonials, 10)
 
