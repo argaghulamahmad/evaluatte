@@ -59,6 +59,14 @@ class Client(models.Model):
         return self.full_name + ' - ' + self.email + ' - ' + self.phone_number + ' - ' + self.title
 
 
+class MeetRating(models.IntegerChoices):
+    SANGAT_TIDAK_PUAS = 1, 'Sangat Tidak Puas'
+    TIDAK_PUAS = 2, 'Tidak Puas'
+    BIASA = 3, 'Biasa'
+    PUAS = 4, 'Puas'
+    SANGAT_PUAS = 5, 'Sangat Puas'
+
+
 class Meet(models.Model):
     MEET_TYPES = (
         ('INTERVIEW', 'Interview'),
@@ -77,7 +85,7 @@ class Meet(models.Model):
     testimony_proof = models.CharField(null=True, blank=True, max_length=254)
     show_testimony = models.BooleanField(default=False)
 
-    rating = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    rating = models.IntegerField(default=MeetRating.BIASA, choices=MeetRating.choices)
     show_rating = models.BooleanField(default=False)
 
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
