@@ -121,23 +121,37 @@
                     </div>
                 {% endfor %}
             </div>
+            <div class="row">
+                <div class="col-12">
+                    <nav class="blog-pagination justify-content-center d-flex">
+                        <ul class="pagination">
+                            {% if testimonials_page.has_previous %}
+                                <li class="page-item">
+                                    <a href="?page={{ testimonials_page.previous_page_number }}" class="page-link"
+                                       aria-label="Previous">
+                                        <i class="ti-angle-left"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            <li class="page-item">
+                                <a class="page-link"> {{ testimonials_page.number }}
+                                    / {{ testimonials_page.paginator.num_pages }}
+                                </a>
+                            </li>
+
+                            {% if testimonials_page.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{ testimonials_page.next_page_number }}" class="page-link"
+                                       aria-label="Next">
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="pagination">
-        <span class="step-links">
-            {% if testimonials_page.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ testimonials_page.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ testimonials_page.number }} of {{ testimonials_page.paginator.num_pages }}.
-            </span>
-
-            {% if testimonials_page.has_next %}
-                <a href="?page={{ testimonials_page.next_page_number }}">next</a>
-                <a href="?page={{ testimonials_page.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
     </div>
 {% endblock %}
