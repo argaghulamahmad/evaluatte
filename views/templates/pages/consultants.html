@@ -1,5 +1,54 @@
 {% extends "components/base.html" %}
 {% load static %}
 {% block content %}
-    <h1>consultants</h1>
+    <style type="text/css">
+        #consultants-root {
+            background: #FFFFFF;
+        }
+    </style>
+    <div id="consultants-root">
+        <div class="team-area section-padding30" style="background: black;">
+            <div class="container">
+                <div class="row">
+                    <div class="cl-xl-7 col-lg-8 col-md-10">
+                        <div class="section-tittle mb-70">
+                            <h2 style="color: #FFFFFF">DAFTAR KONSULTAN</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for consultant in consultants_page %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
+                            <div class="grow single-team mb-30">
+                                <div class="team-img">
+                                    <img src="{{ consultant.profile_image }}" alt="">
+                                </div>
+                                <div class="team-caption">
+                                    <h3><a>{{ consultant.full_name }}</a></h3>
+                                    <span style="color: black;">{{ consultant.role }} at {{ consultant.company }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if consultants_page.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ consultants_page.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ consultants_page.number }} of {{ consultants_page.paginator.num_pages }}.
+                </span>
+
+                {% if consultants_page.has_next %}
+                    <a href="?page={{ consultants_page.next_page_number }}">next</a>
+                    <a href="?page={{ consultants_page.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
 {% endblock %}
