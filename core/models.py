@@ -6,7 +6,7 @@ class TeamMember(models.Model):
     full_name = models.CharField(max_length=254)
     position = models.CharField(max_length=254)
     order = models.IntegerField(null=True, blank=True)
-    is_show = models.BooleanField(default=False)
+    is_show = models.BooleanField(null=True, blank=True)
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
 
@@ -22,7 +22,7 @@ class Consultant(models.Model):
     email = models.EmailField(null=True, blank=True, max_length=254)
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     phone_number = models.CharField(null=True, blank=True, max_length=254)
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(null=True, blank=True)
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     experience = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
