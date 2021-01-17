@@ -48,7 +48,7 @@ def consultants(request):
             .order_by('id')
     )
 
-    paginator = Paginator(all_consultants, 10)
+    paginator = Paginator(all_consultants, 9)
 
     page_number = request.GET.get('page')
     consultants_page = paginator.get_page(page_number)
