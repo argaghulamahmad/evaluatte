@@ -1,0 +1,1 @@
+heroku ps:exec --app evaluatte-staging
