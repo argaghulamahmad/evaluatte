@@ -5,12 +5,12 @@ from core.models import Consultant, TeamMember, Interview
 
 def home(request):
     all_consultants = Consultant.objects.all()
-    all_testimonials = Interview.objects.filter(testimony__isnull=False, show_testimony=True) \
+    three_latest_testimonials = Interview.objects.filter(testimony__isnull=False, show_testimony=True) \
         .only('client', 'testimony').order_by('-id')[:3]
 
     data = {
         "consultants": all_consultants,
-        "testimonials": all_testimonials
+        "testimonials": three_latest_testimonials
     }
 
     return render(request, 'pages/home.html', data)
