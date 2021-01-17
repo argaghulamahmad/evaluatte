@@ -50,6 +50,7 @@ class Interview(models.Model):
     is_complete = models.BooleanField(default=False)
     meet_url = models.CharField(null=True, blank=True, max_length=254)
     testimony = models.TextField(null=True, blank=True)
+    show_testimony = models.BooleanField(default=False)
     rating = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     note = models.TextField(null=True, blank=True)
