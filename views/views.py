@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from core.models import Consultant, TeamMember, Interview
@@ -35,7 +36,16 @@ def consultants(request):
 
 
 def testimonials(request):
-    return render(request, 'pages/testimonials.html')
+    all_testimonials = Interview.objects.filter(testimony__isnull=False,
+                                                show_testimony=True) \
+        .only('client', 'testimony').order_by('-id')
+
+    paginator = Paginator(all_testimonials, 10)
+
+    page_number = request.GET.get('page')
+    testimonials_page = paginator.get_page(page_number)
+
+    return render(request, 'pages/testimonials.html', {'testimonials_page': testimonials_page})
 
 
 def inspirations(request):
