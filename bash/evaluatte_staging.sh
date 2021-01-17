@@ -1,0 +1,1 @@
+heroku pg:psql postgresql-octagonal-13818 --app evaluatte-staging
