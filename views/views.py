@@ -5,7 +5,7 @@ from core.models import Consultant, TeamMember, Interview
 
 def home(request):
     all_consultants = Consultant.objects.all()
-    all_testimonials = Interview.objects.filter(testimony__isnull=False, show_testimony=True).only("testimony")
+    all_testimonials = Interview.objects.filter(testimony__isnull=False, show_testimony=True)
 
     data = {
         "consultants": all_consultants,

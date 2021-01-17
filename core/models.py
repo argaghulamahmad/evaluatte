@@ -9,6 +9,10 @@ class TeamMember(models.Model):
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
 
+    class Meta:
+        managed = True
+        db_table = 'core_teammember'
+
     def __str__(self):
         return self.full_name + ' | ' + self.position
 
@@ -26,6 +30,10 @@ class Consultant(models.Model):
     experience = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
 
+    class Meta:
+        managed = True
+        db_table = 'core_consultant'
+
     def __str__(self):
         return self.full_name + ' - ' + self.role + ' at ' + self.company
 
@@ -38,6 +46,10 @@ class Client(models.Model):
     phone_number = models.CharField(max_length=254)
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
+
+    class Meta:
+        managed = True
+        db_table = 'core_client'
 
     def __str__(self):
         return self.full_name + ' - ' + self.email + ' - ' + self.phone_number
@@ -54,6 +66,10 @@ class Interview(models.Model):
     rating = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     note = models.TextField(null=True, blank=True)
+
+    class Meta:
+        managed = True
+        db_table = 'core_interview'
 
     def __str__(self):
         return self.consultant.full_name + ' - ' + self.client.full_name + ' - ' + self.datetime.strftime("%m/%d/%Y, "
