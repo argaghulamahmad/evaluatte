@@ -70,8 +70,8 @@ class Meet(models.Model):
     type = models.CharField(null=True, blank=True, max_length=254, choices=MEET_TYPES)
 
     datetime = models.DateTimeField()
-    is_complete = models.BooleanField(default=False)
     meet_url = models.CharField(null=True, blank=True, max_length=254)
+    is_complete = models.BooleanField(default=False)
 
     testimony = models.TextField(null=True, blank=True)
     testimony_proof = models.CharField(null=True, blank=True, max_length=254)
