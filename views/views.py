@@ -1,11 +1,12 @@
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.shortcuts import render
 
 from core.models import Consultant, TeamMember, Interview
 
 
 def home(request):
-    three_first_consultants = Consultant.objects.all().order_by('id')[:3]
+    three_first_consultants = Consultant.objects.all().filter(~Q(is_active=False)).order_by('id')[:3]
     three_latest_testimonials = (Interview.objects.filter(testimony__isnull=False, show_testimony=True)
                                      .only('client', 'testimony').order_by('-id')[:3])
 
