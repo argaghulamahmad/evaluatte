@@ -24,8 +24,14 @@ class Consultant(models.Model):
     email = models.EmailField(null=True, blank=True, max_length=254)
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     phone_number = models.CharField(null=True, blank=True, max_length=254)
+
     is_active = models.BooleanField(null=True, blank=True)
-    price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+
+    is_cv = models.BooleanField(null=True, blank=True)
+    is_interview = models.BooleanField(null=True, blank=True)
+    cv_price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    interview_price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+
     experience = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
 
@@ -53,21 +59,33 @@ class Client(models.Model):
         return self.full_name + ' - ' + self.email + ' - ' + self.phone_number + ' - ' + self.title
 
 
-class Interview(models.Model):
+class Meet(models.Model):
+    MEET_TYPES = (
+        ('INTERVIEW', 'Interview'),
+        ('CV', 'CV'),
+    )
+
     consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
+    type = models.CharField(null=True, blank=True, max_length=254, choices=MEET_TYPES)
+
     datetime = models.DateTimeField()
     is_complete = models.BooleanField(default=False)
     meet_url = models.CharField(null=True, blank=True, max_length=254)
+
     testimony = models.TextField(null=True, blank=True)
     testimony_proof = models.CharField(null=True, blank=True, max_length=254)
     show_testimony = models.BooleanField(default=False)
+
     rating = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    show_rating = models.BooleanField(default=False)
+
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+
     note = models.TextField(null=True, blank=True)
 
     class Meta:
-        db_table = 'core_interview'
+        db_table = 'core_meet'
 
     def __str__(self):
         return self.consultant.full_name + ' - ' + self.client.full_name + ' - ' + self.datetime.strftime("%m/%d/%Y, "
