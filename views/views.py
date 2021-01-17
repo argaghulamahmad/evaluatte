@@ -1,13 +1,15 @@
 from django.shortcuts import render
 
-from core.models import Consultant, TeamMember
+from core.models import Consultant, TeamMember, Interview
 
 
 def home(request):
     all_consultants = Consultant.objects.all()
+    all_testimonials = Interview.objects.filter(testimony__isnull=False, show_testimony=True).only("testimony")
 
     data = {
-        "consultants": all_consultants
+        "consultants": all_consultants,
+        "testimonials": all_testimonials
     }
 
     return render(request, 'pages/home.html', data)
