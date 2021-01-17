@@ -31,11 +31,11 @@ class Consultant(models.Model):
 
 
 class Client(models.Model):
-    full_name = models.CharField(null=True, blank=True, max_length=254)
+    full_name = models.CharField(max_length=254)
     profile_image = models.CharField(null=True, blank=True, max_length=254)
     cv_url = models.CharField(null=True, blank=True, max_length=254)
-    email = models.EmailField(null=True, blank=True, max_length=254)
-    phone_number = models.CharField(null=True, blank=True, max_length=254)
+    email = models.EmailField(max_length=254)
+    phone_number = models.CharField(max_length=254)
     linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
     instagram_profile = models.CharField(null=True, blank=True, max_length=254)
 
