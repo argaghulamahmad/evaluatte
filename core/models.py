@@ -41,6 +41,7 @@ class Consultant(models.Model):
 class Client(models.Model):
     full_name = models.CharField(max_length=254)
     profile_image = models.CharField(null=True, blank=True, max_length=254)
+    title = models.CharField(max_length=254)
     cv_url = models.CharField(null=True, blank=True, max_length=254)
     email = models.EmailField(max_length=254)
     phone_number = models.CharField(max_length=254)
@@ -52,7 +53,7 @@ class Client(models.Model):
         db_table = 'core_client'
 
     def __str__(self):
-        return self.full_name + ' - ' + self.email + ' - ' + self.phone_number
+        return self.full_name + ' - ' + self.email + ' - ' + self.phone_number + ' - ' + self.title
 
 
 class Interview(models.Model):
