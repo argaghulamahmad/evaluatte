@@ -2,6 +2,8 @@ from django.contrib import admin
 
 from .models import TeamMember, Consultant, Client, Meet
 
+admin.site.site_header = 'Evaluatte Administration'
+
 
 class AdminWithoutModified(admin.ModelAdmin):
     exclude = ['modified']
