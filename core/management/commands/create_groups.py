@@ -8,21 +8,37 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from django.core.management.base import BaseCommand
 
-GROUPS = ['Chief', 'Sales', 'Consultant', 'Client']
-MODELS = ['meet', 'client', 'consultant', 'team member']
-PERMISSIONS = ['view', ]
+GROUPS = {
+    'Chief': {
+        'PERMISSIONS': {
+            'meet': ['add', 'change', 'delete', 'view'],
+            'client': ['add', 'change', 'delete', 'view'],
+            'consultant': ['add', 'change', 'delete', 'view'],
+            'team member': ['add', 'change', 'view'],
+        }
+    },
+    'Sales': {
+        'PERMISSIONS': {
+            'meet': ['add', 'change', 'view', 'delete'],
+            'client': ['add', 'change', 'view', 'delete'],
+            'consultant': ['add', 'change', 'view'],
+            'team member': ['view'],
+        }
+    }
+}
 
 
 class Command(BaseCommand):
     help = 'Creates read only default permission groups for users'
 
     def handle(self, *args, **options):
-        for group in GROUPS:
-            new_group, created = Group.objects.get_or_create(name=group)
-            for model in MODELS:
-                for permission in PERMISSIONS:
+        for group_name in GROUPS.keys():
+            group_permission = GROUPS[group_name]['PERMISSIONS']
+            new_group, created = Group.objects.get_or_create(name=group_name)
+            for model in group_permission.keys():
+                for permission in group_permission[model]:
                     name = 'Can {} {}'.format(permission, model)
-                    print("Creating {}".format(name))
+                    print("Creating {} {}".format(group_name, name))
 
                     try:
                         model_add_perm = Permission.objects.get(name=name)
