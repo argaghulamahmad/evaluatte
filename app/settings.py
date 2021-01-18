@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'debug_toolbar',
+
     'core',
     'views'
 ]
@@ -53,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -124,3 +129,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# Django Debug Toolbar
+INTERNAL_IPS = ('127.0.0.1', '192.168.1.20',)
+
+
+def show_toolbar(request):
+    return True
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
+}
