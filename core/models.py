@@ -117,3 +117,22 @@ class Meet(ModelWithAutoTimestamp):
     def __str__(self):
         return self.consultant.full_name + ' - ' + self.client.full_name + ' - ' + self.datetime.strftime("%m/%d/%Y, "
                                                                                                           "%H:%M:%S")
+
+
+class Payment(ModelWithAutoTimestamp):
+    PAYMENT_METHODS = (
+        ('BCA', 'Transfer BCA'),
+        ('BNI', 'Transfer BNI'),
+    )
+
+    meet = models.ForeignKey(Meet, on_delete=models.DO_NOTHING)
+
+    due_datetime = models.DateTimeField()
+
+    method = models.CharField(null=True, blank=True, max_length=254, choices=PAYMENT_METHODS)
+
+    price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    admin_cost = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    total = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+
+    note = models.TextField(null=True, blank=True)
