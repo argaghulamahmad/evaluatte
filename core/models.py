@@ -136,3 +136,32 @@ class Payment(ModelWithAutoTimestamp):
     total = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
 
     note = models.TextField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'core_payment'
+
+    def __str__(self):
+        return (
+                str(self.meet) + ' - ' +
+                self.due_datetime.strftime("%m/%d/%Y, %H:%M:%S") + ' - ' +
+                str(self.total)
+        )
+
+
+class MeetPayroll(ModelWithAutoTimestamp):
+    payment = models.ForeignKey(Meet, on_delete=models.DO_NOTHING)
+    price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    for_consultant = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    for_company = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    is_consultant_paid = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'core_meet_payroll'
+
+    def __str__(self):
+        return (
+                str(self.payment) + ' - ' +
+                str(self.for_consultant) + ' - ' +
+                str(self.for_company) + ' - ' +
+                str(self.is_consultant_paid)
+        )
