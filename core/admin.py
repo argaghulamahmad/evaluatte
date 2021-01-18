@@ -51,7 +51,28 @@ class ConsultantAdmin(AdminWithoutModified):
     list_per_page = 10
 
 
+class MeetAdmin(AdminWithoutModified):
+    list_display = (
+        'type',
+        'client',
+        'consultant',
+        'datetime',
+        'note',
+    )
+    list_display_links = (
+        'client',
+        'consultant',
+    )
+    list_filter = (
+        'datetime',
+    )
+    ordering = ['id']
+    search_fields = ('id', 'client',
+                     'consultant', 'datetime', 'note')
+    list_per_page = 10
+
+
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Consultant, ConsultantAdmin)
-admin.site.register(Meet)
+admin.site.register(Meet, MeetAdmin)
 admin.site.register(TeamMember)
