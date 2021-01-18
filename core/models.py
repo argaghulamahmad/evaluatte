@@ -18,12 +18,12 @@ class ModelWithAutoTimestamp(models.Model):
 
 
 class TeamMember(ModelWithAutoTimestamp):
-    profile_image = models.CharField(max_length=254)
+    profile_image = models.URLField(max_length=254)
     full_name = models.CharField(max_length=254)
     position = models.CharField(max_length=254)
     is_show = models.BooleanField(null=True, blank=True)
-    linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
-    instagram_profile = models.CharField(null=True, blank=True, max_length=254)
+    linkedin_profile = models.URLField(null=True, blank=True, max_length=254)
+    instagram_profile = models.URLField(null=True, blank=True, max_length=254)
 
     class Meta:
         db_table = 'core_teammember'
@@ -33,12 +33,12 @@ class TeamMember(ModelWithAutoTimestamp):
 
 
 class Consultant(ModelWithAutoTimestamp):
-    profile_image = models.CharField(max_length=254)
+    profile_image = models.URLField(max_length=254)
     full_name = models.CharField(null=True, blank=True, max_length=254)
     role = models.CharField(null=True, blank=True, max_length=254)
     company = models.CharField(null=True, blank=True, max_length=254)
     email = models.EmailField(null=True, blank=True, max_length=254)
-    linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
+    linkedin_profile = models.URLField(null=True, blank=True, max_length=254)
     phone_number = models.CharField(null=True, blank=True, max_length=254)
 
     is_active = models.BooleanField(null=True, blank=True)
@@ -60,13 +60,13 @@ class Consultant(ModelWithAutoTimestamp):
 
 class Client(ModelWithAutoTimestamp):
     full_name = models.CharField(max_length=254)
-    profile_image = models.CharField(null=True, blank=True, max_length=254)
+    profile_image = models.URLField(null=True, blank=True, max_length=254)
     title = models.CharField(max_length=254)
-    cv_url = models.CharField(null=True, blank=True, max_length=254)
+    cv_url = models.URLField(null=True, blank=True, max_length=254)
     email = models.EmailField(max_length=254)
     phone_number = models.CharField(max_length=254)
-    linkedin_profile = models.CharField(null=True, blank=True, max_length=254)
-    instagram_profile = models.CharField(null=True, blank=True, max_length=254)
+    linkedin_profile = models.URLField(null=True, blank=True, max_length=254)
+    instagram_profile = models.URLField(null=True, blank=True, max_length=254)
 
     class Meta:
         db_table = 'core_client'
@@ -94,11 +94,14 @@ class Meet(ModelWithAutoTimestamp):
     type = models.CharField(null=True, blank=True, max_length=254, choices=MEET_TYPES)
 
     datetime = models.DateTimeField()
-    meet_url = models.CharField(null=True, blank=True, max_length=254)
+    is_paid = models.BooleanField(default=False)
+    paid_proof = models.URLField(null=True, blank=True, max_length=254)
+
+    meet_url = models.URLField(null=True, blank=True, max_length=254)
     is_complete = models.BooleanField(default=False)
 
     testimony = models.TextField(null=True, blank=True)
-    testimony_proof = models.CharField(null=True, blank=True, max_length=254)
+    testimony_proof = models.URLField(null=True, blank=True, max_length=254)
     show_testimony = models.BooleanField(default=False)
 
     rating = models.IntegerField(default=MeetRating.BIASA, choices=MeetRating.choices)
