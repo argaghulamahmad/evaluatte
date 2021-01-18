@@ -3,8 +3,8 @@ from django.utils import timezone
 
 
 class ModelWithAutoTimestamp(models.Model):
-    created = models.DateTimeField(editable=False, default=timezone.now())
-    modified = models.DateTimeField(default=timezone.now())
+    created = models.DateTimeField(editable=False)
+    modified = models.DateTimeField()
 
     def save(self, *args, **kwargs):
         """ On save, update timestamps """
