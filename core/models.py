@@ -1,7 +1,23 @@
 from django.db import models
+from django.utils import timezone
 
 
-class TeamMember(models.Model):
+class ModelWithAutoTimestamp(models.Model):
+    created = models.DateTimeField(editable=False, default=timezone.now())
+    modified = models.DateTimeField(default=timezone.now())
+
+    def save(self, *args, **kwargs):
+        """ On save, update timestamps """
+        if not self.id:
+            self.created = timezone.now()
+        self.modified = timezone.now()
+        return super().save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
+
+
+class TeamMember(ModelWithAutoTimestamp):
     profile_image = models.CharField(max_length=254)
     full_name = models.CharField(max_length=254)
     position = models.CharField(max_length=254)
@@ -16,7 +32,7 @@ class TeamMember(models.Model):
         return self.full_name + ' | ' + self.position
 
 
-class Consultant(models.Model):
+class Consultant(ModelWithAutoTimestamp):
     profile_image = models.CharField(max_length=254)
     full_name = models.CharField(null=True, blank=True, max_length=254)
     role = models.CharField(null=True, blank=True, max_length=254)
@@ -42,7 +58,7 @@ class Consultant(models.Model):
         return self.full_name + ' - ' + self.role + ' at ' + self.company
 
 
-class Client(models.Model):
+class Client(ModelWithAutoTimestamp):
     full_name = models.CharField(max_length=254)
     profile_image = models.CharField(null=True, blank=True, max_length=254)
     title = models.CharField(max_length=254)
@@ -67,7 +83,7 @@ class MeetRating(models.IntegerChoices):
     SANGAT_PUAS = 5, 'Sangat Puas'
 
 
-class Meet(models.Model):
+class Meet(ModelWithAutoTimestamp):
     MEET_TYPES = (
         ('INTERVIEW', 'Interview'),
         ('CV', 'CV'),
