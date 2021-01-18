@@ -72,7 +72,7 @@ class Client(ModelWithAutoTimestamp):
         db_table = 'core_client'
 
     def __str__(self):
-        return self.full_name + ' - ' + self.email + ' - ' + self.phone_number + ' - ' + self.title
+        return self.full_name + ' - ' + self.title
 
 
 class MeetRating(models.IntegerChoices):
