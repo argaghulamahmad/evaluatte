@@ -26,7 +26,7 @@ class TeamMember(ModelWithAutoTimestamp):
     instagram_profile = models.URLField(null=True, blank=True, max_length=254)
 
     class Meta:
-        db_table = 'core_teammember'
+        db_table = 'core_team_member'
 
     def __str__(self):
         return self.full_name + ' | ' + self.position
