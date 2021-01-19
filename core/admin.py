@@ -101,15 +101,15 @@ class MeetPayrollAdmin(AdminWithoutModified):
         ]
 
     list_display = (
-        'payment',
         'consultant',
+        'meet',
         'price',
         'for_consultant',
         'for_company',
         'is_consultant_paid',
     )
     list_display_links = (
-        'payment',
+        'consultant',
     )
     list_filter = (
         'is_consultant_paid',

@@ -161,7 +161,7 @@ class MeetPayroll(ModelWithAutoTimestamp):
     FOR_COMPANY = 0.4
 
     consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
-    payment = models.ForeignKey(Meet, on_delete=models.CASCADE)
+    meet = models.ForeignKey(Meet, on_delete=models.CASCADE)
 
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     for_consultant = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
@@ -180,7 +180,7 @@ class MeetPayroll(ModelWithAutoTimestamp):
 
     @property
     def get_consultant(self):
-        return self.payment.consultant
+        return self.meet.consultant
 
     def save(self, *args, **kwargs):
         self.consultant = self.get_consultant
@@ -196,7 +196,7 @@ class MeetPayroll(ModelWithAutoTimestamp):
 
     def __str__(self):
         return (
-                str(self.payment) + ' - ' +
+                str(self.meet) + ' - ' +
                 str(self.for_consultant) + ' - ' +
                 str(self.for_company) + ' - ' +
                 str(self.is_consultant_paid)
