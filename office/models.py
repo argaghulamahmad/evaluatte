@@ -16,7 +16,7 @@ class Employee(ModelWithAutoTimestamp):
     full_name = models.CharField(max_length=254)
     position = models.CharField(max_length=254)
 
-    type = models.CharField(null=True, blank=True, max_length=254, choices=EMPLOYEE_TYPES)
+    type = models.CharField(max_length=254, choices=EMPLOYEE_TYPES)
 
     linkedin_profile = models.URLField(null=True, blank=True, max_length=254)
     instagram_profile = models.URLField(null=True, blank=True, max_length=254)
