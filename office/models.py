@@ -34,6 +34,8 @@ class Employee(ModelWithAutoTimestamp):
 class EmployeePayroll(ModelWithAutoTimestamp):
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
 
+    date = models.DateField()
+
     total = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
 
     employee_paid_proof = models.URLField(null=True, blank=True, max_length=254)
