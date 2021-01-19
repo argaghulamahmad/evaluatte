@@ -178,7 +178,12 @@ class MeetPayroll(ModelWithAutoTimestamp):
     def get_for_company(self):
         return float(self.price) * self.FOR_COMPANY
 
+    @property
+    def get_consultant(self):
+        return self.payment.consultant
+
     def save(self, *args, **kwargs):
+        self.consultant = self.get_consultant
         self.for_consultant = self.get_for_consultant
         self.for_company = self.get_for_company
 

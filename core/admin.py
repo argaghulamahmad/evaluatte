@@ -94,12 +94,15 @@ class TeamMemberAdmin(AdminWithoutModified):
 
 class MeetPayrollAdmin(AdminWithoutModified):
     def get_readonly_fields(self, request, obj=None):
-        return ['for_consultant',
-                'for_company', ]
+        return [
+            'consultant',
+            'for_consultant',
+            'for_company',
+        ]
 
     list_display = (
-        'consultant',
         'payment',
+        'consultant',
         'price',
         'for_consultant',
         'for_company',
