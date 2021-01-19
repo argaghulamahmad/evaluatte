@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import TeamMember, Consultant, Client, Meet, MeetPayroll, Payment
+from .models import TeamMember, Consultant, Client, Meet, MeetPayroll, MeetPayment
 
 admin.site.site_header = 'Evaluatte Administration'
 
@@ -137,4 +137,4 @@ admin.site.register(Consultant, ConsultantAdmin)
 admin.site.register(Meet, MeetAdmin)
 admin.site.register(TeamMember, TeamMemberAdmin)
 admin.site.register(MeetPayroll, MeetPayrollAdmin)
-admin.site.register(Payment, MeetPaymentAdmin)
+admin.site.register(MeetPayment, MeetPaymentAdmin)
