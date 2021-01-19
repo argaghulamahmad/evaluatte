@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from core.admin import AdminWithoutModified
-from office.models import TeamMember
+from office.models import Employee
 
 
 class TeamMemberAdmin(AdminWithoutModified):
@@ -22,4 +22,4 @@ class TeamMemberAdmin(AdminWithoutModified):
     list_per_page = 10
 
 
-admin.site.register(TeamMember, TeamMemberAdmin)
+admin.site.register(Employee, TeamMemberAdmin)
