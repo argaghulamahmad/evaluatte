@@ -167,8 +167,8 @@ class MeetPayroll(ModelWithAutoTimestamp):
     for_consultant = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     for_company = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
 
-    is_consultant_paid = models.BooleanField(default=False)
     consultant_paid_proof = models.URLField(null=True, blank=True, max_length=254)
+    is_consultant_paid = models.BooleanField(default=False)
 
     @property
     def get_for_consultant(self):
@@ -182,10 +182,19 @@ class MeetPayroll(ModelWithAutoTimestamp):
     def get_consultant(self):
         return self.meet.consultant
 
+    @property
+    def is_consultant_paid_proof(self):
+        return self.consultant_paid_proof is not None
+
     def save(self, *args, **kwargs):
         self.consultant = self.get_consultant
         self.for_consultant = self.get_for_consultant
         self.for_company = self.get_for_company
+
+        if self.is_consultant_paid_proof:
+            self.is_consultant_paid = True
+        else:
+            self.is_consultant_paid = False
 
         super(MeetPayroll, self).save(*args, **kwargs)
 
