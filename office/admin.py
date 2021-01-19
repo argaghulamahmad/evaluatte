@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from core.admin import AdminWithoutModified
-from office.models import Employee
+from office.models import Employee, EmployeePayroll
 
 
 class EmployeeAdmin(AdminWithoutModified):
@@ -24,4 +24,24 @@ class EmployeeAdmin(AdminWithoutModified):
     list_per_page = 10
 
 
+class EmployeePayrollAdmin(AdminWithoutModified):
+    list_display = (
+        'employee',
+        'total',
+        'employee_paid_proof',
+        'is_employee_paid',
+        'note',
+    )
+    list_display_links = (
+        'employee',
+    )
+    list_filter = (
+        'is_employee_paid',
+    )
+    ordering = ['id']
+    search_fields = ('id',)
+    list_per_page = 10
+
+
 admin.site.register(Employee, EmployeeAdmin)
+admin.site.register(EmployeePayroll, EmployeePayrollAdmin)
