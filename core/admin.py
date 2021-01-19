@@ -98,6 +98,7 @@ class MeetPayrollAdmin(AdminWithoutModified):
             'consultant',
             'for_consultant',
             'for_company',
+            'is_consultant_paid',
         ]
 
     list_display = (
