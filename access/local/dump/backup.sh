@@ -1,0 +1,1 @@
+pg_dump -U postgres -h localhost evaluatte_staging >> evaluatte_staging_localhost.sql
