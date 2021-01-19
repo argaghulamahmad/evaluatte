@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.shortcuts import render
 
 from core.models import Consultant, Meet
-from office.models import TeamMember
+from office.models import Employee
 
 
 def home(request):
@@ -29,7 +29,7 @@ def home(request):
 
 
 def about(request):
-    all_team_members = TeamMember.objects.all().filter(is_show=True).order_by('id')
+    all_team_members = Employee.objects.all().filter(is_show=True).order_by('id')
 
     data = {
         "team_members": all_team_members
