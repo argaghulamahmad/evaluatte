@@ -135,6 +135,14 @@ class MeetPayment(ModelWithAutoTimestamp):
     admin_cost = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     total = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
 
+    @property
+    def get_total(self):
+        return self.price + self.admin_cost
+
+    def save(self, *args, **kwargs):
+        self.total = self.get_total
+        super(MeetPayment, self).save(*args, **kwargs)
+
     note = models.TextField(null=True, blank=True)
 
     class Meta:
