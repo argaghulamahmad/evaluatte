@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import TeamMember, Consultant, Client, Meet, MeetPayroll, MeetPayment
+from .models import Consultant, Client, Meet, MeetPayroll, MeetPayment
 
 admin.site.site_header = 'Evaluatte Administration'
 
@@ -74,24 +74,6 @@ class MeetAdmin(AdminWithoutModified):
     list_per_page = 10
 
 
-class TeamMemberAdmin(AdminWithoutModified):
-    list_display = (
-        'full_name',
-        'position',
-        'is_show'
-    )
-    list_display_links = (
-        'full_name',
-    )
-    list_filter = (
-        'position',
-    )
-    ordering = ['id']
-    search_fields = ('id', 'full_name',
-                     'position')
-    list_per_page = 10
-
-
 class MeetPayrollAdmin(AdminWithoutModified):
     def get_readonly_fields(self, request, obj=None):
         return [
@@ -148,6 +130,5 @@ class MeetPaymentAdmin(AdminWithoutModified):
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Consultant, ConsultantAdmin)
 admin.site.register(Meet, MeetAdmin)
-admin.site.register(TeamMember, TeamMemberAdmin)
 admin.site.register(MeetPayroll, MeetPayrollAdmin)
 admin.site.register(MeetPayment, MeetPaymentAdmin)

@@ -2,7 +2,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render
 
-from core.models import Consultant, TeamMember, Meet
+from core.models import Consultant, Meet
+from office.models import TeamMember
 
 
 def home(request):
