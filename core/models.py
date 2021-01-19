@@ -157,11 +157,34 @@ class MeetPayment(ModelWithAutoTimestamp):
 
 
 class MeetPayroll(ModelWithAutoTimestamp):
-    payment = models.ForeignKey(Meet, on_delete=models.DO_NOTHING)
+    FOR_CONSULTANT = 0.6
+    FOR_COMPANY = 0.4
+
+    consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
+    payment = models.ForeignKey(Meet, on_delete=models.CASCADE)
+
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     for_consultant = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     for_company = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+
     is_consultant_paid = models.BooleanField(default=False)
+    consultant_paid_proof = models.URLField(null=True, blank=True, max_length=254)
+
+    @property
+    def get_for_consultant(self):
+        return float(self.price) * self.FOR_CONSULTANT
+
+    @property
+    def get_for_company(self):
+        return float(self.price) * self.FOR_COMPANY
+
+    def save(self, *args, **kwargs):
+        self.for_consultant = self.get_for_consultant
+        self.for_company = self.get_for_company
+
+        super(MeetPayroll, self).save(*args, **kwargs)
+
+    note = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = 'core_meet_payroll'

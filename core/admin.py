@@ -93,7 +93,12 @@ class TeamMemberAdmin(AdminWithoutModified):
 
 
 class MeetPayrollAdmin(AdminWithoutModified):
+    def get_readonly_fields(self, request, obj=None):
+        return ['for_consultant',
+                'for_company', ]
+
     list_display = (
+        'consultant',
         'payment',
         'price',
         'for_consultant',
@@ -105,9 +110,10 @@ class MeetPayrollAdmin(AdminWithoutModified):
     )
     list_filter = (
         'is_consultant_paid',
+        'consultant',
     )
     ordering = ['id']
-    search_fields = ('id', 'payment')
+    search_fields = ('id', 'consultant')
     list_per_page = 10
 
 
