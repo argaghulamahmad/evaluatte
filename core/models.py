@@ -119,7 +119,7 @@ class Meet(ModelWithAutoTimestamp):
                                                                                                           "%H:%M:%S")
 
 
-class Payment(ModelWithAutoTimestamp):
+class MeetPayment(ModelWithAutoTimestamp):
     PAYMENT_METHODS = (
         ('BCA', 'Transfer BCA'),
         ('BNI', 'Transfer BNI'),
@@ -138,7 +138,7 @@ class Payment(ModelWithAutoTimestamp):
     note = models.TextField(null=True, blank=True)
 
     class Meta:
-        db_table = 'core_payment'
+        db_table = 'core_meet_payment'
 
     def __str__(self):
         return (
