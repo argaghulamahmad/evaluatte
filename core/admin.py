@@ -112,6 +112,9 @@ class MeetPayrollAdmin(AdminWithoutModified):
 
 
 class MeetPaymentAdmin(AdminWithoutModified):
+    def get_readonly_fields(self, request, obj=None):
+        return ['total']
+
     list_display = (
         'meet',
         'due_datetime',
