@@ -4,16 +4,18 @@ from core.admin import AdminWithoutModified
 from office.models import Employee
 
 
-class TeamMemberAdmin(AdminWithoutModified):
+class EmployeeAdmin(AdminWithoutModified):
     list_display = (
         'full_name',
         'position',
+        'type',
         'is_show'
     )
     list_display_links = (
         'full_name',
     )
     list_filter = (
+        'type',
         'position',
     )
     ordering = ['id']
@@ -22,4 +24,4 @@ class TeamMemberAdmin(AdminWithoutModified):
     list_per_page = 10
 
 
-admin.site.register(Employee, TeamMemberAdmin)
+admin.site.register(Employee, EmployeeAdmin)
