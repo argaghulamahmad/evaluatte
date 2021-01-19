@@ -27,6 +27,7 @@ class EmployeeAdmin(AdminWithoutModified):
 class EmployeePayrollAdmin(AdminWithoutModified):
     list_display = (
         'employee',
+        'date',
         'total',
         'employee_paid_proof',
         'is_employee_paid',
@@ -37,6 +38,7 @@ class EmployeePayrollAdmin(AdminWithoutModified):
     )
     list_filter = (
         'is_employee_paid',
+        'date',
     )
     ordering = ['id']
     search_fields = ('id',)
