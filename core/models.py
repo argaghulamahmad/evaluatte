@@ -76,7 +76,7 @@ class Meet(ModelWithAutoTimestamp):
 
     consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
-    type = models.CharField(null=True, blank=True, max_length=254, choices=MEET_TYPES)
+    type = models.CharField(max_length=254, choices=MEET_TYPES)
 
     datetime = models.DateTimeField()
     is_paid = models.BooleanField(default=False)
