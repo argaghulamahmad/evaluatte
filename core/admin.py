@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import TeamMember, Consultant, Client, Meet
+from .models import TeamMember, Consultant, Client, Meet, MeetPayroll, Payment
 
 admin.site.site_header = 'Evaluatte Administration'
 
@@ -92,7 +92,49 @@ class TeamMemberAdmin(AdminWithoutModified):
     list_per_page = 10
 
 
+class MeetPayrollAdmin(AdminWithoutModified):
+    list_display = (
+        'payment',
+        'price',
+        'for_consultant',
+        'for_company',
+        'is_consultant_paid',
+    )
+    list_display_links = (
+        'payment',
+    )
+    list_filter = (
+        'is_consultant_paid',
+    )
+    ordering = ['id']
+    search_fields = ('id', 'payment')
+    list_per_page = 10
+
+
+class MeetPaymentAdmin(AdminWithoutModified):
+    list_display = (
+        'meet',
+        'due_datetime',
+        'method',
+        'price',
+        'admin_cost',
+        'total',
+        'note',
+    )
+    list_display_links = (
+        'meet',
+    )
+    list_filter = (
+        'method',
+    )
+    ordering = ['id']
+    search_fields = ('id', 'method')
+    list_per_page = 10
+
+
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Consultant, ConsultantAdmin)
 admin.site.register(Meet, MeetAdmin)
 admin.site.register(TeamMember, TeamMemberAdmin)
+admin.site.register(MeetPayroll, MeetPayrollAdmin)
+admin.site.register(Payment, MeetPaymentAdmin)
