@@ -1,5 +1,62 @@
 {% extends "components/base.html" %}
 {% load static %}
 {% block content %}
-    <h1>services</h1>
+    <div id="consultants-root">
+        <div class="section-padding30">
+            <div class="container">
+                <div class="row">
+                    <div class="cl-xl-7 col-lg-8 col-md-10">
+                        <div class="section-tittle mb-70">
+                            <h2>DAFTAR KONSULTAN</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="grow single-cat text-center mb-50" style="box-shadow: 2px 4px #fcec44;">
+                            <div class="cat-icon">
+                                <img src="{% static 'img/icons/cv.webp' %}" alt=""/>
+                            </div>
+                            <div class="cat-cap">
+                                <h5 style="font-weight: 600; font-size: 24px;"><a>Konsultasi CV</a></h5>
+                                <div class="yellow-disc"
+                                     style="text-align: left; min-height: 200px; margin-bottom: 20px;">
+                                    <ul>
+                                        <li>Rahasia super CV (99% akan lulus tahap
+                                            screening baik ATS maupun
+                                        </li>
+                                        <li>Pengetahuan tentang CV (With case)</li>
+                                        <li>Pengetahuan sistem kerja ATS</li>
+                                        <li>Template super CVs</li>
+                                        <li>Kesempatan direkrut langsung oleh HRD</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="grow single-cat text-center mb-50" style="box-shadow: 2px 4px #fcec44;">
+                            <div class="cat-icon">
+                                <img src="{% static 'img/icons/interview.webp' %}" alt=""/>
+                            </div>
+                            <div class="cat-cap">
+                                <h5 style="font-weight: 600; font-size: 24px;"><a>Konsultasi Interview</a></h5>
+                                <div style="text-align: left; min-height: 200px; margin-bottom: 20px;">
+                                    <ul>
+                                        <li>Rahasia teknik Interview dengan hrd (99% akan lulus tahap
+                                            wawancara)
+                                        </li>
+                                        <li>Pengetahuan tentang Interview</li>
+                                        <li>Latihan wawancara langsung dengan HRD Ternama</li>
+                                        <li>Menambah relasi baru dengan HRD</li>
+                                        <li>Kesempatan direkrut langsung oleh HRD</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
