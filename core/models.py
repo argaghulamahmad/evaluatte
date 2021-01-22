@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.utils import timezone
 
@@ -30,10 +32,18 @@ class Consultant(ModelWithAutoTimestamp):
 
     is_cv = models.BooleanField(null=True, blank=True)
     is_interview = models.BooleanField(null=True, blank=True)
+
     cv_price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     interview_price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
 
+    start_date = models.DateField()
     experience = models.TextField(null=True, blank=True)
+
+    @property
+    def year_of_experience(self):
+        now = datetime.now()
+        return now.year - self.start_date.year
+
     note = models.TextField(null=True, blank=True)
 
     class Meta:
