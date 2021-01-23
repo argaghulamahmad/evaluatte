@@ -44,6 +44,10 @@ class Consultant(ModelWithAutoTimestamp):
         now = datetime.now()
         return now.year - self.start_date.year
 
+    @property
+    def experience_as_list(self):
+        return self.experience.split('\n')
+
     note = models.TextField(null=True, blank=True)
 
     class Meta:
