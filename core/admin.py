@@ -129,17 +129,17 @@ class MeetPaymentAdmin(AdminWithoutModified):
 
 class CompanyAdmin(AdminWithoutModified):
     list_display = (
-        'company',
+        'name',
         'industry',
     )
     list_display_links = (
-        'company',
+        'name',
     )
     list_filter = (
         'industry',
     )
     ordering = ['id']
-    search_fields = ('id', 'company')
+    search_fields = ('id', 'name')
     list_per_page = 10
 
 
