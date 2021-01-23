@@ -71,6 +71,20 @@ class Consultant(ModelWithAutoTimestamp):
         return self.full_name + ' - ' + self.role + ' at ' + self.company.name
 
 
+class ConsultantSchedule(ModelWithAutoTimestamp):
+    consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    class Meta:
+        db_table = 'core_consultant_schedule'
+
+    def __str__(self):
+        return str(self.consultant) + ' | ' + str(self.start_date) + ' to ' + str(self.end_date)
+
+
 class Client(ModelWithAutoTimestamp):
     full_name = models.CharField(max_length=254)
     profile_image = models.URLField(null=True, blank=True, max_length=254)
