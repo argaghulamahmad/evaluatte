@@ -1,0 +1,38 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% block content %}
+    <div id="consultants-root">
+        <div class="team-area section-padding30" style="background: white;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
+                        <div class="grow single-team mb-30">
+                            <div class="team-img">
+                                <img src="{{ consultant.profile_image }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
+                        <h3 style="
+                            font-weight: 600;
+                            color: black;
+                        ">
+                            <a>{{ consultant.full_name }}</a>
+                        </h3>
+                        <span style="color: black;"><b
+                                style="color: black;">Role:</b> {{ consultant.role }} at {{ consultant.company }}</span>
+                        <br>
+                        <span style="color: black;"><b
+                                style="color: black;">Total Pengalaman:</b> {{ consultant.year_of_experience }} Tahun</span>
+                        <br>
+                        <span style="color: black;"><b style="color: black;">Harga Konsultasi:</b> </span>
+                        <br>
+                        <span style="color: black;"><b style="color: black;">Jenis Konsultasi:</b> </span>
+                        <br>
+                        <span style="color: black;"><b style="color: black;">Deskripsi:</b></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
