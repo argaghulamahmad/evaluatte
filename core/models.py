@@ -19,11 +19,25 @@ class ModelWithAutoTimestamp(models.Model):
         abstract = True
 
 
+class Company(ModelWithAutoTimestamp):
+    name = models.CharField(max_length=100)
+    industry = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = 'core_company'
+
+    def __str__(self):
+        return (
+                str(self.name) + ' - ' +
+                str(self.industry)
+        )
+
+
 class Consultant(ModelWithAutoTimestamp):
     profile_image = models.URLField(max_length=254)
     full_name = models.CharField(null=True, blank=True, max_length=254)
     role = models.CharField(null=True, blank=True, max_length=254)
-    company = models.CharField(null=True, blank=True, max_length=254)
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING)
     email = models.EmailField(null=True, blank=True, max_length=254)
     linkedin_profile = models.URLField(null=True, blank=True, max_length=254)
     phone_number = models.CharField(null=True, blank=True, max_length=254)
@@ -54,7 +68,7 @@ class Consultant(ModelWithAutoTimestamp):
         db_table = 'core_consultant'
 
     def __str__(self):
-        return self.full_name + ' - ' + self.role + ' at ' + self.company
+        return self.full_name + ' - ' + self.role + ' at ' + self.company.name
 
 
 class Client(ModelWithAutoTimestamp):
@@ -208,18 +222,4 @@ class MeetPayroll(ModelWithAutoTimestamp):
                 str(self.for_consultant) + ' - ' +
                 str(self.for_company) + ' - ' +
                 str(self.is_consultant_paid)
-        )
-
-
-class Company(ModelWithAutoTimestamp):
-    company = models.CharField(max_length=100)
-    industry = models.CharField(max_length=100)
-
-    class Meta:
-        db_table = 'core_company'
-
-    def __str__(self):
-        return (
-                str(self.company) + ' - ' +
-                str(self.industry)
         )
