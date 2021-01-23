@@ -1,1 +1,1 @@
-heroku pg:psql postgresql-octagonal-13818 --app evaluatte-staging
+heroku pg:psql postgresql-clean-21193 --app evaluatte-staging
