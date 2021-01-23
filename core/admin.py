@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Consultant, Client, Meet, MeetPayroll, MeetPayment, Company
+from .models import Consultant, Client, Meet, MeetPayroll, MeetPayment, Company, ConsultantSchedule
 
 admin.site.site_header = 'Evaluatte Administration'
 
@@ -143,9 +143,31 @@ class CompanyAdmin(AdminWithoutModified):
     list_per_page = 10
 
 
+class ConsultantScheduleAdmin(AdminWithoutModified):
+    list_display = (
+        'consultant',
+        'start_date',
+        'end_date',
+        'start_time',
+        'end_time',
+    )
+    list_display_links = (
+        'consultant',
+    )
+    list_filter = (
+        'consultant',
+        'start_date',
+        'end_date',
+    )
+    ordering = ['id']
+    search_fields = ('id', 'consultant')
+    list_per_page = 10
+
+
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Consultant, ConsultantAdmin)
 admin.site.register(Meet, MeetAdmin)
 admin.site.register(MeetPayroll, MeetPayrollAdmin)
 admin.site.register(MeetPayment, MeetPaymentAdmin)
 admin.site.register(Company, CompanyAdmin)
+admin.site.register(ConsultantSchedule, ConsultantScheduleAdmin)
