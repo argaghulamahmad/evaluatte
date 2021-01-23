@@ -17,6 +17,30 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="form-group">
+                        <label for="consultant-type"></label>
+                        <select class="form-control" id="consultant-type">
+                            {% if view.kwargs.type == 'all' %}
+                                <option value="all" selected>All</option>
+                            {% else %}
+                                <option value="all">All</option>
+                            {% endif %}
+
+                            {% if view.kwargs.type == 'cv' %}
+                                <option value="cv" selected>CV</option>
+                            {% else %}
+                                <option value="cv">CV</option>
+                            {% endif %}
+
+                            {% if view.kwargs.type == 'interview' %}
+                                <option value="interview" selected>Interview</option>
+                            {% else %}
+                                <option value="interview">Interview</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
                     {% for consultant in page_obj %}
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
                             <div class="grow single-team mb-30">
@@ -69,4 +93,9 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('consultant-type').onchange = function () {
+            window.location = "/consultants/" + this.value;
+        };
+    </script>
 {% endblock %}
