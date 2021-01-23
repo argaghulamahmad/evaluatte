@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Consultant, Client, Meet, MeetPayroll, MeetPayment
+from .models import Consultant, Client, Meet, MeetPayroll, MeetPayment, Company
 
 admin.site.site_header = 'Evaluatte Administration'
 
@@ -127,8 +127,25 @@ class MeetPaymentAdmin(AdminWithoutModified):
     list_per_page = 10
 
 
+class CompanyAdmin(AdminWithoutModified):
+    list_display = (
+        'company',
+        'industry',
+    )
+    list_display_links = (
+        'company',
+    )
+    list_filter = (
+        'industry',
+    )
+    ordering = ['id']
+    search_fields = ('id', 'company')
+    list_per_page = 10
+
+
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Consultant, ConsultantAdmin)
 admin.site.register(Meet, MeetAdmin)
 admin.site.register(MeetPayroll, MeetPayrollAdmin)
 admin.site.register(MeetPayment, MeetPaymentAdmin)
+admin.site.register(Company, CompanyAdmin)
