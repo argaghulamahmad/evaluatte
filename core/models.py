@@ -214,3 +214,12 @@ class MeetPayroll(ModelWithAutoTimestamp):
 class Company(ModelWithAutoTimestamp):
     company = models.CharField(max_length=100)
     industry = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = 'core_company'
+
+    def __str__(self):
+        return (
+                str(self.company) + ' - ' +
+                str(self.industry)
+        )
