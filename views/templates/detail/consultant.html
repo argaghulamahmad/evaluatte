@@ -1,4 +1,5 @@
 {% extends "components/base.html" %}
+{% load humanize %}
 {% load static %}
 {% block content %}
     <div id="consultants-root">
@@ -25,11 +26,25 @@
                         <span style="color: black;"><b
                                 style="color: black;">Total Pengalaman:</b> {{ consultant.year_of_experience }} Tahun</span>
                         <br>
-                        <span style="color: black;"><b style="color: black;">Harga Konsultasi:</b> </span>
+                        {% if view.kwargs.type == 'cv' %}
+                            <span style="color: black;"><b
+                                    style="color: black;">Harga Konsultasi:</b> Rp{{ consultant.cv_price | intcomma }} </span>
+                        {% elif view.kwargs.type == 'interview' %}
+                            <span style="color: black;"><b
+                                    style="color: black;">Harga Konsultasi:</b> Rp{{ consultant.interview_price | intcomma }} </span>
+                        {% endif %}
                         <br>
-                        <span style="color: black;"><b style="color: black;">Jenis Konsultasi:</b> </span>
+                        <span style="color: black;"><b
+                                style="color: black;">Jenis Konsultasi:</b> {{ view.kwargs.type | upper }}</span>
                         <br>
                         <span style="color: black;"><b style="color: black;">Deskripsi:</b></span>
+                        <ul style="
+                            list-style-type: circle;
+                        ">
+                            {% for experience in consultant.experience_as_list %}
+                                <li>{{ experience }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>

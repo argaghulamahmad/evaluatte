@@ -66,6 +66,15 @@ class ConsultantDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def get_queryset(self):
+        consultant_type = self.kwargs['type']
+        consultant_id = self.kwargs['pk']
+
+        if consultant_type == 'cv':
+            return Consultant.objects.filter(id=consultant_id, is_cv=True)
+        elif consultant_type == 'interview':
+            return Consultant.objects.filter(id=consultant_id, is_interview=True)
+
 
 def testimonials(request):
     all_testimonials = (
