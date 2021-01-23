@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from core.models import Consultant, Meet
 from office.models import Employee
@@ -43,19 +43,30 @@ def services(request):
     return render(request, 'pages/services.html')
 
 
-def consultants(request):
-    all_consultants = (
-        Consultant.objects
-            .filter(~Q(is_active=False))
-            .order_by('id')
-    )
+class ConsultantListView(ListView):
+    model = Consultant
+    template_name = 'pages/consultants.html'
+    paginate_by = 10
 
-    paginator = Paginator(all_consultants, 9)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
-    page_number = request.GET.get('page')
-    consultants_page = paginator.get_page(page_number)
+    def get_queryset(self):
+        consultant_type = self.kwargs['type']
 
-    return render(request, 'pages/consultants.html', {'consultants_page': consultants_page})
+        if consultant_type == 'all':
+            active_consultants = Consultant.objects.filter(is_active=True)
+            return active_consultants
+        elif consultant_type == 'cv':
+            active_cv_consultants = Consultant.objects.filter(is_active=True, is_cv=True)
+            return active_cv_consultants
+        elif consultant_type == 'interview':
+            active_interview_consultants = Consultant.objects.filter(is_active=True, is_interview=True)
+            return active_interview_consultants
+        else:
+            active_consultants = Consultant.objects.filter(is_active=True)
+            return active_consultants
 
 
 class ConsultantDetailView(DetailView):
