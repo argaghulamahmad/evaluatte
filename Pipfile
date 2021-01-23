@@ -12,6 +12,7 @@ django-heroku = "*"
 django-debug-toolbar = "*"
 markdown = "*"
 drf-yasg = "*"
+djangorestframework-api-key = "==2.*"
 
 [dev-packages]
 
