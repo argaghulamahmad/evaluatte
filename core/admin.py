@@ -97,6 +97,7 @@ class MeetPayrollAdmin(AdminWithoutModified):
     list_filter = (
         'is_consultant_paid',
         'consultant',
+        'meet__datetime'
     )
     ordering = ['id']
     search_fields = ('id', 'consultant')
