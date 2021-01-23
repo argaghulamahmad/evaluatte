@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from .actions import export_as_csv_action
 from .models import Consultant, Client, Meet, MeetPayroll, MeetPayment, Company, ConsultantSchedule
 
 admin.site.site_header = 'Evaluatte Administration'
@@ -22,6 +23,15 @@ class ClientAdmin(AdminWithoutModified):
         'instagram_profile',
         'title'
     )
+
+    actions = [export_as_csv_action("CSV Export", fields=['full_name',
+                                                          'cv_url',
+                                                          'email',
+                                                          'phone_number',
+                                                          'linkedin_profile',
+                                                          'instagram_profile',
+                                                          'title'])]
+
     list_display_links = (
         'full_name',
     )
@@ -41,6 +51,13 @@ class ConsultantAdmin(AdminWithoutModified):
         'email',
         'phone_number',
     )
+
+    actions = [export_as_csv_action("CSV Export", fields=['full_name',
+                                                          'role',
+                                                          'company',
+                                                          'email',
+                                                          'phone_number', ])]
+
     list_display_links = (
         'full_name',
     )
@@ -61,6 +78,13 @@ class MeetAdmin(AdminWithoutModified):
         'datetime',
         'note',
     )
+
+    actions = [export_as_csv_action("CSV Export", fields=['type',
+                                                          'client',
+                                                          'consultant',
+                                                          'datetime',
+                                                          'note', ])]
+
     list_display_links = (
         'client',
         'consultant',
@@ -91,6 +115,14 @@ class MeetPayrollAdmin(AdminWithoutModified):
         'for_company',
         'is_consultant_paid',
     )
+
+    actions = [export_as_csv_action("CSV Export", fields=['consultant',
+                                                          'meet',
+                                                          'price',
+                                                          'for_consultant',
+                                                          'for_company',
+                                                          'is_consultant_paid', ])]
+
     list_display_links = (
         'consultant',
     )
@@ -117,6 +149,15 @@ class MeetPaymentAdmin(AdminWithoutModified):
         'total',
         'note',
     )
+
+    actions = [export_as_csv_action("CSV Export", fields=['meet',
+                                                          'due_datetime',
+                                                          'method',
+                                                          'price',
+                                                          'admin_cost',
+                                                          'total',
+                                                          'note', ])]
+
     list_display_links = (
         'meet',
     )
@@ -133,6 +174,10 @@ class CompanyAdmin(AdminWithoutModified):
         'name',
         'industry',
     )
+
+    actions = [export_as_csv_action("CSV Export", fields=['name',
+                                                          'industry', ])]
+
     list_display_links = (
         'name',
     )
@@ -152,6 +197,13 @@ class ConsultantScheduleAdmin(AdminWithoutModified):
         'start_time',
         'end_time',
     )
+
+    actions = [export_as_csv_action("CSV Export", fields=['consultant',
+                                                          'start_date',
+                                                          'end_date',
+                                                          'start_time',
+                                                          'end_time', ])]
+
     list_display_links = (
         'consultant',
     )
