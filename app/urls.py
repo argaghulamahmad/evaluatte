@@ -17,12 +17,17 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include, path
 
+from api.router import router
 from app import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     url(r'^', include('views.urls')),
+
+    path('api/auth', include('rest_framework.urls')),
+    path('api/', include(router.urls))
+
 ]
 
 if settings.DEBUG:
