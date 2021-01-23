@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from api.router import router
+from api.docs import schema_view
 from app import settings
 
 urlpatterns = [
@@ -26,8 +27,10 @@ urlpatterns = [
     url(r'^', include('views.urls')),
 
     path('api/auth', include('rest_framework.urls')),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
 
+    url(r'^api/swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    url(r'^api/redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 
 if settings.DEBUG:

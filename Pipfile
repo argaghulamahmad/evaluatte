@@ -11,6 +11,7 @@ gunicorn = "*"
 django-heroku = "*"
 django-debug-toolbar = "*"
 markdown = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
