@@ -209,3 +209,8 @@ class MeetPayroll(ModelWithAutoTimestamp):
                 str(self.for_company) + ' - ' +
                 str(self.is_consultant_paid)
         )
+
+
+class Company(ModelWithAutoTimestamp):
+    company = models.CharField(max_length=100)
+    industry = models.CharField(max_length=100)
