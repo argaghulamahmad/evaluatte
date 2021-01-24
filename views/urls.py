@@ -15,5 +15,5 @@ urlpatterns = [
     url(r'^testimonials/$', views.testimonials, name='testimonials'),
     url(r'^inspirations/$', views.inspirations, name='inspirations'),
     url(r'^careers/$', views.careers, name='careers'),
-    url(r'^ssubscribe/$', views.subscribe, name='subscribe'),
+    url(r'^contact/$', views.contact, name='contact'),
 ]
