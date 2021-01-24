@@ -81,13 +81,28 @@
             color: #fcec44;
             content: "Karir ";
         }
+
+        #why-list > ul > li {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+
+        #why-list > ul > li::before {
+            content: "\2022";
+            color: black;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
     </style>
     <main>
 
         <div class="slider-area ">
             <div class="slider-active">
                 <div class="first-slide single-slider slider-height d-flex align-items-center"
-                    style="
+                     style="
                         background: black url(https://i.ibb.co/9ZRfvkx/website-2-header-1.png) center;
                         background-position: center;
                         background-repeat: no-repeat;
@@ -191,7 +206,7 @@
                                     <h2>WHY EVALUATTE</h2>
                                 </div>
                             </div>
-                            <div class=" h-100 d-flex justify-content-center align-items-center">
+                            <div class=" h-100 d-flex justify-content-center align-items-center" id="why-list">
                                 <ul>
                                     <li>Konsultasi langsung dengan konsultan kami melalui Google Meet</li>
                                     <li>Harga terjangkau</li>
