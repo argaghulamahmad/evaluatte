@@ -102,5 +102,5 @@ def careers(request):
     return render(request, 'pages/careers.html')
 
 
-def subscribe(request):
-    return render(request, 'pages/subscribe.html')
+def contact(request):
+    return render(request, 'pages/contact.html')
