@@ -1,0 +1,59 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Daftar Konsultan</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="case_study_area case_page">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="portfolio-menu text-center">
+                        {% if view.kwargs.type == 'all' %}
+                            <button class="active" data-filter="*">All</button>
+                        {% else %}
+                            <button data-filter="*">All</button>
+                        {% endif %}
+
+                        {% if view.kwargs.type == 'cv' %}
+                            <button class="active" data-filter="cv">CV</button>
+                        {% else %}
+                            <button data-filter="cv">CV</button>
+                        {% endif %}
+
+                        {% if view.kwargs.type == 'interview' %}
+                            <button class="active" data-filter="interview">Interview</button>
+                        {% else %}
+                            <button data-filter="interview">Interview</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row grid">
+                {% for consultant in page_obj %}
+                    <div class="col-xl-4 grid-item cat1 cat2 cat3">
+                        <div class="single_case">
+                            <div class="case_thumb">
+                                <img src="{{ consultant.profile_image }}" alt="">
+                            </div>
+                            <div class="case_heading">
+                                <h3>{{ consultant.full_name }}</h3>
+                                <p>{{ consultant.role }} at {{ consultant.company }}</p>
+                                <h4>{ consultant.year_of_experience }} Tahun</h4>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
