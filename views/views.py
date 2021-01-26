@@ -94,13 +94,5 @@ def testimonials(request):
     return render(request, 'pages/testimonials.html', {'testimonials_page': testimonials_page})
 
 
-def inspirations(request):
-    return render(request, 'pages/inspirations.html')
-
-
-def careers(request):
-    return render(request, 'pages/careers.html')
-
-
 def contact(request):
     return render(request, 'pages/contact.html')
