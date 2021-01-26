@@ -1,218 +1,395 @@
-{% extends "components/base.html" %}
 {% load static %}
-{% block content %}
-    <style type="text/css">
-        #standout-text {
-            font-size: 48px;
-            line-height: 48px;
-            text-decoration: underline;
-        }
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Consulting</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        @media (max-width: 575px) {
-            #standout-text {
-                font-size: 24px;
-                line-height: 24px;
-                text-decoration: underline;
-                margin: 0;
-            }
-        }
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/ev.ico' %}"/>
 
-        #ceo-name {
-            margin: 0 0 8px 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha512-iQQV+nXtBlmS3XiDrtmL+9/Z+ibux+YuowJjI4rcpO7NYgTzfTOiFNm09kWtfZzEB9fQ6TwOVc8lFVWooFuD/w=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.css"
+          integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"
+          integrity="sha512-+EoPw+Fiwh6eSeRK7zwIKG2MA8i3rV/DGa3tdttQGgWyatG/SkncT53KHQaS5Jh9MNOT3dmFL0FjTY08And/Cw=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}" type="text/css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+          integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/gijgo.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+          integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+          integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/slicknav.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css"/>
 
-        @media (max-width: 575px) {
-            #ceo-name {
-                margin: 0 0 0 0;
-                font-size: 12px;
-                font-weight: bold;
-            }
-        }
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
+    your browser</a> to improve your experience and security.</p>
+<![endif]-->
 
-        #ceo-title {
-            margin: 0;
-            font-size: 24px;
-            font-style: italic;
-        }
-
-        @media (max-width: 575px) {
-            #ceo-title {
-                margin: 0;
-                font-size: 12px;
-                font-style: italic;
-            }
-        }
-
-        #cant-text {
-            font-size: 48px;
-            line-height: 48px;
-        }
-
-        @media (max-width: 575px) {
-            #cant-text {
-                font-size: 24px;
-                line-height: 24px;
-                margin: 0;
-            }
-        }
-
-        #slide-logo {
-            width: 600px;
-            padding: 15px 0 15px 0;
-        }
-
-
-        @media (max-width: 575px) {
-            #slide-logo {
-                width: 200px;
-                padding: 15px 0 15px 0;
-                margin: 0;
-            }
-        }
-
-        #career-start {
-            text-align: center;
-            color: #FFFFFF;
-        }
-
-        #career-start:before {
-            color: #fcec44;
-            content: "Karir ";
-        }
-
-        #why-list > ul > li {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-
-        #why-list > ul > li::before {
-            content: "\2022";
-            color: black;
-            font-weight: bold;
-            display: inline-block;
-            width: 1em;
-            margin-left: -1em;
-        }
-    </style>
-    <main>
-
-        <div class="slider-area ">
-            <div class="slider-active">
-                <div class="first-slide single-slider slider-height d-flex align-items-center"
-                     style="
-                        background: black url(https://i.ibb.co/9ZRfvkx/website-2-header-1.png) center;
-                        background-position: center;
-                        background-repeat: no-repeat;
-                        background-size: contain;
-                    ">
-                    <div class="container" style="display: none;">
-                        <div class="row">
-                            <div class="col-12 hero__caption">
-                                <h1 id="career-start" data-animation="fadeInLeft" data-delay=".5s">Anda
-                                    dimulai dari sini.</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="second-slide single-slider slider-height d-flex align-items-center"
-                     style="
-                        background: black url(https://i.ibb.co/cXRrFJC/website-2-header-2-1.png) center;
-                        background-position: center;
-                        background-repeat: no-repeat;
-                        background-size: contain;
-                    ">
-                    <div class="container" style="display: none;">
-                        <div class="row">
-                            <div class="col-xl-8 col-lg-7 col-md-8">
-                                <div class="hero__caption">
-                                    <h1 data-animation="fadeInLeft" data-delay=".5s"
-                                        style="color: #FFFFFF !important; background-color: rgba(0,0,0,0.8); padding: 20px;">
-                                        Kami
-                                        membantu mengurangi jumlah
-                                        pengangguran
-                                        di Indonesia</h1>
-                                    <p data-animation="fadeInLeft" data-delay=".9s"
-                                       style="color: #FFFFFF !important; background-color: rgba(0,0,0,0.8); padding: 20px;">
-                                        Menyediakan jasa konsultasi bagi para
-                                        pencari kerja dengan menyiapkan "Super CV" dan "Rahasia Teknik Interview"
-                                        langsung
-                                        dengan HR-nya</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="third-slide single-slider slider-height d-flex align-items-center"
-                     style="
-                        background: black url(https://i.ibb.co/7g6bVkK/website-2-header-3.png) center;
-                        background-position: center;
-                        background-repeat: no-repeat;
-                        background-size: contain;
-                    ">
-                    <div class="container" style="display: none;">
-                        <div class="row">
-                            <div class="col-lg-9 col-12 hero__caption">
-                                <div data-animation="fadeInLeft" data-delay=".5s"
-                                     style="text-align: left !important; font-size: 48px; display: inline;">
-                                    <p id="cant-text">tidak bisa
-                                        dipungkiri bahwa persaingan
-                                        mencari kerja semakin ketat, untuk itu </p>
-                                    <img id="slide-logo" src="{% static 'img/logo/logo-white.webp' %}"
-                                         alt="">
-                                    <p id="standout-text">hadir
-                                        to help you stand out from
-                                        the crowd!</p>
-                                </div>
-                            </div>
-
-                            <div class="row col-12 hero__caption" style="position: relative;">
-                                <div class="col-lg-9"></div>
-                                <div class="col-lg-3 col-12" style="text-align: right;">
-                                    <p id="ceo-name">Teguh
-                                        Priyantono</p>
-                                    <p id="ceo-title">CEO EVALUATTE.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="categories-area">
+<header>
+    <div class="header-area ">
+        <div class="header-top_area d-none d-lg-block">
             <div class="container">
-                {% include "components/stats.html" %}
-            </div>
-        </div>
-
-
-        <div class="container mt-100">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <img src="https://i.ibb.co/d5Wc4WS/evaluatte-works.png" alt="evaluatte-works">
+                <div class="row">
+                    <div class="col-xl-5 col-md-5 ">
+                        <div class="header_left">
+                            <p>Welcome to Conbusi consulting service</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-md-7">
+                        <div class="header_right d-flex">
+                            <div class="short_contact_list">
+                                <ul>
+                                    <li><a href="#"> <i class="fa fa-envelope"></i> <span class="__cf_email__"
+                                                                                          data-cfemail="472e292128072328242a22236924282a">[email&#160;protected]</span></a>
+                                    </li>
+                                    <li><a href="#"> <i class="fa fa-phone"></i> 1601-609 6780</a></li>
+                                </ul>
+                            </div>
+                            <div class="social_media_links">
+                                <a href="#">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-xl-6">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="section-tittle">
-                                <div class=" h-100 d-flex justify-content-center align-items-center">
-                                    <h2>WHY EVALUATTE</h2>
+            </div>
+        </div>
+        <div id="sticky-header" class="main-header-area">
+            <div class="container">
+                <div class="header_bottom_border">
+                    <div class="row align-items-center">
+                        <div class="col-xl-1 col-lg-2">
+                            <div class="logo">
+                                <a href="/">
+                                    <img src="{% static 'img/logo.png' %}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a class="active" href="/">Beranda</a></li>
+                                        <li><a href="/">Tentang</a></li>
+                                        <li><a href="/">Layanan</a></li>
+                                        <li><a href="/">Konsultan</a></li>
+                                        <li><a href="/">Testimoni</a></li>
+                                        <li><a href="/">Blog</a></li>
+                                        <li><a href="/">Kontak</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                            <div class="Appointment">
+                                <div class="book_btn d-none d-lg-block">
+                                    <a href="#">Get a Quote</a>
                                 </div>
                             </div>
-                            <div class=" h-100 d-flex justify-content-center align-items-center" id="why-list">
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="slider_area">
+    <div class="slider_active owl-carousel">
+        <div class="single_slider  d-flex align-items-center slider_bg_1 overlay2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="slider_text ">
+                            <h3>Karir anda<br>
+                                dimulai dari sini</h3>
+                            <div class="video_service_btn">
+                                <a href="#" class="boxed-btn3">Our Services</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="single_slider  d-flex align-items-center slider_bg_2 overlay2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="slider_text ">
+                            <h3>kami membantu mengurangi <br> jumlah pengangguran di Indonesia!</h3>
+                            <div class="video_service_btn">
+                                <a href="#" class="boxed-btn3">Our Services</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="case_study_area">
+    <div class="container">
+        <div class="border_bottom">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title text-center mb-40">
+                        <h3>Layanan Kami</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="case_active owl-carousel">
+                        <div class="single_case">
+                            <div class="case_thumb">
+                                <img src="{% static 'img/case/1.png' %}" alt="">
+                            </div>
+                            <div class="case_heading">
+                                <span>Layanan #1</span>
+                                <h3><a href="#">Konsultasi CV</a></h3>
+                            </div>
+                        </div>
+                        <div class="single_case">
+                            <div class="case_thumb">
+                                <img src="{% static 'img/case/2.png' %}" alt="">
+                            </div>
+                            <div class="case_heading">
+                                <span>Layanan #2</span>
+                                <h3><a href="#">Konsultasi Interview</a></h3>
+                            </div>
+                        </div>
+                        <div class="single_case">
+                            <div class="case_thumb">
+                                <img src="{% static 'img/case/3.png' %}" alt="">
+                            </div>
+                            <div class="case_heading">
+                                <span>Layanan #3</span>
+                                <h3><a href="#">Webinar</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="more_close_btn text-center">
+                        <a href="#" class="boxed-btn3-line">Layanan Lainnya</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="counter_area counter_bg_1 overlay_03">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-3">
+                <div class="single_counter text-center">
+                    <div class="counter_icon">
+                        <img src="{% static 'img/svg_icon/group.svg' %}" alt="">
+
+                    </div>
+                    <h3><span class="counter">200</span> <span> +</span></h3>
+                    <p>Konsultan terdaftar</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3">
+                <div class="single_counter text-center">
+                    <div class="counter_icon">
+                        <img src="{% static 'img/svg_icon/cart.svg' %}" alt="">
+                    </div>
+                    <h3><span class="counter">97</span> <span>%</span></h3>
+                    <p>Variasi perusahaan konsultan</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3">
+                <div class="single_counter text-center">
+                    <div class="counter_icon">
+                        <img src="{% static 'img/svg_icon/heart.svg' %}" alt="">
+                    </div>
+                    <h3><span class="counter">5628</span></h3>
+                    <p>User telah puas</p>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3">
+                <div class="single_counter text-center">
+                    <div class="counter_icon">
+                        <img src="{% static 'img/svg_icon/respect.svg' %}g" alt="">
+                    </div>
+                    <h3><span class="counter">5637</span></h3>
+                    <p>Rata - rata rating dari user kami</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="about_info_area" style="margin-top: 100px;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-xl-6 col-lg-6">
+                <div class="about_text">
+                    <h3>Mengapa Evaluatte?</h3>
+                    <p>Di Evaluatte kamu akan bisa konsultasi cv & interview secara langsung dengan talent acquisition
+                        dari berbagai perusahaan ternama di Indonesia lho!
+                    </p>
+                    <div style="
+                        font-size: 15px;
+                        font-weight: 400;
+                        color: #727272;
+                        margin-bottom: 24px;
+                        margin-top: 10px;
+                    ">
+                        <ul class="unordered-list about_text">
+                            <li>Konsultan kami adalah seorang recruiter di berbagai perusahaan</li>
+                            <li>Waktu dan tempat konsultasi fleksibel</li>
+                            <li>Jaminan pemahaman Kualifikasi CV</li>
+                            <li>Jaminan pemahaman Teknik interview yang tepat</li>
+                            <li>Harga terjangkau</li>
+                            <li>Kesempatan direkrut langsung oleh konsultan!</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="boxed-btn3">About Us</a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+                <div class="about_thumb">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/fuys5fWCxJM" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="testimonial_area overlay ">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="testmonial_active owl-carousel">
+                    <div class="single_carousel">
+                        <div class="single_testmonial text-center">
+                            <div class="quote">
+                                <img src="{% static 'img/svg_icon/quote.svg' %}" alt="">
+                            </div>
+                            <p>Tidak bisa dipungkiri bahwa persaingan mencari kerja semakin ketat, <br> and evaluatte
+                                help you to stand out from the crowd!
+                            </p>
+                            <div class="testmonial_author">
+                                <div class="thumb">
+                                    <img src="{% static 'img/case/testmonial.png' %}" alt="">
+                                </div>
+                                <h3>Teguh priyantono</h3>
+                                <span>Founder & CEO Evaluatte</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="team_area">
+    <div class="container">
+        <div class="border_bottom">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-40 text-center">
+                        <h3>
+                            Konsultan Kami
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-6">
+                    <div class="single_team">
+                        <div class="team_thumb">
+                            <img src="{% static 'img/team/3.png' %}" alt="">
+                        </div>
+                        <div class="team_info text-center">
+                            <h3>Milani Mou</h3>
+                            <p>Photographer</p>
+                            <div class="social_link">
                                 <ul>
-                                    <li>Konsultasi langsung dengan konsultan kami melalui Google Meet</li>
-                                    <li>Harga terjangkau</li>
-                                    <li>Jaminan pemahaman kualifikasi CV</li>
-                                    <li>Jaminan pemahaman Teknik Interview yang tepat</li>
-                                    <li>Konsultan kami adalah Recruiter perusahaan ternama di Indonesia</li>
+                                    <li><a href="#">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6">
+                    <div class="single_team">
+                        <div class="team_thumb">
+                            <img src="{% static 'img/team/3.png' %}" alt="">
+                        </div>
+                        <div class="team_info text-center">
+                            <h3>Milani Mou</h3>
+                            <p>Photographer</p>
+                            <div class="social_link">
+                                <ul>
+                                    <li><a href="#">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6">
+                    <div class="single_team">
+                        <div class="team_thumb">
+                            <img src="{% static 'img/team/3.png' %}" alt="">
+                        </div>
+                        <div class="team_info text-center">
+                            <h3>Milani Mou</h3>
+                            <p>Photographer</p>
+                            <div class="social_link">
+                                <ul>
+                                    <li><a href="#">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -220,190 +397,262 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="categories-area section-padding30">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tittle mb-70">
-                            <h2>LAYANAN TERBAIK KAMI</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 grow d-flex justify-content-center align-items-center">
-                        <a href="/consultants/cv">
-                            <img src="https://i.ibb.co/J73XWbT/CV.jpg" alt="Konsultasi CV">
-                        </a>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 grow d-flex justify-content-center align-items-center">
-                        <a href="/consultants/interview">
-                            <img src="https://i.ibb.co/crxYJKY/Interview.jpg" alt="Konsultasi Interview">
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-9">
-
-                    </div>
-                    <div class="col-lg-3 col-12">
-                        <div class="f-right">
-                            <a href="/consultants/all" class="btn hero-btn" style="color: black;">Layanan
-                                Lainnya</a>
-                        </div>
-                    </div>
+<div class="accordion_area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-xl-6 col-lg-6">
+                <div class="accordion_thumb">
+                    <img src="{% static 'img/banner/accordion.png' %}" alt="">
                 </div>
             </div>
-        </div>
-
-        <div class="team-area section-padding30 mb-70" style="background: black;">
-            <div class="container">
-                <div class="row">
-                    <div class="cl-xl-7 col-lg-8 col-md-10">
-                        <div class="section-tittle mb-70">
-                            <h2 style="color: #FFFFFF">DAFTAR KONSULTAN</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    {% for consultant in consultants %}
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                            <div class="grow single-team mb-30">
-                                <div class="team-img">
-                                    <img src="{{ consultant.profile_image }}" alt="">
-                                </div>
-                                <div class="team-caption">
-                                    <h3><a>{{ consultant.full_name }}</a></h3>
-                                    <span style="color: black;">{{ consultant.role }} at {{ consultant.company }}</span>
+            <div class="col-xl-6 col-lg-6">
+                <div class="faq_ask">
+                    <h3>Frequently ask</h3>
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse"
+                                            data-target="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">
+                                        Apakah Evaluatte itu jasa joki cv?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion"
+                                 style="">
+                                <div class="card-body">Bukan! Disini kami membantu user kami untuk memahami kualifikasi
+                                    cv mereka dan apa saja yang perlu ditingkatkan dalam cv mereka serta bagaimana cara
+                                    penulisan cv agar lulus tahap screening!
                                 </div>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="container ">
-            <div class="row mb-70">
-                <div class="col-xl-4 col-lg-4 col-md-12">
-                    <div style="  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-                      max-width: 300px;
-                      text-align: center;
-                      margin: 130px auto;"
-                    >
-                        <img src="https://i.ibb.co/xYTtPgx/download-1-2-Cropped.png" alt="John"
-                             style="width:100%; border-radius: 100%; max-width: 100px; margin-top: -50px;">
-                        <p style="text-align: justify; padding: 30px 20px; margin: 0;">Kamu seorang Talent Acquisition?
-                            Yuk, bantu teman-teman yang kesulitan dalam mencari
-                            pekerjaan dengan bergabung bersama kami menjadi konsultan di Evaluatte! Ayo bareng-bareng
-                            kita kurangi angka pengangguran di Indonesia!</p>
-                        <h1 style="
-                                color: black;
-                                font-size: 16px;
-                                text-align: left;
-                                font-weight: 600;
-                                padding: 0 20px 20px 20px;
-                                line-height: 22px;
-                            "
-                        >
-                            Teguh Priyantono - CEO & Founder, Evaluatte
-                        </h1>
-                    </div>
-                </div>
-                <div class="col-xl-8 col-lg-8 col-md-12">
-                    <div class="row">
-                        <div class="section-tittle" style="padding: 15px;">
-                            <h2>YUK BERGABUNG DENGAN KAMI!</h2>
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="false"
+                                            aria-controls="collapseOne">
+                                        Apa itu konsultasi CV?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion"
+                                 style="">
+                                <div class="card-body">Beda! Disini kamu tidak hanya sekedar mendapatkan review cv, tapi
+                                    kamu juga akan tau kualifikasi cv dan cara mengembangkan value cv kamu sesuai dengan
+                                    rekomendasi konsultan kami!
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form class="form-contact contact_form" action="contact_process.php" method="post"
-                                  id="contactForm" novalidate="novalidate">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input class="form-control valid" name="name" id="name" type="text"
-                                                   onfocus="this.placeholder = ''"
-                                                   onblur="this.placeholder = 'Nama'"
-                                                   placeholder="Nama">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input class="form-control valid" name="birth" id="birth"
-                                                   type="text"
-                                                   onfocus="this.placeholder = ''"
-                                                   onblur="this.placeholder = 'Tempat, Tanggal Lahir'"
-                                                   placeholder="Tempat, Tanggal Lahir">
-                                        </div>
-                                    </div>
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse"
+                                            data-target="#collapseThree" aria-expanded="false"
+                                            aria-controls="collapseThree">
+                                        Apa keuntungan yang didapatkan?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                 data-parent="#accordion" style="">
+                                <div class="card-body">Banyak banget! Intinya disini kamu udah gabakalan galau lagi deh
+                                    soal kemana kamu harus melanjutkan karir! Karena konsultan kami akan
+                                    merekomendasikan kemana kamu harus melamar pekerjaan sesuai dengan kualifikasi cv
+                                    kamu!
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input class="form-control valid" name="email" id="email"
-                                                   type="email"
-                                                   onfocus="this.placeholder = ''"
-                                                   onblur="this.placeholder = 'Email'"
-                                                   placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <input class="form-control valid" name="phone" id="phone"
-                                                   type="number"
-                                                   onfocus="this.placeholder = ''"
-                                                   onblur="this.placeholder = 'No Handphone'"
-                                                   placeholder="No Handphone">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <select>
-                                                <option value="freelance">Freelance</option>
-                                                <option value="fulltime">Fulltime</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <div class="form-group">
-                                        <textarea class="form-control w-100" name="message" id="message" cols="30"
-                                                  rows="9" onfocus="this.placeholder = ''"
-                                                  onblur="this.placeholder = 'Alasan Bergabung'"
-                                                  placeholder=" Alasan Bergabung"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile">
-                                    <label class="custom-file-label" for="customFile">Unggah CV</label>
-                                </div>
-                                <div class="row">
-                                    <div class="col-9">
-
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="form-group mt-3">
-                                            <button type="submit" class="button button-contactForm boxed-btn"
-                                                    style="
-                                        float: right;
-                                        color: black !important;
-                                        border: 1px solid black;
-                                    ">Send
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</div>
 
-{% endblock %}
+<div class="Information_area overlay">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-xl-8">
+                <div class="info_text text-center">
+                    <h3>Hubungi Kami</h3>
+                    <p>Tanyakan dan sampaikan semua pertanyaan dan keluhan kamu disini!</p>
+                    <a class="boxed-btn3" href="#">+62 888 8888 9999</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <div class="footer_top">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-md-6 col-lg-3">
+                    <div class="footer_widget">
+                        <div class="footer_logo">
+                            <a href="#">
+                                <img src="{% static 'img/footer_logo.png' %}" alt="">
+                            </a>
+                        </div>
+                        <p>
+                            <a href="#"><span class="__cf_email__"
+                                              data-cfemail="93f0fcfdf1e6e0fad3e0e6e3e3fce1e7bdf0fcfe">[email&#160;protected]</span></a>
+                            <br>
+                            +10 873 672 6782 <br>
+                            600/D, Green road, NewYork
+                        </p>
+                        <div class="socail_links">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-facebook"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti-twitter-alt"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-6 col-lg-3">
+                    <div class="footer_widget">
+                        <h3 class="footer_title">
+                            Services
+                        </h3>
+                        <ul>
+                            <li><a href="#">Marketing & SEO</a></li>
+                            <li><a href="#"> Startup</a></li>
+                            <li><a href="#">Finance solution</a></li>
+                            <li><a href="#">Food</a></li>
+                            <li><a href="#">Travel</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-6 col-lg-2">
+                    <div class="footer_widget">
+                        <h3 class="footer_title">
+                            Useful Links
+                        </h3>
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#"> Contact</a></li>
+                            <li><a href="#">Appointment</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6 col-lg-4">
+                    <div class="footer_widget">
+                        <h3 class="footer_title">
+                            Subscribe
+                        </h3>
+                        <form action="#" class="newsletter_form">
+                            <input type="text" placeholder="Enter your mail">
+                            <button type="submit">Subscribe</button>
+                        </form>
+                        <p class="newsletter_text">Esteem spirit temper too say adieus who direct esteem esteems
+                            luckily.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copy-right_text">
+        <div class="container">
+            <div class="footer_border"></div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <p class="copy_right text-center">
+
+                        Copyright &copy;<script data-cfasync="false"
+                                                src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                        <script>document.write(new Date().getFullYear());</script>
+                        All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                            aria-hidden="true"></i> by <a
+                            href="https://colorlib.com" target="_blank">Colorlib</a>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+        integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw=="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"
+        integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ=="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha512-n6dYFOG599s4/mGlA6E+YLgtg9uPTOMDUb0IprSMDYVLr0ctiRryPEQ8gpM4DCMlx7M2G3CK+ZcaoOoJolzdCg=="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'js/ajax-form.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"
+        integrity="sha512-d8F1J2kyiRowBB/8/pAWsqUl0wSEOkG5KATkVV4slfblq9VRQ6MyDZVxWl2tWd+mPhuCbpTB4M7uU/x9FlgQ9Q=="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"
+        integrity="sha512-S5PZ9GxJZO16tT9r3WJp/Safn31eu8uWrzglMahDT4dsmgqWonRY9grk3j+3tfuPr9WJNsfooOR7Gi7HL5W2jw=="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/scrollIt.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.4.1/jquery.scrollUp.min.js"
+        integrity="sha512-gAHP1RIzRzolApS3+PI5UkCtoeBpdxBAtxEPsyqvsPN950Q7oD+UT2hafrcFoF04oshCGLqcSgR5dhUthCcjdA=="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"
+        integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g=="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+        integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg=="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"
+        integrity="sha512-FmCXNJaXWw1fc3G8zO3WdwR2N23YTWDFDTM3uretxVIbZ7lvnjHkciW4zy6JGvnrgjkcNEk8UNtdGTLs2GExAw=="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"
+        integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCujtkhwl7SLqgnwLNgf04Hrt9BT9SXlLlZlWx+OK4ndzAoALhsMNcCmkggjZB1w=="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.13/combined/js/gijgo.min.js"
+        integrity="sha512-T62eI76S3z2X8q+QaoTTn7FdKOVGjzKPjKNHw+vdAGQdcDMbxZUAKwRcGCPt0vtSbRuxNWr/BccUKYJo634ygQ=="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+        integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+        crossorigin="anonymous"></script>
+
+<script src="{% static 'js/contact.js' %}"></script>
+<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'js/jquery.form.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/mail-script.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+<!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>-->
+<!--<script>-->
+<!--  window.dataLayer = window.dataLayer || [];-->
+<!--  function gtag(){dataLayer.push(arguments);}-->
+<!--  gtag('js', new Date());-->
+
+<!--  gtag('config', 'UA-23581568-13');-->
+<!--</script>-->
+</body>
+</html>
