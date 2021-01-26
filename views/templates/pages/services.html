@@ -1,0 +1,70 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>Layanan Kami</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="case_study_area">
+        <div class="container">
+            <div class="border_bottom">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="section_title text-center mb-40">
+                            <h3>Layanan Kami</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="case_active owl-carousel">
+                            <div class="single_case">
+                                <div class="case_thumb">
+                                    <img src="{% static 'img/case/1.png' %}" alt="">
+                                </div>
+                                <div class="case_heading">
+                                    <span>Layanan #1</span>
+                                    <h3><a href="#">Konsultasi CV</a></h3>
+                                </div>
+                            </div>
+                            <div class="single_case">
+                                <div class="case_thumb">
+                                    <img src="{% static 'img/case/2.png' %}" alt="">
+                                </div>
+                                <div class="case_heading">
+                                    <span>Layanan #2</span>
+                                    <h3><a href="#">Konsultasi Interview</a></h3>
+                                </div>
+                            </div>
+                            <div class="single_case">
+                                <div class="case_thumb">
+                                    <img src="{% static 'img/case/3.png' %}" alt="">
+                                </div>
+                                <div class="case_heading">
+                                    <span>Layanan #3</span>
+                                    <h3><a href="#">Webinar</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="more_close_btn text-center">
+                            <a href="#" class="boxed-btn3-line">Layanan Lainnya</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
