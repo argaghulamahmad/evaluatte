@@ -210,7 +210,7 @@
         </div>
     </div>
 
-    <div class="team_area">
+    <div class="case_study_area">
         <div class="container">
             <div class="border_bottom">
                 <div class="row">
@@ -223,19 +223,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    {% for consultant in consultants %}
-                        <div class="col-xl-4 col-lg-4 col-md-6">
-                            <div class="single_team">
-                                <div class="team_thumb">
-                                    <img src="{{ consultant.profile_image }}" alt="">
+                    <div class="col-xl-12">
+                        <div class="case_active owl-carousel">
+                            {% for consultant in consultants %}
+                                <div class="single_case">
+                                    <div class="case_thumb">
+                                        <img src="{{ consultant.profile_image }}" alt="">
+                                    </div>
+                                    <div class="case_heading" style="padding: 20px;">
+                                        <h3>{{ consultant.full_name }}</h3>
+                                        <p>{{ consultant.role }} at {{ consultant.company }}</p>
+                                    </div>
                                 </div>
-                                <div class="team_info text-center">
-                                    <h3>{{ consultant.full_name }}</h3>
-                                    <p>{{ consultant.role }} at {{ consultant.company }}</p>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="more_close_btn text-center">
+                            <a href="{% url 'consultants' type='all' %}" class="boxed-btn3-line">Konsultan Lainnya</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
