@@ -13,7 +13,5 @@ urlpatterns = [
     re_path(r'^consultant/(?P<pk>\d+)/(?P<type>[-\w]+)$', views.ConsultantDetailView.as_view(),
             name='consultant-detail-pk-type'),
     url(r'^testimonials/$', views.testimonials, name='testimonials'),
-    url(r'^inspirations/$', views.inspirations, name='inspirations'),
-    url(r'^careers/$', views.careers, name='careers'),
     url(r'^contact/$', views.contact, name='contact'),
 ]
