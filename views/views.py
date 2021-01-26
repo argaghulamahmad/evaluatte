@@ -8,22 +8,14 @@ from office.models import Employee
 
 
 def home(request):
-    three_first_consultants = (
+    consultants = (
         Consultant.objects
             .filter(~Q(is_active=False))
-            .order_by('id')[:3]
-    )
-
-    three_latest_testimonials = (
-        Meet.objects
-            .filter(testimony__isnull=False, show_testimony=True)
-            .only('client', 'testimony')
-            .order_by('-id')[:3]
+            .order_by('id')
     )
 
     data = {
-        "consultants": three_first_consultants,
-        "testimonials": three_latest_testimonials
+        "consultants": consultants,
     }
 
     return render(request, 'pages/home.html', data)
