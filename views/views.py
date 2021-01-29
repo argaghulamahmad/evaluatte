@@ -35,6 +35,18 @@ def services(request):
     return render(request, 'pages/services.html')
 
 
+def service_resume(request):
+    return render(request, 'pages/services/resume.html')
+
+
+def service_interview(request):
+    return render(request, 'pages/services/interview.html')
+
+
+def service_webinar(request):
+    return render(request, 'pages/services/webinar.html')
+
+
 class ConsultantListView(ListView):
     model = Consultant
     template_name = 'pages/consultants.html'
