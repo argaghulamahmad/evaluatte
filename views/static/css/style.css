@@ -1636,6 +1636,12 @@ h3 {
     margin-bottom: 0
 }
 
+@media (max-width: 576px) {
+    .Information_area {
+        background-position: center left -11em;
+    }
+}
+
 @media (max-width: 767px) {
     .Information_area .info_text h3 {
         font-size: 30px
