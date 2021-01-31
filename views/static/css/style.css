@@ -1556,7 +1556,7 @@ h3 {
 }
 
 .testimonial_area {
-    background-image: url(../img/banner/testmonial.png);
+    background-image: url('https://i.ibb.co/6B5Vv12/quotes.png');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -1622,7 +1622,7 @@ h3 {
 }
 
 .Information_area {
-    background-image: url('https://i.ibb.co/d5ZTV1D/hubungi-kami.png');
+    background-image: url('https://i.ibb.co/NVy99SM/hubungi-kami.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
