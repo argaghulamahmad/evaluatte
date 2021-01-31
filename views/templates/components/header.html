@@ -49,13 +49,13 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="active" href="{% url 'home' %}">Beranda</a></li>
-                                        <li><a href="{% url 'about' %}">Tentang</a></li>
-                                        <li><a href="{% url 'services' %}">Layanan</a></li>
-                                        <li><a href="{% url 'consultants' type='all' %}">Konsultan</a></li>
-                                        <li><a href="{% url 'testimonials' %}">Testimoni</a></li>
-                                        <li><a href="/">Blog</a></li>
-                                        <li><a href="{% url 'contact' %}">Kontak</a></li>
+                                        <li><a class="{% if request.resolver_match.url_name == "home" %}active{% endif %}" href="{% url 'home' %}">Beranda</a></li>
+                                        <li><a class="{% if request.resolver_match.url_name == "about" %}active{% endif %}" href="{% url 'about' %}">Tentang</a></li>
+                                        <li><a class="{% if request.resolver_match.url_name == "services" %}active{% endif %}" href="{% url 'services' %}">Layanan</a></li>
+                                        <li><a class="{% if request.resolver_match.url_name == "consultants" %}active{% endif %}" href="{% url 'consultants' type='all' %}">Konsultan</a></li>
+                                        <li><a class="{% if request.resolver_match.url_name == "testimonials" %}active{% endif %}" href="{% url 'testimonials' %}">Testimoni</a></li>
+                                        <li><a class="{% if request.resolver_match.url_name == "home" %}active{% endif %}" href="/">Blog</a></li>
+                                        <li><a class="{% if request.resolver_match.url_name == "contact" %}active{% endif %}" href="{% url 'contact' %}">Kontak</a></li>
                                     </ul>
                                 </nav>
                             </div>
