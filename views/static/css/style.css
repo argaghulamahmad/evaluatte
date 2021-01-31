@@ -1110,14 +1110,15 @@ h3 {
 }
 
 .slider_bg_1 {
-    background-image: url('https://i.ibb.co/t8M53Y1/header-2-new.png')
+    background-image: url('https://i.ibb.co/m9fMB2N/header-2.png')
 }
 
 .slider_bg_2 {
-    background-image: url('https://i.ibb.co/t8M53Y1/header-2-new.png')
+    background-image: url('https://i.ibb.co/m9fMB2N/header-2.png')
 }
 
 .slider_area .single_slider {
+    margin-top: 9%;
     height: 750px;
     background-size: cover;
     background-repeat: no-repeat;
