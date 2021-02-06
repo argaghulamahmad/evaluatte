@@ -202,7 +202,7 @@
                             {% for consultant in consultants %}
                                 <div class="single_case">
                                     <div class="case_thumb">
-                                        <img src="{{ consultant.profile_image }}" alt="">
+                                        <img src="{{ consultant.profile_image.url }}" alt="">
                                     </div>
                                     <div class="case_heading" style="padding: 20px;">
                                         <h3>{{ consultant.full_name }}</h3>
