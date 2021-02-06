@@ -53,7 +53,9 @@ INSTALLED_APPS = [
     'core',
     'office',
 
-    'views'
+    'views',
+
+    's3direct',
 ]
 
 MIDDLEWARE = [

@@ -1,4 +1,5 @@
 from django.db import models
+from s3direct.fields import S3DirectField
 
 from core.models import ModelWithAutoTimestamp
 
@@ -12,7 +13,7 @@ class Employee(ModelWithAutoTimestamp):
         ('INTERN', 'Intern'),
     )
 
-    profile_image = models.URLField(max_length=254)
+    profile_image = S3DirectField(dest='images', blank=True, null=True)
     full_name = models.CharField(max_length=254)
     position = models.CharField(max_length=254)
     salary = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
@@ -38,7 +39,7 @@ class EmployeePayroll(ModelWithAutoTimestamp):
 
     total = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
 
-    employee_paid_proof = models.URLField(null=True, blank=True, max_length=254)
+    employee_paid_proof = S3DirectField(dest='documents', blank=True, null=True)
     is_employee_paid = models.BooleanField(default=False)
 
     @property
