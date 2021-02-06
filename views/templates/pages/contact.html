@@ -1,9 +1,16 @@
 {% extends "components/base.html" %}
 {% load static %}
 {% block content %}
+    <style>
+        @media (max-width: 576px) {
+            .bradcam_area {
+                background-position: center left -36em !important;
+            }
+        }
+    </style>
 
     <div class="bradcam_area overlay2" style="
-        background: url('https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/header+kontak+kami+-+new-min.png') center left -36em;
+        background: url('https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/header+kontak+kami+-+new-min.png');
         background-size: cover;
     ">
         <div class="container">
