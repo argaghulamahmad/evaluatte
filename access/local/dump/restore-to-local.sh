@@ -1,1 +1,0 @@
-psql -U postgres -d evaluatte_staging -f evaluatte_staging_localhost.sql
