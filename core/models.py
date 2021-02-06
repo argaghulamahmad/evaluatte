@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.db import models
 from django.utils import timezone
+from s3direct.fields import S3DirectField
 
 
 class ModelWithAutoTimestamp(models.Model):
@@ -34,7 +35,7 @@ class Company(ModelWithAutoTimestamp):
 
 
 class Consultant(ModelWithAutoTimestamp):
-    profile_image = models.URLField(max_length=254)
+    profile_image = S3DirectField(dest='images', blank=True, null=True)
     full_name = models.CharField(null=True, blank=True, max_length=254)
     role = models.CharField(null=True, blank=True, max_length=254)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING)
@@ -87,7 +88,7 @@ class ConsultantSchedule(ModelWithAutoTimestamp):
 
 class Client(ModelWithAutoTimestamp):
     full_name = models.CharField(max_length=254)
-    profile_image = models.URLField(null=True, blank=True, max_length=254)
+    profile_image = S3DirectField(dest='images', blank=True, null=True)
     title = models.CharField(max_length=254)
     cv_url = models.URLField(null=True, blank=True, max_length=254)
     email = models.EmailField(max_length=254)
@@ -122,13 +123,13 @@ class Meet(ModelWithAutoTimestamp):
 
     datetime = models.DateTimeField()
     is_paid = models.BooleanField(default=False)
-    paid_proof = models.URLField(null=True, blank=True, max_length=254)
+    paid_proof = S3DirectField(dest='documents', blank=True, null=True)
 
     meet_url = models.URLField(null=True, blank=True, max_length=254)
     is_complete = models.BooleanField(default=False)
 
     testimony = models.TextField(null=True, blank=True)
-    testimony_proof = models.URLField(null=True, blank=True, max_length=254)
+    testimony_proof = S3DirectField(dest='documents', blank=True, null=True)
     show_testimony = models.BooleanField(default=False)
 
     rating = models.IntegerField(default=MeetRating.BIASA, choices=MeetRating.choices)
@@ -194,7 +195,7 @@ class MeetPayroll(ModelWithAutoTimestamp):
     for_consultant = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     for_company = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
 
-    consultant_paid_proof = models.URLField(null=True, blank=True, max_length=254)
+    consultant_paid_proof = S3DirectField(dest='documents', blank=True, null=True)
     is_consultant_paid = models.BooleanField(default=False)
 
     @property
