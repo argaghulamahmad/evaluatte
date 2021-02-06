@@ -163,3 +163,20 @@ REST_FRAMEWORK = {
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 }
+
+AWS_ACCESS_KEY_ID = 'AKIAYUZSJ2AQPTBCC3E3'
+AWS_SECRET_ACCESS_KEY = '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 '
+AWS_STORAGE_BUCKET_NAME = 'evaluatte-system'
+AWS_S3_REGION_NAME = 'evaluatte-system'
+AWS_S3_ENDPOINT_URL = 'https://s3.amazonaws.com'
+
+S3DIRECT_DESTINATIONS = {
+    'documents': {
+        'key': 'uploads/documents/',
+        'allowed': ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'],
+    },
+    'images': {
+        'key': 'uploads/images/',
+        'allowed': ['image/jpg', 'image/jpeg', 'image/png'],
+    }
+}
