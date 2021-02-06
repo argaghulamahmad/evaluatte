@@ -3,6 +3,8 @@
 - migrate semua gambar ke s3
 - fix layout yang dikasih ica
 
+- django s3 upload
+
 - interviewee harus bisa login dan register
 - interviewee harus bisa lihat konsultan nya siapa saja
     - interviewee harus bisa lihat jadwal free nya si konsultan
@@ -29,7 +31,6 @@
 - adjust color pallete
 - adjust styling
 
-- django s3 upload
 """
 
 # Sample Inputs and output
