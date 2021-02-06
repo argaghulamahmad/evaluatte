@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='employee',
             name='profile_image',
-            field=s3direct.fields.S3DirectField(blank=True, null=True),
+            field=s3direct.fields.models.FileField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='employeepayroll',
             name='employee_paid_proof',
-            field=s3direct.fields.S3DirectField(blank=True, null=True),
+            field=s3direct.fields.models.FileField(blank=True, null=True),
         ),
     ]
