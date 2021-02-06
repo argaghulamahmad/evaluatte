@@ -14,26 +14,26 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='client',
             name='profile_image',
-            field=s3direct.fields.S3DirectField(blank=True, null=True),
+            field=s3direct.fields.models.FileField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='consultant',
             name='profile_image',
-            field=s3direct.fields.S3DirectField(blank=True, null=True),
+            field=s3direct.fields.models.FileField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='meet',
             name='paid_proof',
-            field=s3direct.fields.S3DirectField(blank=True, null=True),
+            field=s3direct.fields.models.FileField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='meet',
             name='testimony_proof',
-            field=s3direct.fields.S3DirectField(blank=True, null=True),
+            field=s3direct.fields.models.FileField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='meetpayroll',
             name='consultant_paid_proof',
-            field=s3direct.fields.S3DirectField(blank=True, null=True),
+            field=s3direct.fields.models.FileField(blank=True, null=True),
         ),
     ]

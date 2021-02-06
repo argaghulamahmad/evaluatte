@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
     'views',
 
-    's3direct',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -169,16 +169,14 @@ SWAGGER_SETTINGS = {
 AWS_ACCESS_KEY_ID = 'AKIAYUZSJ2AQPTBCC3E3'
 AWS_SECRET_ACCESS_KEY = '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 '
 AWS_STORAGE_BUCKET_NAME = 'evaluatte-system'
-AWS_S3_REGION_NAME = 'ap-southeast-1'
-AWS_S3_ENDPOINT_URL = 'https://s3.amazonaws.com'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-S3DIRECT_DESTINATIONS = {
-    'documents': {
-        'key': 'uploads/documents/',
-        'allowed': ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'],
-    },
-    'images': {
-        'key': 'uploads/images/',
-        'allowed': ['image/jpg', 'image/jpeg', 'image/png'],
-    }
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
 }
+
+AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+DEFAULT_FILE_STORAGE = 'app.storage_backends.PublicMediaStorage'
+
+AWS_PRIVATE_MEDIA_LOCATION = 'media/private'
+PRIVATE_FILE_STORAGE = 'app.storage_backends.PrivateMediaStorage'
