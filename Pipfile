@@ -13,6 +13,7 @@ django-debug-toolbar = "*"
 markdown = "*"
 drf-yasg = "*"
 djangorestframework-api-key = "==2.*"
+django-s3direct = "*"
 
 [dev-packages]
 
