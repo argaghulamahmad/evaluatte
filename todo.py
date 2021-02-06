@@ -1,5 +1,8 @@
 # Understanding The Problem
 """
+- migrate semua gambar ke s3
+- fix layout yang dikasih ica
+
 - interviewee harus bisa login dan register
 - interviewee harus bisa lihat konsultan nya siapa saja
     - interviewee harus bisa lihat jadwal free nya si konsultan
