@@ -52,7 +52,15 @@
     gtag('config', 'G-64Y6559FFQ');
 </script>
 
-<body class="body-bg" style="zoom: 125%;">
+<style>
+    @media (min-width: 1200px) {
+        body {
+            zoom: 125%;
+        }
+    }
+</style>
+
+<body class="body-bg">
 {% include "components/header.html" %}
 
 {% block content %}
