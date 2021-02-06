@@ -130,7 +130,7 @@ class Meet(ModelWithAutoTimestamp):
     is_complete = models.BooleanField(default=False)
 
     testimony = models.TextField(null=True, blank=True)
-    testimony_proof = models.FileField(storage=PrivateMediaStorage(), blank=True, null=True)
+    testimony_proof = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
     show_testimony = models.BooleanField(default=False)
 
     rating = models.IntegerField(default=MeetRating.BIASA, choices=MeetRating.choices)
