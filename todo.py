@@ -1,11 +1,7 @@
 # Understanding The Problem
 """
-- migrate semua gambar ke s3
-- fix layout yang dikasih ica
-
 - create env file
-
-- django s3 upload
+- remove debug toolbar
 
 - interviewee harus bisa login dan register
 - interviewee harus bisa lihat konsultan nya siapa saja
@@ -33,6 +29,10 @@
 - adjust color pallete
 - adjust styling
 
+- migrate semua gambar ke s3 - done
+- fix layout yang dikasih ica - done
+
+- django s3 uploadm - done
 """
 
 # Sample Inputs and output
