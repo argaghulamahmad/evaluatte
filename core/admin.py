@@ -75,14 +75,16 @@ class MeetAdmin(AdminWithoutModified):
         'type',
         'client',
         'consultant',
-        'datetime',
+        'start_datetime',
+        'end_datetime',
         'note',
     )
 
     actions = [export_as_csv_action("CSV Export", fields=['type',
                                                           'client',
                                                           'consultant',
-                                                          'datetime',
+                                                          'start_datetime',
+                                                          'end_datetime',
                                                           'note', ])]
 
     list_display_links = (
@@ -90,11 +92,11 @@ class MeetAdmin(AdminWithoutModified):
         'consultant',
     )
     list_filter = (
-        'datetime',
+        'start_datetime',
     )
     ordering = ['id']
     search_fields = ('id', 'client',
-                     'consultant', 'datetime', 'note')
+                     'consultant', 'start_datetime', 'note')
     list_per_page = 10
 
 
@@ -127,7 +129,7 @@ class MeetPayrollAdmin(AdminWithoutModified):
         'consultant',
     )
     list_filter = (
-        'meet__datetime',
+        'meet__start_datetime',
         'is_consultant_paid',
         'consultant',
     )
