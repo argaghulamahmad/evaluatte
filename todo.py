@@ -1,7 +1,7 @@
 # Understanding The Problem
 """
 - create env file
-- remove debug toolbar
+- disable debug toolbar at prod
 
 - interviewee harus bisa login dan register
 - interviewee harus bisa lihat konsultan nya siapa saja
