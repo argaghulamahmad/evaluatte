@@ -145,8 +145,11 @@ class Meet(ModelWithAutoTimestamp):
         db_table = 'core_meet'
 
     def __str__(self):
-        return self.consultant.full_name + ' - ' + self.client.full_name + ' - ' + self.datetime.strftime("%m/%d/%Y, "
-                                                                                                          "%H:%M:%S")
+        return self.consultant.full_name + ' - ' + self.client.full_name + ' - ' \
+               + ("" if self.start_datetime is None
+                  else self.start_datetime.strftime("%m/%d/%Y, ""%H:%M:%S")) \
+               + ("" if self.end_datetime is None
+                  else self.end_datetime.strftime("%m/%d/%Y, ""%H:%M:%S"))
 
 
 class MeetPayment(ModelWithAutoTimestamp):
