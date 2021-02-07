@@ -3,6 +3,8 @@
 - migrate semua gambar ke s3
 - fix layout yang dikasih ica
 
+- create env file
+
 - django s3 upload
 
 - interviewee harus bisa login dan register
