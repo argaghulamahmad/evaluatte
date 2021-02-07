@@ -16,12 +16,20 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'name']
 
 
+class ConsultantScheduleSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ConsultantSchedule
+        fields = ['start_date', 'end_date', 'start_time', 'end_time']
+
+
 class ConsultantSerializer(serializers.HyperlinkedModelSerializer):
     company_name = serializers.CharField(source='company.name')
 
+    consultant_schedules = ConsultantScheduleSerializer(many=True)
+
     class Meta:
         model = Consultant
-        fields = ['profile_image', 'full_name', 'role', 'company_name']
+        fields = ['profile_image', 'full_name', 'role', 'company_name', 'consultant_schedules']
 
 
 class CompanySerializer(serializers.HyperlinkedModelSerializer):
