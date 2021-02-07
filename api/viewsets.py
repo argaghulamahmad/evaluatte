@@ -3,8 +3,9 @@ from django.db.models import Prefetch
 from rest_framework import permissions
 from rest_framework import viewsets
 
-from api.serializers import UserSerializer, GroupSerializer, ConsultantSerializer, CompanySerializer
-from core.models import Consultant, Company
+from api.serializers import UserSerializer, GroupSerializer, ConsultantSerializer, CompanySerializer, \
+    ConsultantScheduleSerializer
+from core.models import Consultant, Company, ConsultantSchedule
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -47,3 +48,11 @@ class CompanyViewSet(viewsets.ModelViewSet):
         ).filter(consultants__isnull=False)
         return companies
 
+
+class ConsultantScheduleViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows consultant schedule to be viewed or edited.
+    """
+    queryset = ConsultantSchedule.objects.filter()
+    serializer_class = ConsultantScheduleSerializer
+    permission_classes = [permissions.IsAuthenticated]
