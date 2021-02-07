@@ -29,10 +29,23 @@ def home(request):
 
 
 def about(request):
+    consultants = (
+        Consultant.objects
+            .filter(~Q(is_active=False))
+            .order_by('id')
+    )
+
     all_team_members = Employee.objects.all().filter(is_show=True).order_by('id')
+    total_variant_of_companies = Consultant.objects.values('company').distinct().count()
+    total_success_meets = Meet.objects.filter(is_paid=True).values('client').distinct().count()
+    average_rating = Meet.objects.filter(show_rating=True).aggregate(Avg('rating'))
 
     data = {
-        "team_members": all_team_members
+        "consultants": consultants,
+        "team_members": all_team_members,
+        "total_variant_of_companies": total_variant_of_companies,
+        "total_success_meets": total_success_meets,
+        "average_rating": average_rating,
     }
 
     return render(request, 'pages/about.html', data)
