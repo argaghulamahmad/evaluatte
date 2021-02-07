@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from core.models import Consultant, Company
+from core.models import Consultant, Company, ConsultantSchedule
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -28,3 +28,11 @@ class CompanySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Company
         fields = ['name', 'industry']
+
+
+class ConsultantScheduleSerializer(serializers.HyperlinkedModelSerializer):
+    consultant = ConsultantSerializer(required=True)
+
+    class Meta:
+        model = ConsultantSchedule
+        fields = ['start_date', 'end_date', 'start_time', 'end_time', 'consultant']
