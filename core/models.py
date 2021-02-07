@@ -122,7 +122,8 @@ class Meet(ModelWithAutoTimestamp):
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING, related_name='meets')
     type = models.CharField(max_length=254, choices=MEET_TYPES)
 
-    datetime = models.DateTimeField()
+    start_datetime = models.DateTimeField(blank=True, null=True)
+    end_datetime = models.DateTimeField(blank=True, null=True)
     is_paid = models.BooleanField(default=False)
     paid_proof = models.FileField(storage=PrivateMediaStorage(), blank=True, null=True)
 
