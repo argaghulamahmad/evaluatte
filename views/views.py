@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
@@ -14,8 +14,11 @@ def home(request):
             .order_by('id')
     )
 
+    total_variant_of_companies = Consultant.objects.values('company').distinct().count()
+
     data = {
         "consultants": consultants,
+        "total_variant_of_companies": total_variant_of_companies,
     }
 
     return render(request, 'pages/home.html', data)
