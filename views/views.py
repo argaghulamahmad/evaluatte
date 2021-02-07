@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Avg
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
@@ -15,10 +15,14 @@ def home(request):
     )
 
     total_variant_of_companies = Consultant.objects.values('company').distinct().count()
+    total_success_meets = Meet.objects.filter(is_paid=True).values('client').distinct().count()
+    average_rating = Meet.objects.filter(show_rating=True).aggregate(Avg('rating'))
 
     data = {
         "consultants": consultants,
         "total_variant_of_companies": total_variant_of_companies,
+        "total_success_meets": total_success_meets,
+        "average_rating": average_rating,
     }
 
     return render(request, 'pages/home.html', data)
