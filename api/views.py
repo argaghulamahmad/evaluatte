@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User, Group
+from django.db.models import Prefetch
 from rest_framework import permissions
 from rest_framework import viewsets
 
@@ -28,7 +29,7 @@ class ConsultantViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows consultants to be viewed or edited.
     """
-    queryset = Consultant.objects.all()
+    queryset = Consultant.objects.filter(is_active=True)
     serializer_class = ConsultantSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -37,6 +38,12 @@ class CompanyViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows companies to be viewed or edited.
     """
-    queryset = Company.objects.all()
     serializer_class = CompanySerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        companies = Company.objects.prefetch_related(
+            Prefetch('consultants', queryset=Consultant.objects.filter(is_active=True))
+        ).filter(consultants__isnull=False)
+        return companies
+

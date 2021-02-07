@@ -39,7 +39,7 @@ class Consultant(ModelWithAutoTimestamp):
     profile_image = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
     full_name = models.CharField(null=True, blank=True, max_length=254)
     role = models.CharField(null=True, blank=True, max_length=254)
-    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING)
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, related_name='consultants')
     email = models.EmailField(null=True, blank=True, max_length=254)
     linkedin_profile = models.URLField(null=True, blank=True, max_length=254)
     phone_number = models.CharField(null=True, blank=True, max_length=254)
@@ -74,7 +74,7 @@ class Consultant(ModelWithAutoTimestamp):
 
 
 class ConsultantSchedule(ModelWithAutoTimestamp):
-    consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
+    consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING, related_name='consultant_schedules')
     start_date = models.DateField()
     end_date = models.DateField()
     start_time = models.TimeField()
@@ -118,8 +118,8 @@ class Meet(ModelWithAutoTimestamp):
         ('CV', 'CV'),
     )
 
-    consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
-    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
+    consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING, related_name='meets')
+    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING, related_name='meets')
     type = models.CharField(max_length=254, choices=MEET_TYPES)
 
     datetime = models.DateTimeField()
@@ -154,7 +154,7 @@ class MeetPayment(ModelWithAutoTimestamp):
         ('BNI', 'Transfer BNI'),
     )
 
-    meet = models.ForeignKey(Meet, on_delete=models.DO_NOTHING)
+    meet = models.ForeignKey(Meet, on_delete=models.DO_NOTHING, related_name='meet_payments')
 
     due_datetime = models.DateTimeField()
 
@@ -189,8 +189,8 @@ class MeetPayroll(ModelWithAutoTimestamp):
     FOR_CONSULTANT = 0.6
     FOR_COMPANY = 0.4
 
-    consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING)
-    meet = models.ForeignKey(Meet, on_delete=models.CASCADE)
+    consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING, related_name='meet_payrolls')
+    meet = models.ForeignKey(Meet, on_delete=models.CASCADE, related_name='meet_payrolls')
 
     price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     for_consultant = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
