@@ -4,7 +4,7 @@ from rest_framework import permissions
 from rest_framework import viewsets
 
 from api.serializers import UserSerializer, GroupSerializer, ConsultantSerializer, CompanySerializer, \
-    ConsultantScheduleSerializer
+    ConsultantScheduleWithConsultantSerializer
 from core.models import Consultant, Company, ConsultantSchedule
 
 
@@ -54,5 +54,5 @@ class ConsultantScheduleViewSet(viewsets.ModelViewSet):
     API endpoint that allows consultant schedule to be viewed or edited.
     """
     queryset = ConsultantSchedule.objects.filter()
-    serializer_class = ConsultantScheduleSerializer
+    serializer_class = ConsultantScheduleWithConsultantSerializer
     permission_classes = [permissions.IsAuthenticated]

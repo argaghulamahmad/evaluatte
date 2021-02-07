@@ -30,7 +30,7 @@ class CompanySerializer(serializers.HyperlinkedModelSerializer):
         fields = ['name', 'industry']
 
 
-class ConsultantScheduleSerializer(serializers.HyperlinkedModelSerializer):
+class ConsultantScheduleWithConsultantSerializer(serializers.HyperlinkedModelSerializer):
     consultant = ConsultantSerializer(required=True)
 
     class Meta:
