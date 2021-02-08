@@ -1,8 +1,14 @@
+import django_heroku
+
 from app.settings.defaults import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+
+# AWS
 AWS_ACCESS_KEY_ID = 'AKIAYUZSJ2AQIYJ2CNYJ'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'evaluatte-system-test'
