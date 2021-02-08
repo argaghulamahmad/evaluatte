@@ -3,9 +3,9 @@ from app.settings.defaults import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-AWS_ACCESS_KEY_ID = 'AKIAYUZSJ2AQPTBCC3E3'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'evaluatte-system'
+AWS_ACCESS_KEY_ID = 'AKIAYUZSJ2AQIYJ2CNYJ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'evaluatte-system-test'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 
