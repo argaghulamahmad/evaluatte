@@ -140,18 +140,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 
-# Django Debug Toolbar
 INTERNAL_IPS = ('127.0.0.1', '192.168.1.20',)
 
-
-def show_toolbar(request):
-    return True
-
-
-DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
-}
-
+# Rest
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -162,15 +153,13 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
+# Swagger
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 }
 
-AWS_ACCESS_KEY_ID = 'AKIAYUZSJ2AQPTBCC3E3'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'evaluatte-system'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
+# AWS
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
