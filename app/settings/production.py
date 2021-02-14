@@ -1,7 +1,7 @@
 from app.settings.defaults import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 AWS_ACCESS_KEY_ID = 'AKIAYUZSJ2AQPTBCC3E3'
 AWS_SECRET_ACCESS_KEY = '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'
