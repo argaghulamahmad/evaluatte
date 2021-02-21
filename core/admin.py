@@ -91,6 +91,8 @@ class ConsultantAdmin(AdminWithoutModified):
         if is_consultant:
             return False
 
+        return False
+
 
 class MeetAdmin(AdminWithoutModified):
     list_display = (
