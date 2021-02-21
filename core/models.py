@@ -66,6 +66,14 @@ class Consultant(ModelWithAutoTimestamp):
     def experience_as_list(self):
         return self.experience.split('\n')
 
+    @property
+    def job_description_as_list(self):
+        return self.job_description.split('\n')
+
+    @property
+    def role_expertise_as_list(self):
+        return self.role_expertise.split('\n')
+
     note = models.TextField(null=True, blank=True)
 
     class Meta:
