@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 from app.storage_backends import PublicMediaStorage, PrivateMediaStorage
@@ -12,6 +13,8 @@ class Employee(ModelWithAutoTimestamp):
         ('PART-TIME', 'Part time'),
         ('INTERN', 'Intern'),
     )
+
+    user = models.OneToOneField(User, on_delete=models.DO_NOTHING, null=True, blank=True)
 
     profile_image = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
     full_name = models.CharField(max_length=254)
