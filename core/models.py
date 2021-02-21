@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
@@ -36,6 +37,8 @@ class Company(ModelWithAutoTimestamp):
 
 
 class Consultant(ModelWithAutoTimestamp):
+    user = models.OneToOneField(User, on_delete=models.DO_NOTHING, null=True, blank=True)
+
     profile_image = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
     full_name = models.CharField(null=True, blank=True, max_length=254)
     role = models.CharField(null=True, blank=True, max_length=254)
