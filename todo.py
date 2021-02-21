@@ -41,7 +41,7 @@
 - ganti logo - done
 - adjust color pallete, done
 - adjust styling, done
-- embed wa business merry sama aceng
+- embed wa business merry sama aceng - done
     - merry
         +62 813-1673-5289
         https://wa.wizard.id/9441e5
