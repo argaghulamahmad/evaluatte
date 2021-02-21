@@ -1,5 +1,11 @@
 # Understanding The Problem
 """
+- create roles for consultant, chief, sales, finance
+    - consultant
+    - chief
+    - sales
+    - finance
+
 - create models and api that provide the information main app needs
     - create models
     - create api
