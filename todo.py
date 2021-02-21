@@ -3,7 +3,16 @@
 - create roles for consultant, chief, sales, finance
     - consultant
         - ngisi jadwal sendiri
+            - g boleh bentrok
+                consultant
+                date
+                cv_time (30 menit) 6
+                6-6.30
+                consultant_time (1 jam) 6
+                6-7
+                type, cv - interview
         - tau history dia udh konsultasiin siapa aja (Meets)
+            - default user for consultant
 
     - sales
         - ngeliat order yg masuk
