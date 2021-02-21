@@ -26,7 +26,6 @@ GROUPS = {
     'Consultant': {
         'PERMISSIONS': {
             'meet': ['view'],
-            'consultant': ['change', 'view'],
             'consultant schedule': ['add', 'change', 'view', 'delete'],
         }
     },
