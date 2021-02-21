@@ -22,7 +22,16 @@ GROUPS = {
             'meet': ['add', 'change', 'view', 'delete'],
             'client': ['add', 'change', 'view', 'delete'],
             'consultant': ['add', 'change', 'view'],
-            'team member': ['view'],
+        }
+    },
+    'Consultant': {
+        'PERMISSIONS': {
+            'meet': ['add', 'change', 'view', 'delete'],
+            'consultant': ['add', 'change', 'view'],
+        }
+    },
+    'Finance': {
+        'PERMISSIONS': {
         }
     }
 }
