@@ -162,6 +162,22 @@ class MeetAdmin(AdminWithoutModified):
 
         return False
 
+    def has_change_permission(self, request, obj=None):
+        user_is_superuser = request.user.is_superuser
+        user_id = request.user.id
+
+        qs = super(MeetAdmin, self).has_change_permission(request)
+        if user_is_superuser:
+            return qs
+
+        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
+        user_is_consultant = len(consultant_objects_filter_user) > 0
+
+        if user_is_consultant:
+            return False
+
+        return False
+
 
 class MeetPayrollAdmin(AdminWithoutModified):
     def get_readonly_fields(self, request, obj=None):
