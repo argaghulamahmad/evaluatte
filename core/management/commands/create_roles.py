@@ -1,6 +1,5 @@
 """
 Create permission groups
-Create permissions (read only) to models for a set of groups
 """
 import logging
 
