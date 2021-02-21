@@ -54,6 +54,8 @@ class Consultant(ModelWithAutoTimestamp):
 
     start_date = models.DateField()
     experience = models.TextField(null=True, blank=True)
+    job_description = models.TextField(null=True, blank=True)
+    role_expertise = models.TextField(null=True, blank=True)
 
     @property
     def year_of_experience(self):
