@@ -15,7 +15,11 @@
                                 <ul>
                                     <li><a href="/"> <i class="fa fa-envelope"></i>teguh@evaluatte.com</a>
                                     </li>
-                                    <li><a href="/"> <i class="fa fa-phone"></i>+62 813-1673-5289 / +62 821-2289-2469</a></li>
+                                    <li>
+                                        <a href="https://wa.wizard.id/9441e5" style="margin: 0;"> <i class="fa fa-phone"></i>+62 813-1673-5289</a>
+                                        <a style="margin: 0;" href="">/</a>
+                                        <a href="https://wa.wizard.id/b2ae3a"> <i class="fa fa-phone"></i>+62 821-2289-2469</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="social_media_links">
@@ -49,13 +53,25 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="{% if request.resolver_match.url_name == "home" %}active{% endif %}" href="{% url 'home' %}">Beranda</a></li>
-                                        <li><a class="{% if request.resolver_match.url_name == "about" %}active{% endif %}" href="{% url 'about' %}">Tentang</a></li>
-                                        <li><a class="{% if request.resolver_match.url_name == "services" %}active{% endif %}" href="{% url 'services' %}">Layanan</a></li>
-                                        <li><a class="{% if request.resolver_match.url_name == "consultants" %}active{% endif %}" href="{% url 'consultants' type='all' %}">Konsultan</a></li>
-                                        <li><a class="{% if request.resolver_match.url_name == "testimonials" %}active{% endif %}" href="{% url 'testimonials' %}">Testimoni</a></li>
+                                        <li>
+                                            <a class="{% if request.resolver_match.url_name == "home" %}active{% endif %}"
+                                               href="{% url 'home' %}">Beranda</a></li>
+                                        <li>
+                                            <a class="{% if request.resolver_match.url_name == "about" %}active{% endif %}"
+                                               href="{% url 'about' %}">Tentang</a></li>
+                                        <li>
+                                            <a class="{% if request.resolver_match.url_name == "services" %}active{% endif %}"
+                                               href="{% url 'services' %}">Layanan</a></li>
+                                        <li>
+                                            <a class="{% if request.resolver_match.url_name == "consultants" %}active{% endif %}"
+                                               href="{% url 'consultants' type='all' %}">Konsultan</a></li>
+                                        <li>
+                                            <a class="{% if request.resolver_match.url_name == "testimonials" %}active{% endif %}"
+                                               href="{% url 'testimonials' %}">Testimoni</a></li>
                                         <li><a href="/">Blog</a></li>
-                                        <li><a class="{% if request.resolver_match.url_name == "contact" %}active{% endif %}" href="{% url 'contact' %}">Kontak</a></li>
+                                        <li>
+                                            <a class="{% if request.resolver_match.url_name == "contact" %}active{% endif %}"
+                                               href="{% url 'contact' %}">Kontak</a></li>
                                     </ul>
                                 </nav>
                             </div>
