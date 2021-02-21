@@ -83,6 +83,8 @@ class ConsultantAdmin(AdminWithoutModified):
         if user_is_consultant:
             return consultant_objects_filter_user
 
+        return Consultant.objects.none()
+
     def has_add_permission(self, request, obj=None):
         user_is_superuser = request.user.is_superuser
         user_id = request.user.id
@@ -296,6 +298,43 @@ class ConsultantScheduleAdmin(AdminWithoutModified):
     ordering = ['id']
     search_fields = ('id', 'consultant')
     list_per_page = 10
+
+    def get_form(self, request, obj=None, **kwargs):
+        user_is_superuser = request.user.is_superuser
+        user_id = request.user.id
+
+        if user_is_superuser:
+            form = super(ConsultantScheduleAdmin, self).get_form(request, obj, **kwargs)
+            return form
+
+        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
+        user_is_consultant = len(consultant_objects_filter_user) > 0
+
+        if user_is_consultant:
+            consultant = Consultant.objects.get(user_id=user_id)
+
+            form = super(ConsultantScheduleAdmin, self).get_form(request, obj, **kwargs)
+            form.base_fields['consultant'].initial = consultant
+            form.base_fields['consultant'].disabled = True
+
+            return form
+
+    def get_queryset(self, request):
+        user_is_superuser = request.user.is_superuser
+        user_id = request.user.id
+
+        if user_is_superuser:
+            qs = super(ConsultantScheduleAdmin, self).has_add_permission(request)
+            return qs
+
+        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
+        user_is_consultant = len(consultant_objects_filter_user) > 0
+
+        if user_is_consultant:
+            schedule_objects_filter_consultant = ConsultantSchedule.objects.filter(consultant__user_id=user_id)
+            return schedule_objects_filter_consultant
+
+        return ConsultantSchedule.objects.none()
 
 
 admin.site.register(Client, ClientAdmin)
