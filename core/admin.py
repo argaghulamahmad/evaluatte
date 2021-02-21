@@ -69,6 +69,28 @@ class ConsultantAdmin(AdminWithoutModified):
     search_fields = ('id', 'full_name', 'role', 'company', 'email', 'phone_number')
     list_per_page = 10
 
+    def get_queryset(self, request):
+        qs = super(ConsultantAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+
+        user_id = request.user.id
+
+        consultant_objects_filter = Consultant.objects.filter(user_id=user_id)
+        return consultant_objects_filter
+
+    def has_add_permission(self, request, obj=None):
+        qs = super(ConsultantAdmin, self).has_add_permission(request)
+        if request.user.is_superuser:
+            return qs
+
+        user_id = request.user.id
+
+        consultant_objects_filter = Consultant.objects.filter(user_id=user_id)
+        is_consultant = len(consultant_objects_filter) == 1
+        if is_consultant:
+            return False
+
 
 class MeetAdmin(AdminWithoutModified):
     list_display = (
