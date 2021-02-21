@@ -1,5 +1,8 @@
 # Understanding The Problem
 """
+- integrasi antara payment dengan backend
+- integrasi antara backend dengan frontend
+
 - interviewee harus bisa ngasih data dari main business app ke backend
 
 - interviewee harus bisa lihat konsultan nya siapa saja
@@ -22,6 +25,10 @@
     - dapat melihat data konsultan
     - dapat melihat data client
     - dapat melihat data order
+
+- consultants pagination
+- embed wa business merry sama aceng
+- create email buat teguh, aceng, sama hansel
 
 - migrate semua gambar ke s3 - done
 - fix layout yang dikasih ica - done
