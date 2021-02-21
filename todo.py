@@ -4,6 +4,8 @@
     - create models
     - create api
 
+- take all data from backend and display it to frontend
+
 - integrasi antara payment dengan backend
 - integrasi antara backend dengan frontend
 
