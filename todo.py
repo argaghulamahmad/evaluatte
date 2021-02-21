@@ -26,14 +26,6 @@
     - dapat melihat data client
     - dapat melihat data order
 
-- embed wa business merry sama aceng
-    - merry
-        +62 813-1673-5289
-        https://wa.wizard.id/9441e5
-    - aceng
-        +62 821-2289-2469
-        https://wa.wizard.id/b2ae3a
-
 - create email buat teguh, aceng, sama hansel
 
 - consultants pagination - done
@@ -45,6 +37,13 @@
 - ganti logo - done
 - adjust color pallete, done
 - adjust styling, done
+- embed wa business merry sama aceng
+    - merry
+        +62 813-1673-5289
+        https://wa.wizard.id/9441e5
+    - aceng
+        +62 821-2289-2469
+        https://wa.wizard.id/b2ae3a
 """
 
 # Sample Inputs and output
