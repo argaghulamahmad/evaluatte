@@ -29,7 +29,8 @@ class ConsultantSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Consultant
-        fields = ['profile_image', 'full_name', 'role', 'company_name', 'consultant_schedules']
+        fields = ['profile_image', 'full_name', 'role', 'company_name', 'consultant_schedules', 'experience_as_list',
+                  'job_description_as_list', 'role_expertise_as_list']
 
 
 class CompanySerializer(serializers.HyperlinkedModelSerializer):
