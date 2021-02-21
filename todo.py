@@ -1,8 +1,5 @@
 # Understanding The Problem
 """
-- create env file
-- disable debug toolbar at prod
-
 - interviewee harus bisa login dan register
 - interviewee harus bisa lihat konsultan nya siapa saja
     - interviewee harus bisa lihat jadwal free nya si konsultan
@@ -31,8 +28,9 @@
 
 - migrate semua gambar ke s3 - done
 - fix layout yang dikasih ica - done
-
-- django s3 uploadm - done
+- create env file, done
+- disable debug toolbar at prod, done
+- django s3 upload - done
 """
 
 # Sample Inputs and output
