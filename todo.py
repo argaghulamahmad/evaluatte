@@ -27,6 +27,11 @@
     - dapat melihat data order
 
 - embed wa business merry sama aceng
+    - merry
+        https://wa.wizard.id/9441e5
+    - aceng
+        https://wa.wizard.id/b2ae3a
+
 - create email buat teguh, aceng, sama hansel
 
 - consultants pagination - done
