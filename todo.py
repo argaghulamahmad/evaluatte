@@ -2,9 +2,21 @@
 """
 - create roles for consultant, chief, sales, finance
     - consultant
-    - chief
+        - ngisi jadwal sendiri
+        - tau history dia udh konsultasiin siapa aja (Meets)
+
     - sales
-    - finance
+        - ngeliat order yg masuk
+
+    - CEO & CTO
+        - bisa semua
+
+    - CFO
+        - liat meet payments & meet payrolls
+        - liat employee payrolls
+            - chief
+            - sales
+            - finance
 
 - create models and api that provide the information main app needs
     - create models
