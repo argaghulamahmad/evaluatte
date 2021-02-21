@@ -70,25 +70,31 @@ class ConsultantAdmin(AdminWithoutModified):
     list_per_page = 10
 
     def get_queryset(self, request):
-        qs = super(ConsultantAdmin, self).get_queryset(request)
-        if request.user.is_superuser:
-            return qs
-
+        user_is_superuser = request.user.is_superuser
         user_id = request.user.id
 
-        consultant_objects_filter = Consultant.objects.filter(user_id=user_id)
-        return consultant_objects_filter
+        if user_is_superuser:
+            qs = super(ConsultantAdmin, self).has_add_permission(request)
+            return qs
+
+        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
+        user_is_consultant = len(consultant_objects_filter_user) > 0
+
+        if user_is_consultant:
+            return consultant_objects_filter_user
 
     def has_add_permission(self, request, obj=None):
-        qs = super(ConsultantAdmin, self).has_add_permission(request)
-        if request.user.is_superuser:
-            return qs
-
+        user_is_superuser = request.user.is_superuser
         user_id = request.user.id
 
-        consultant_objects_filter = Consultant.objects.filter(user_id=user_id)
-        is_consultant = len(consultant_objects_filter) == 1
-        if is_consultant:
+        if user_is_superuser:
+            qs = super(ConsultantAdmin, self).has_add_permission(request)
+            return qs
+
+        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
+        user_is_consultant = len(consultant_objects_filter_user) > 0
+
+        if user_is_consultant:
             return False
 
         return False
@@ -122,6 +128,39 @@ class MeetAdmin(AdminWithoutModified):
     search_fields = ('id', 'client',
                      'consultant', 'start_datetime', 'note')
     list_per_page = 10
+
+    def get_queryset(self, request):
+        user_is_superuser = request.user.is_superuser
+        user_id = request.user.id
+
+        if user_is_superuser:
+            qs = super(MeetAdmin, self).get_queryset(request)
+            return qs
+
+        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
+        user_is_consultant = len(consultant_objects_filter_user) > 0
+
+        if user_is_consultant:
+            consultant_meets = Meet.objects.filter(consultant__user_id=user_id)
+            return consultant_meets
+
+        return Meet.objects.none()
+
+    def has_add_permission(self, request, obj=None):
+        user_is_superuser = request.user.is_superuser
+        user_id = request.user.id
+
+        qs = super(MeetAdmin, self).has_add_permission(request)
+        if user_is_superuser:
+            return qs
+
+        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
+        user_is_consultant = len(consultant_objects_filter_user) > 0
+
+        if user_is_consultant:
+            return False
+
+        return False
 
 
 class MeetPayrollAdmin(AdminWithoutModified):
