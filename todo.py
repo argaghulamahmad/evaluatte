@@ -26,10 +26,10 @@
     - dapat melihat data client
     - dapat melihat data order
 
-- consultants pagination
 - embed wa business merry sama aceng
 - create email buat teguh, aceng, sama hansel
 
+- consultants pagination - done
 - migrate semua gambar ke s3 - done
 - fix layout yang dikasih ica - done
 - create env file, done
