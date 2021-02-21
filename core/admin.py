@@ -74,7 +74,7 @@ class ConsultantAdmin(AdminWithoutModified):
         user_id = request.user.id
 
         if user_is_superuser:
-            qs = super(ConsultantAdmin, self).has_add_permission(request)
+            qs = super(ConsultantAdmin, self).get_queryset(request)
             return qs
 
         consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
@@ -324,7 +324,7 @@ class ConsultantScheduleAdmin(AdminWithoutModified):
         user_id = request.user.id
 
         if user_is_superuser:
-            qs = super(ConsultantScheduleAdmin, self).has_add_permission(request)
+            qs = super(ConsultantScheduleAdmin, self).get_queryset(request)
             return qs
 
         consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
