@@ -1,6 +1,7 @@
 # Understanding The Problem
 """
-- interviewee harus bisa login dan register
+- interviewee harus bisa ngasih data dari main business app ke backend
+
 - interviewee harus bisa lihat konsultan nya siapa saja
     - interviewee harus bisa lihat jadwal free nya si konsultan
     - interviewee harus bisa booking si konsultan
@@ -22,15 +23,14 @@
     - dapat melihat data client
     - dapat melihat data order
 
-- ganti logo - done
-- adjust color pallete
-- adjust styling
-
 - migrate semua gambar ke s3 - done
 - fix layout yang dikasih ica - done
 - create env file, done
 - disable debug toolbar at prod, done
 - django s3 upload - done
+- ganti logo - done
+- adjust color pallete, done
+- adjust styling, done
 """
 
 # Sample Inputs and output
