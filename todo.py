@@ -6,6 +6,8 @@
 
 - take all data from backend and display it to frontend
 
+- tampilkan sales information ke user di mobile app
+
 - integrasi antara payment dengan backend
 - integrasi antara backend dengan frontend
 
