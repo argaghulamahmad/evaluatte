@@ -1,5 +1,9 @@
 # Understanding The Problem
 """
+- create models and api that provide the information main app needs
+    - create models
+    - create api
+
 - integrasi antara payment dengan backend
 - integrasi antara backend dengan frontend
 
