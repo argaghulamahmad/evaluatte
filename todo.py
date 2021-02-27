@@ -63,6 +63,9 @@
 
 - create email buat teguh, aceng, sama hansel
 
+- fix broken style consultants corp web pages
+- add linkedin profile link at consultant profile card
+
 - consultants pagination - done
 - migrate semua gambar ke s3 - done
 - fix layout yang dikasih ica - done
