@@ -61,6 +61,10 @@ class Consultant(ModelWithAutoTimestamp):
     role_expertise = models.TextField(null=True, blank=True)
 
     @property
+    def industry(self):
+        return self.company.industry
+
+    @property
     def year_of_experience(self):
         now = datetime.now()
         return now.year - self.start_date.year
