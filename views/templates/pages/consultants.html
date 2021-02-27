@@ -26,7 +26,7 @@
     </div>
     <div class="case_study_area case_page">
         <div class="container">
-            <div class="row">
+            {% comment %}<div class="row">
                 <div class="col-xl-12">
                     <div class="portfolio-menu text-center">
                         {% if view.kwargs.type == 'all' %}
@@ -48,7 +48,7 @@
                         {% endif %}
                     </div>
                 </div>
-            </div>
+            </div>{% endcomment %}
             <div class="row grid">
                 {% for consultant in page_obj %}
                     <div class="col-xl-4 grid-item cat1 cat2 cat3">
