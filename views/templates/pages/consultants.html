@@ -57,7 +57,7 @@
                                 <img src="{{ consultant.profile_image.url }}" alt="">
                             </div>
                             <div class="case_heading">
-                                <h3>{{ consultant.full_name }}</h3>
+                                <h3><a href="{{ consultant.linkedin_profile }}">{{ consultant.full_name }}</a></h3>
                                 <p>{{ consultant.role }} at {{ consultant.company.name }}</p>
                                 <h4>{{ consultant.year_of_experience }} Tahun</h4>
                             </div>
