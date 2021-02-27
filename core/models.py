@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Avg
 from django.utils import timezone
 
 from app.storage_backends import PublicMediaStorage, PrivateMediaStorage
@@ -80,6 +81,10 @@ class Consultant(ModelWithAutoTimestamp):
     @property
     def role_expertise_as_list(self):
         return self.role_expertise.split('\n')
+
+    @property
+    def rating(self):
+        return Meet.objects.filter(show_rating=True, consultant_id=self.id).aggregate(Avg('rating'))['rating__avg']
 
     note = models.TextField(null=True, blank=True)
 
