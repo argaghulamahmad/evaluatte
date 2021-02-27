@@ -61,10 +61,10 @@
     - dapat melihat data client
     - dapat melihat data order
 
-- create email buat teguh, aceng, sama hansel
 
 - fix broken style consultants corp web pages
 - add linkedin profile link at consultant profile card
+- generate sitemap
 
 - consultants pagination - done
 - migrate semua gambar ke s3 - done
@@ -82,6 +82,7 @@
     - aceng
         +62 821-2289-2469
         https://wa.wizard.id/b2ae3a
+- create email buat teguh, aceng, linda, sama hansel - done
 """
 
 # Sample Inputs and output
