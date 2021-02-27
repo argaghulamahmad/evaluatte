@@ -63,6 +63,7 @@
 
 
 - fix broken style consultants corp web pages
+- fix pagination testimonials
 - add linkedin profile link at consultant profile card
 - generate sitemap
 
