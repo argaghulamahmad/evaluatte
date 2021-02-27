@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from corsheaders.defaults import default_headers
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -27,6 +29,21 @@ ALLOWED_HOSTS = ['127.0.0.1',
                  '192.168.1.20',
                  'evaluatte.com'
                  ]
+
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1',
+    'http://localhost',
+    'http://0.0.0.0',
+    'http://192.168.1.20:8080',
+    'https://evaluatte.com',
+    'https://m.evaluatte.com',
+)
+
+CORS_ALLOW_HEADERS = default_headers + (
+)
+
 
 # Application definition
 
@@ -45,6 +62,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_api_key',
     'drf_yasg',
+    'corsheaders',
 
     'core',
     'office',
@@ -63,7 +81,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'debug_toolbar.middleware.DebugToolbarMiddleware'
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -137,12 +157,25 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 INTERNAL_IPS = ('127.0.0.1', '192.168.1.20',)
 
 # Rest
+# API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    # ),
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework_api_key.permissions.HasAPIKey',
+    # ],
+    # 'DEFAULT_PARSER_CLASSES': (
+    #     'rest_framework.parsers.JSONParser',
+    # ),
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    # ),
+
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
@@ -151,7 +184,6 @@ REST_FRAMEWORK = {
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 }
-
 
 # AWS
 AWS_S3_OBJECT_PARAMETERS = {

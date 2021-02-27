@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User, Group
 from django.db.models import Prefetch
-from rest_framework import permissions
 from rest_framework import viewsets
 
 from api.serializers import UserSerializer, GroupSerializer, ConsultantSerializer, CompanySerializer, \
@@ -14,7 +13,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated, HasAPIKey]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -23,7 +22,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated, HasAPIKey]
 
 
 class ConsultantViewSet(viewsets.ModelViewSet):
@@ -32,7 +31,7 @@ class ConsultantViewSet(viewsets.ModelViewSet):
     """
     queryset = Consultant.objects.filter(is_active=True)
     serializer_class = ConsultantSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated, HasAPIKey]
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
@@ -40,7 +39,8 @@ class CompanyViewSet(viewsets.ModelViewSet):
     API endpoint that allows companies to be viewed or edited.
     """
     serializer_class = CompanySerializer
-    permission_classes = [permissions.IsAuthenticated]
+
+    # permission_classes = [permissions.IsAuthenticated, HasAPIKey]
 
     def get_queryset(self):
         companies = Company.objects.prefetch_related(
@@ -55,4 +55,4 @@ class ConsultantScheduleViewSet(viewsets.ModelViewSet):
     """
     queryset = ConsultantSchedule.objects.filter()
     serializer_class = ConsultantScheduleWithConsultantSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated, HasAPIKey]
