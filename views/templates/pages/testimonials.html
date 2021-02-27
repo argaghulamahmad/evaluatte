@@ -130,37 +130,38 @@
                     </div>
                 </div>
             {% endfor %}
-            <div class="row">
-                <div class="col-12">
-                    <nav class="blog-pagination justify-content-center d-flex">
-                        <ul class="pagination">
+            {% if testimonials_page.has_other_pages %}
+                <div>
+                    <nav aria-label="Testimonials Pagination">
+                        <ul class="pagination justify-content-center">
                             {% if testimonials_page.has_previous %}
-                                <li class="page-item">
-                                    <a href="?page={{ testimonials_page.previous_page_number }}" class="page-link"
-                                       aria-label="Previous">
-                                        <i class="ti-angle-left"></i>
-                                    </a>
+                                <li class="page-item"><a class="page-link"
+                                                         href="?page={{ testimonials_page.previous_page_number }}">&laquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#"><span>&laquo;</span></a>
                                 </li>
                             {% endif %}
-
-                            <li class="page-item">
-                                <a class="page-link"> {{ testimonials_page.number }}
-                                    / {{ testimonials_page.paginator.num_pages }}
-                                </a>
-                            </li>
-
+                            {% for i in testimonials_page.paginator.page_range %}
+                                {% if testimonials_page.number == i %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span
+                                            class="sr-only">(current)</span></a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
                             {% if testimonials_page.has_next %}
-                                <li class="page-item">
-                                    <a href="?page={{ testimonials_page.next_page_number }}" class="page-link"
-                                       aria-label="Next">
-                                        <i class="ti-angle-right"></i>
-                                    </a>
+                                <li class="page-item"><a class="page-link"
+                                                         href="?page={{ testimonials_page.next_page_number }}">&raquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#"><span>&raquo;</span></a>
                                 </li>
                             {% endif %}
                         </ul>
                     </nav>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
