@@ -3,8 +3,8 @@ from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from api.serializers import ConsultantSerializer, CompanySerializer, ConsultantScheduleSerializer
-from core.models import Consultant, Company, ConsultantSchedule
+from api.serializers import ConsultantSerializer, CompanySerializer, ConsultantScheduleSerializer, TestimonialSerializer
+from core.models import Consultant, Company, ConsultantSchedule, Meet, Client
 
 
 class FetchViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
@@ -32,3 +32,11 @@ class ConsultantScheduleViewSet(viewsets.ViewSet):
         queryset = ConsultantSchedule.objects.filter(consultant_id=kwargs['consultant_id'])
         serializer = ConsultantScheduleSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class TestimonialViewSet(FetchViewSet):
+    serializer_class = TestimonialSerializer
+
+    def get_queryset(self):
+        testimonials = Meet.objects.filter(show_testimony=True)
+        return testimonials
