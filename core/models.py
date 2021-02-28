@@ -102,6 +102,8 @@ class ConsultantSchedule(ModelWithAutoTimestamp):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
+    is_booked = models.BooleanField(default=False)
+
     class Meta:
         db_table = 'core_consultant_schedule'
 
