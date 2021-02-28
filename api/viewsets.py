@@ -38,5 +38,5 @@ class TestimonialViewSet(FetchViewSet):
     serializer_class = TestimonialSerializer
 
     def get_queryset(self):
-        testimonials = Meet.objects.filter(show_testimony=True)
+        testimonials = Meet.objects.filter(show_testimony=True).order_by('-id')[:5]
         return testimonials
