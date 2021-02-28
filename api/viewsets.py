@@ -17,7 +17,6 @@ class ConsultantViewSet(FetchViewSet):
     """
     queryset = Consultant.objects.filter(is_active=True)
     serializer_class = ConsultantSerializer
-    # permission_classes = [permissions.IsAuthenticated, HasAPIKey]
 
 
 class CompanyViewSet(FetchViewSet):
@@ -25,8 +24,6 @@ class CompanyViewSet(FetchViewSet):
     API endpoint that allows companies to be viewed or edited.
     """
     serializer_class = CompanySerializer
-
-    # permission_classes = [permissions.IsAuthenticated, HasAPIKey]
 
     def get_queryset(self):
         companies = Company.objects.prefetch_related(
@@ -41,4 +38,3 @@ class ConsultantScheduleViewSet(FetchViewSet):
     """
     queryset = ConsultantSchedule.objects.filter()
     serializer_class = ConsultantScheduleSerializer
-    # permission_classes = [permissions.IsAuthenticated, HasAPIKey]
