@@ -1,3 +1,4 @@
+import locale
 from datetime import datetime
 
 from django.contrib.auth.models import User
@@ -60,6 +61,18 @@ class Consultant(ModelWithAutoTimestamp):
     experience = models.TextField(null=True, blank=True)
     job_description = models.TextField(null=True, blank=True)
     role_expertise = models.TextField(null=True, blank=True)
+
+    @property
+    def formatted_cv_price(self):
+        if self.cv_price:
+            return locale.currency(self.cv_price, symbol=True, grouping=True)
+        return locale.currency(0, symbol=True, grouping=True)
+
+    @property
+    def formatted_interview_price(self):
+        if self.interview_price:
+            return locale.currency(self.interview_price, symbol=True, grouping=True)
+        return locale.currency(0, symbol=True, grouping=True)
 
     @property
     def industry(self):

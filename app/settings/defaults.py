@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import locale
 import os
 from pathlib import Path
 
@@ -43,7 +44,6 @@ CORS_ORIGIN_WHITELIST = (
 
 CORS_ALLOW_HEADERS = default_headers + (
 )
-
 
 # Application definition
 
@@ -146,6 +146,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+locale.setlocale(locale.LC_ALL, 'id_ID.UTF-8')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

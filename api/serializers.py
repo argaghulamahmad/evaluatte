@@ -39,6 +39,9 @@ class ConsultantSerializer(serializers.HyperlinkedModelSerializer):
             'cv_price',
             'interview_price',
 
+            'formatted_cv_price',
+            'formatted_interview_price',
+
             'rating',
             'total',
 
