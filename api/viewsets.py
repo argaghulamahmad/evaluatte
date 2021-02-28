@@ -1,12 +1,17 @@
 from django.db.models import Prefetch
-from rest_framework import viewsets
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet
 
 from api.serializers import ConsultantSerializer, CompanySerializer, \
     ConsultantScheduleSerializer
 from core.models import Consultant, Company, ConsultantSchedule
 
 
-class ConsultantViewSet(viewsets.ModelViewSet):
+class FetchViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
+    pass
+
+
+class ConsultantViewSet(FetchViewSet):
     """
     API endpoint that allows consultants to be viewed or edited.
     """
@@ -15,7 +20,7 @@ class ConsultantViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAuthenticated, HasAPIKey]
 
 
-class CompanyViewSet(viewsets.ModelViewSet):
+class CompanyViewSet(FetchViewSet):
     """
     API endpoint that allows companies to be viewed or edited.
     """
@@ -30,7 +35,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
         return companies
 
 
-class ConsultantScheduleViewSet(viewsets.ModelViewSet):
+class ConsultantScheduleViewSet(FetchViewSet):
     """
     API endpoint that allows consultant schedule to be viewed or edited.
     """
