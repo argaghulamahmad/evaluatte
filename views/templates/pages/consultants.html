@@ -26,29 +26,6 @@
     </div>
     <div class="case_study_area case_page">
         <div class="container">
-            {% comment %}<div class="row">
-                <div class="col-xl-12">
-                    <div class="portfolio-menu text-center">
-                        {% if view.kwargs.type == 'all' %}
-                            <button class="active" data-filter="*">All</button>
-                        {% else %}
-                            <button data-filter="*">All</button>
-                        {% endif %}
-
-                        {% if view.kwargs.type == 'cv' %}
-                            <button class="active" data-filter="cv">CV</button>
-                        {% else %}
-                            <button data-filter="cv">CV</button>
-                        {% endif %}
-
-                        {% if view.kwargs.type == 'interview' %}
-                            <button class="active" data-filter="interview">Interview</button>
-                        {% else %}
-                            <button data-filter="interview">Interview</button>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>{% endcomment %}
             <div class="row grid">
                 {% for consultant in page_obj %}
                     <div class="col-xl-4 grid-item cat1 cat2 cat3">
