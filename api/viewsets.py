@@ -29,7 +29,6 @@ class CompanyViewSet(FetchViewSet):
 class ConsultantScheduleViewSet(viewsets.ViewSet):
     @staticmethod
     def list(request, *args, **kwargs):
-        print('test')
         queryset = ConsultantSchedule.objects.filter(consultant_id=kwargs['consultant_id'])
         serializer = ConsultantScheduleSerializer(queryset, many=True)
         return Response(serializer.data)
