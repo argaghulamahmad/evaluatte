@@ -98,7 +98,6 @@ class Consultant(ModelWithAutoTimestamp):
 class ConsultantSchedule(ModelWithAutoTimestamp):
     consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING, related_name='consultant_schedules')
     start_date = models.DateField()
-    end_date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
 
@@ -107,8 +106,21 @@ class ConsultantSchedule(ModelWithAutoTimestamp):
     class Meta:
         db_table = 'core_consultant_schedule'
 
+    @property
+    def formatted_date(self):
+        return self.start_date.strftime("%A, %B %e, %Y")
+
+    @property
+    def formatted_start_time(self):
+        return self.start_time.strftime("%I:%M %p")
+
+    @property
+    def formatted_end_time(self):
+        return self.end_time.strftime("%I:%M %p")
+
     def __str__(self):
-        return str(self.consultant) + ' | ' + str(self.start_date) + ' to ' + str(self.end_date)
+        return str(self.consultant) + ' | ' + str(self.start_date) + ' at ' \
+               + str(self.start_time) + ' to ' + str(self.end_time)
 
 
 class Client(ModelWithAutoTimestamp):

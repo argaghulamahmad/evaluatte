@@ -6,7 +6,7 @@ from core.models import Consultant, Company, ConsultantSchedule, Meet, Client
 class ConsultantScheduleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ConsultantSchedule
-        fields = ['start_date', 'end_date', 'start_time', 'end_time']
+        fields = ['formatted_date', 'formatted_start_time', 'formatted_end_time']
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
@@ -59,7 +59,7 @@ class ConsultantScheduleWithConsultantSerializer(serializers.HyperlinkedModelSer
 
     class Meta:
         model = ConsultantSchedule
-        fields = ['start_date', 'end_date', 'start_time', 'end_time', 'consultant']
+        fields = ['formatted_date', 'formatted_start_time', 'formatted_end_time', 'consultant']
 
 
 class TestimonialSerializer(serializers.HyperlinkedModelSerializer):
