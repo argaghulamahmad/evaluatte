@@ -40,6 +40,7 @@ class ConsultantSerializer(serializers.HyperlinkedModelSerializer):
             'interview_price',
 
             'rating',
+            'total',
 
             'consultant_schedules',
             'experience_as_list',

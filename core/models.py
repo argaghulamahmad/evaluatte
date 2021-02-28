@@ -86,6 +86,10 @@ class Consultant(ModelWithAutoTimestamp):
     def rating(self):
         return Meet.objects.filter(show_rating=True, consultant_id=self.id).aggregate(Avg('rating'))['rating__avg']
 
+    @property
+    def total(self):
+        return Meet.objects.filter(consultant_id=self.id, is_complete=True).count()
+
     note = models.TextField(null=True, blank=True)
 
     class Meta:
