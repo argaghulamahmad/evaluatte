@@ -1,9 +1,9 @@
 from django.db.models import Prefetch
-from rest_framework import mixins
+from rest_framework import mixins, viewsets
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from api.serializers import ConsultantSerializer, CompanySerializer, \
-    ConsultantScheduleSerializer
+from api.serializers import ConsultantSerializer, CompanySerializer, ConsultantScheduleSerializer
 from core.models import Consultant, Company, ConsultantSchedule
 
 
@@ -12,17 +12,11 @@ class FetchViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericView
 
 
 class ConsultantViewSet(FetchViewSet):
-    """
-    API endpoint that allows consultants to be viewed or edited.
-    """
     queryset = Consultant.objects.filter(is_active=True)
     serializer_class = ConsultantSerializer
 
 
 class CompanyViewSet(FetchViewSet):
-    """
-    API endpoint that allows companies to be viewed or edited.
-    """
     serializer_class = CompanySerializer
 
     def get_queryset(self):
@@ -32,9 +26,10 @@ class CompanyViewSet(FetchViewSet):
         return companies
 
 
-class ConsultantScheduleViewSet(FetchViewSet):
-    """
-    API endpoint that allows consultant schedule to be viewed or edited.
-    """
-    queryset = ConsultantSchedule.objects.filter()
-    serializer_class = ConsultantScheduleSerializer
+class ConsultantScheduleViewSet(viewsets.ViewSet):
+    @staticmethod
+    def list(request, *args, **kwargs):
+        print('test')
+        queryset = ConsultantSchedule.objects.filter(consultant_id=kwargs['consultant_id'])
+        serializer = ConsultantScheduleSerializer(queryset, many=True)
+        return Response(serializer.data)
