@@ -276,14 +276,12 @@ class ConsultantScheduleAdmin(AdminWithoutModified):
     list_display = (
         'consultant',
         'start_date',
-        'end_date',
         'start_time',
         'end_time',
     )
 
     actions = [export_as_csv_action("CSV Export", fields=['consultant',
                                                           'start_date',
-                                                          'end_date',
                                                           'start_time',
                                                           'end_time', ])]
 
@@ -293,7 +291,6 @@ class ConsultantScheduleAdmin(AdminWithoutModified):
     list_filter = (
         'consultant',
         'start_date',
-        'end_date',
     )
     ordering = ['id']
     search_fields = ('id', 'consultant')
