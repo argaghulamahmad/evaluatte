@@ -31,7 +31,7 @@ class CompanyViewSet(FetchViewSet):
     def get_queryset(self):
         companies = Company.objects.prefetch_related(
             Prefetch('consultants', queryset=Consultant.objects.filter(is_active=True))
-        ).filter(consultants__isnull=False)
+        ).filter(consultants__isnull=False).distinct('name')
         return companies
 
 
