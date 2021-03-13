@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-xl-5 col-md-5 ">
                         <div class="header_left">
-                            <p>Welcome to Evaluatte consulting service</p>
+                            <p>Selamat Datang di Evaluatte!</p>
                         </div>
                     </div>
                     <div class="col-xl-7 col-md-7">
@@ -70,6 +70,9 @@
                                         <li>
                                             <a class="{% if request.resolver_match.url_name == "testimonials" %}active{% endif %}"
                                                href="{% url 'testimonials' %}">Testimoni</a></li>
+                                        <li>
+                                            <a class="{% if request.resolver_match.url_name == "jobs_companies" %}active{% endif %}"
+                                               href="{% url 'jobs_companies' %}">Lowongan</a></li>
                                         <li><a href="https://evaluatte.wordpress.com/">Blog</a></li>
                                         <li>
                                             <a class="{% if request.resolver_match.url_name == "contact" %}active{% endif %}"
