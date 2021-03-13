@@ -19,9 +19,9 @@ class ModelWithAutoTimestamp(models.Model):
 
 
 class JobPostCompany(ModelWithAutoTimestamp):
-    name = models.CharField(unique=True, max_length=100)
+    name = models.CharField(max_length=100)
     industry = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=255, verbose_name='Job Post Company Slug', default=name)
+    slug = models.SlugField(max_length=255, verbose_name='Job Post Company Slug', default=name, null=True, blank=True)
 
     class Meta:
         db_table = 'seo_job_post_company'
@@ -50,7 +50,7 @@ class JobPost(ModelWithAutoTimestamp):
     position = models.CharField(max_length=254)
     location = models.CharField(max_length=254)
     slug = models.SlugField(max_length=255, verbose_name='Job Post Slug', default=(
-        f'{company.name} {type} {position} {location}'))
+        f'{company.name} {type} {position} {location}'), null=True, blank=True)
 
     job_description = models.TextField(null=True, blank=True)
     min_qualification = models.TextField(null=True, blank=True)
