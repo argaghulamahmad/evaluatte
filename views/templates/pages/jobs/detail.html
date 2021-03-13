@@ -61,12 +61,16 @@
                             <li><p><i class="fa fa-calendar" style="padding-right: 6px;"></i>{{ object.due_date }}
                             </p></li>
                         </ul>
-                        <p style="font-size: 12px;" class="mt-30">
-                            CV dapat dikirimkan ke alamat email <a
-                                href="mailto:{{ object.recruiter_email_address }}"><b>{{ object.recruiter_email_address }}</b></a>
-                        </p>
-                        <a href="{{ object.link_to_apply }}" class="boxed-btn3 mt-10" style="padding: 6px 14px;">Lamar
-                            Sekarang</a>
+                        {% if object.recruiter_email_address and object.recruiter_email_address.strip %}
+                            <p style="font-size: 12px;" class="mt-30">
+                                CV dapat dikirimkan ke alamat email <a
+                                    href="mailto:{{ object.recruiter_email_address }}"><b>{{ object.recruiter_email_address }}</b></a>
+                            </p>
+                        {% endif %}
+                        {% if object.link_to_apply and object.link_to_apply.strip %}
+                            <a href="{{ object.link_to_apply }}" class="boxed-btn3 mt-10" style="padding: 6px 14px;">Lamar
+                                Sekarang</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
