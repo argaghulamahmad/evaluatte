@@ -40,10 +40,13 @@ class JobPost(ModelWithAutoTimestamp):
     )
 
     company = models.ForeignKey(JobPostCompany, on_delete=models.DO_NOTHING, related_name='job_posts')
+    type = models.CharField(max_length=254, choices=JOB_TYPES)
     position = models.CharField(max_length=254)
     location = models.CharField(max_length=254)
+
     job_description = models.TextField(null=True, blank=True)
     min_qualification = models.TextField(null=True, blank=True)
+
     due_date = models.DateField()
 
     link_to_apply = models.URLField(null=True, blank=True, max_length=254)
