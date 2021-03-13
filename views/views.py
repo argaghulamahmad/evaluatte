@@ -117,6 +117,11 @@ class JobPostListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        slug = self.kwargs['slug']
+        company = JobPostCompany.objects.get(slug=slug)
+        context['company'] = company
+
         return context
 
     def get_queryset(self):

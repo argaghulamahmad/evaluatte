@@ -19,6 +19,7 @@
                 <div class="col-xl-12">
                     <div class="bradcam_text">
                         <h3>LOWONGAN KERJA</h3>
+                        <h2 style="color: white;">Di {{ company.name }}</h2>
                     </div>
                 </div>
             </div>
@@ -78,5 +79,9 @@
                 </div>
             {% endif %}
         </div>
+    </div>
+
+    <div class="mt-50">
+        {% include 'components/contact.html' %}
     </div>
 {% endblock %}
