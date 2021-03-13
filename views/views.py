@@ -1,10 +1,13 @@
+from datetime import date
+
 from django.core.paginator import Paginator
-from django.db.models import Q, Count, Avg
+from django.db.models import Q, Avg
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView
+from django.views.generic import ListView, DetailView
 
 from core.models import Consultant, Meet
 from office.models import Employee
+from seo.models import JobPost, JobPostCompany
 
 
 def home(request):
@@ -93,13 +96,59 @@ class ConsultantListView(ListView):
             return active_consultants
 
 
-class ConsultantDetailView(DetailView):
-    model = Consultant
-    template_name = 'detail/consultant.html'
+class JobPostCompaniesListView(ListView):
+    model = JobPost
+    template_name = 'pages/jobs/companies.html'
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+    def get_queryset(self):
+        job_posts_companies = JobPostCompany.objects.all()
+        return job_posts_companies
+
+
+class JobPostListView(ListView):
+    model = JobPost
+    template_name = 'pages/jobs/list.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+
+        job_posts = (
+            JobPost.objects
+                .filter(due_date__gte=date.today(), company__slug=slug)
+                .order_by('-due_date')
+        )
+
+        return job_posts
+
+
+class JobPostDetailView(DetailView):
+    model = JobPost
+    template_name = 'pages/jobs/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self):
+        company_name = self.kwargs['slug']
+
+        job_posts = (
+            JobPost.objects
+                .filter(due_date__gte=date.today(), company_name=company_name)
+                .order_by('-due_date')
+        )
+
+        return job_posts
 
 
 def testimonials(request):
