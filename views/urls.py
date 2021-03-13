@@ -23,7 +23,7 @@ urlpatterns = [
 
     re_path(r'^jobs/(?P<slug>[-\w]+)$', views.JobPostListView.as_view(), name='jobs_company_list'),
     re_path(r'^jobs', views.JobPostCompaniesListView.as_view(), name='jobs_companies'),
-    # re_path(r'^job/(?P<slug>[-\w]+)$', views.JobPostListView.as_view(), name='job_detail'),
+    re_path(r'^job/(?P<slug>[-\w]+)$', views.JobPostDetailView.as_view(), name='job_detail'),
 
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.views.sitemap')

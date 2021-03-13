@@ -40,8 +40,7 @@
                         <tr>
                             <td>{{ job.position }}</td>
                             <td>{{ job.location }}</td>
-{#                            <td><a href="{% url 'jobs_company' slug=company.slug %}">Detail</a></td>#}
-                            <td>Detail</td>
+                            <td><a href="{% url 'job_detail' slug=job.slug %}">Detail</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
