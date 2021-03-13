@@ -40,7 +40,7 @@ class JobPost(ModelWithAutoTimestamp):
     )
 
     company = models.ForeignKey(JobPostCompany, on_delete=models.DO_NOTHING, related_name='job_posts')
-    type = models.CharField(max_length=254, choices=JOB_TYPES)
+    type = models.CharField(max_length=254, choices=JOB_TYPES, null=True, blank=True)
     position = models.CharField(max_length=254)
     location = models.CharField(max_length=254)
 
