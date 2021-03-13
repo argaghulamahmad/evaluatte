@@ -139,17 +139,6 @@ class JobPostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
-    def get_queryset(self):
-        company_name = self.kwargs['slug']
-
-        job_posts = (
-            JobPost.objects
-                .filter(due_date__gte=date.today(), company_name=company_name)
-                .order_by('-due_date')
-        )
-
-        return job_posts
-
 
 def testimonials(request):
     all_testimonials = (
