@@ -1,0 +1,82 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block content %}
+    <style>
+        @media (max-width: 576px) {
+            .bradcam_area {
+                background-position: center left -20em !important;
+            }
+        }
+    </style>
+
+    <div class="bradcam_area overlay2" style="
+        background: url('https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/header+kontak+kami+-+new-min.png');
+        background-size: cover;
+    ">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>LOWONGAN KERJA</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="case_study_area case_page">
+        <div class="container">
+            <div class="row grid">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Perusahaan</th>
+                        <th scope="col">Industri</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for company in page_obj %}
+                        <tr>
+                            <td>{{ company.name }}</td>
+                            <td>{{ company.industry }}</td>
+                            <td><a href="{% url 'jobs_company_list' slug=company.slug %}">Detail</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if page_obj.has_other_pages %}
+                <div>
+                    <nav aria-label="Companies Pagination">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item"><a class="page-link"
+                                                         href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#"><span>&laquo;</span></a>
+                                </li>
+                            {% endif %}
+                            {% for i in page_obj.paginator.page_range %}
+                                {% if page_obj.number == i %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span
+                                            class="sr-only">(current)</span></a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#"><span>&raquo;</span></a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
