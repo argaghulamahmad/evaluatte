@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 
 
 class ModelWithAutoTimestamp(models.Model):
@@ -18,11 +19,16 @@ class ModelWithAutoTimestamp(models.Model):
 
 
 class JobPostCompany(ModelWithAutoTimestamp):
-    name = models.CharField(max_length=100)
+    name = models.CharField(unique=True, max_length=100)
     industry = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=255, verbose_name='Job Post Company Slug', default=name)
 
     class Meta:
         db_table = 'seo_job_post_company'
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(JobPostCompany, self).save(*args, **kwargs)
 
     def __str__(self):
         return (
@@ -43,6 +49,8 @@ class JobPost(ModelWithAutoTimestamp):
     type = models.CharField(max_length=254, choices=JOB_TYPES, null=True, blank=True)
     position = models.CharField(max_length=254)
     location = models.CharField(max_length=254)
+    slug = models.SlugField(max_length=255, verbose_name='Job Post Slug', default=(
+        f'{company.name} {type} {position} {location}'))
 
     job_description = models.TextField(null=True, blank=True)
     min_qualification = models.TextField(null=True, blank=True)
@@ -54,6 +62,10 @@ class JobPost(ModelWithAutoTimestamp):
 
     class Meta:
         db_table = 'seo_job_post'
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(f'{self.company.name} {self.type} {self.position} {self.location}')
+        super(JobPost, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.company.name} - {self.position} - {self.location}'
