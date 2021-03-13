@@ -52,26 +52,25 @@
                     </div>
                 </div>
                 <div class="col-12 mt-50 col-md-6">
-                    <div class="single_case">
-                        <div class="text-center" style="margin: 10%;">
-                            <ul>
-                                <li><p><i class="fa fa-building" style="padding-right: 6px;"></i>{{ object.location }}
-                                </p></li>
-                                <li><p><i class="fa fa-suitcase" style="padding-right: 6px;"></i>{{ type }}</p>
-                                </li>
-                                <li><p><i class="fa fa-calendar" style="padding-right: 6px;"></i>{{ object.due_date }}
-                                </p></li>
-                                {#                                <li><p><i class="fa fa-tiktok" style="padding-right: 6px;"></i>{{ object.link_to_apply }}</p></li>#}
-                                {#                                <li><p><i class="fa fa-tiktok" style="padding-right: 6px;"></i>{{ object.recruiter_email_address }}</p></li>#}
-                            </ul>
-                            <p style="font-size: 12px;" class="mt-30">
-                                CV dapat dikirimkan ke alamat email <a href="mailto:{{ object.recruiter_email_address }}"><b>{{ object.recruiter_email_address }}</b></a>
-                            </p>
-                            <a href="{{ object.link_to_apply }}" class="boxed-btn3 mt-10" style="padding: 6px 14px;">Lamar Sekarang</a>
-                        </div>
+                    <div class="text-center" style="margin: 10%;">
+                        <ul>
+                            <li><p><i class="fa fa-building" style="padding-right: 6px;"></i>{{ object.location }}
+                            </p></li>
+                            <li><p><i class="fa fa-suitcase" style="padding-right: 6px;"></i>{{ type }}</p>
+                            </li>
+                            <li><p><i class="fa fa-calendar" style="padding-right: 6px;"></i>{{ object.due_date }}
+                            </p></li>
+                        </ul>
+                        <p style="font-size: 12px;" class="mt-30">
+                            CV dapat dikirimkan ke alamat email <a
+                                href="mailto:{{ object.recruiter_email_address }}"><b>{{ object.recruiter_email_address }}</b></a>
+                        </p>
+                        <a href="{{ object.link_to_apply }}" class="boxed-btn3 mt-10" style="padding: 6px 14px;">Lamar
+                            Sekarang</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    {% include 'components/contact.html' %}
 {% endblock %}
