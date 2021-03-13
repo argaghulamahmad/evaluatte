@@ -55,6 +55,14 @@ class JobPost(ModelWithAutoTimestamp):
     job_description = models.TextField(null=True, blank=True)
     min_qualification = models.TextField(null=True, blank=True)
 
+    @property
+    def job_description_as_list(self):
+        return self.job_description.split('\n')
+
+    @property
+    def min_qualification_as_list(self):
+        return self.min_qualification.split('\n')
+
     due_date = models.DateField()
 
     link_to_apply = models.URLField(null=True, blank=True, max_length=254)

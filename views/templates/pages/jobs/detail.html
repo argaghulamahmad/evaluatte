@@ -1,6 +1,65 @@
-<p>{{ object.company.name }}</p>
-<p>{{ object.location }}</p>
-<p>{{ object.position }}</p>
-<p>{{ object.job_description }}</p>
-<p>{{ object.link_to_apply }}</p>
-<p>{{ object.recruiter_email_address }}</p>
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block content %}
+    <style>
+        @media (max-width: 576px) {
+            .bradcam_area {
+                background-position: center left -20em !important;
+            }
+        }
+    </style>
+
+    <div class="bradcam_area overlay2" style="
+        background: url('https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/header+kontak+kami+-+new-min.png');
+        background-size: cover;
+    ">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>LOWONGAN KERJA</h3>
+                        <h2 style="color: white;">{{ object.position }}
+                            di {{ object.company.name }}, {{ object.location }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="case_study_area case_page">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div class="row">
+                        <h2>JOB <b>DESCRIPTION</b></h2>
+                        <div>
+                            <ul>
+                                {% for job_description_item in object.job_description_as_list %}
+                                    <li>{{ job_description_item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h2>MINIMUM <b>QUALIFICATIONS</b></h2>
+                        <div>
+                            <ul>
+                                {% for min_qualification_item in object.min_qualification_as_list %}
+                                    <li>{{ min_qualification_item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <p>{{ object.company.name }}</p>
+                    <p>{{ object.location }}</p>
+                    <p>{{ object.position }}</p>
+                    <p>{{ object.due_date }}</p>
+                    <p>{{ object.link_to_apply }}</p>
+                    <p>{{ object.recruiter_email_address }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
