@@ -28,22 +28,22 @@
     </div>
     <div class="case_study_area case_page">
         <div class="container">
-            <div class="row">
-                <div class="col-6">
+            <div class="row" style="margin: 0 10%">
+                <div class="col-12 col-md-6">
                     <div class="row">
                         <h2>JOB <b>DESCRIPTION</b></h2>
                         <div>
-                            <ul>
+                            <ul class="unordered-list about_text">
                                 {% for job_description_item in object.job_description_as_list %}
                                     <li>{{ job_description_item }}</li>
                                 {% endfor %}
                             </ul>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-30">
                         <h2>MINIMUM <b>QUALIFICATIONS</b></h2>
                         <div>
-                            <ul>
+                            <ul class="unordered-list about_text">
                                 {% for min_qualification_item in object.min_qualification_as_list %}
                                     <li>{{ min_qualification_item }}</li>
                                 {% endfor %}
@@ -51,13 +51,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <p>{{ object.company.name }}</p>
-                    <p>{{ object.location }}</p>
-                    <p>{{ object.position }}</p>
-                    <p>{{ object.due_date }}</p>
-                    <p>{{ object.link_to_apply }}</p>
-                    <p>{{ object.recruiter_email_address }}</p>
+                <div class="col-12 mt-50 col-md-6">
+                    <div class="single_case">
+                        <div class="text-left" style="margin: 10%;">
+                            <ul>
+                                <li><p><i class="fa fa-building" style="padding-right: 6px;"></i>{{ object.location }}
+                                </p></li>
+                                <li><p><i class="fa fa-suitcase" style="padding-right: 6px;"></i>{{ type }}</p>
+                                </li>
+                                <li><p><i class="fa fa-calendar" style="padding-right: 6px;"></i>{{ object.due_date }}
+                                </p></li>
+                                {#                                <li><p><i class="fa fa-tiktok" style="padding-right: 6px;"></i>{{ object.link_to_apply }}</p></li>#}
+                                {#                                <li><p><i class="fa fa-tiktok" style="padding-right: 6px;"></i>{{ object.recruiter_email_address }}</p></li>#}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -137,6 +137,7 @@ class JobPostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['type'] = (dict((x, y) for x, y in context['object'].JOB_TYPES))[context['object'].type]
         return context
 
 
