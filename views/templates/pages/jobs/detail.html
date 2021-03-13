@@ -31,7 +31,7 @@
             <div class="row" style="margin: 0 10%">
                 <div class="col-12 col-md-6">
                     <div class="row">
-                        <h2>JOB <b>DESCRIPTION</b></h2>
+                        <h2>DESKRIPSI <b>PEKERJAAN</b></h2>
                         <div>
                             <ul class="unordered-list about_text">
                                 {% for job_description_item in object.job_description_as_list %}
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="row mt-30">
-                        <h2>MINIMUM <b>QUALIFICATIONS</b></h2>
+                        <h2>KUALIFIKASI <b>MINIMUM</b></h2>
                         <div>
                             <ul class="unordered-list about_text">
                                 {% for min_qualification_item in object.min_qualification_as_list %}
@@ -53,7 +53,7 @@
                 </div>
                 <div class="col-12 mt-50 col-md-6">
                     <div class="single_case">
-                        <div class="text-left" style="margin: 10%;">
+                        <div class="text-center" style="margin: 10%;">
                             <ul>
                                 <li><p><i class="fa fa-building" style="padding-right: 6px;"></i>{{ object.location }}
                                 </p></li>
@@ -64,6 +64,10 @@
                                 {#                                <li><p><i class="fa fa-tiktok" style="padding-right: 6px;"></i>{{ object.link_to_apply }}</p></li>#}
                                 {#                                <li><p><i class="fa fa-tiktok" style="padding-right: 6px;"></i>{{ object.recruiter_email_address }}</p></li>#}
                             </ul>
+                            <p style="font-size: 12px;" class="mt-30">
+                                CV dapat dikirimkan ke alamat email <a href="mailto:{{ object.recruiter_email_address }}"><b>{{ object.recruiter_email_address }}</b></a>
+                            </p>
+                            <a href="{{ object.link_to_apply }}" class="boxed-btn3 mt-10" style="padding: 6px 14px;">Lamar Sekarang</a>
                         </div>
                     </div>
                 </div>
