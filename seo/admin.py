@@ -1,10 +1,11 @@
 from django.contrib import admin
 
-from core.admin import AdminWithoutModified
 from seo.models import JobPostCompany, JobPost
 
 
-class JobPostAdmin(AdminWithoutModified):
+class JobPostAdmin(admin.ModelAdmin):
+    exclude = ['modified', 'slug']
+
     list_display = (
         'position',
         'company_name',
@@ -28,7 +29,9 @@ class JobPostAdmin(AdminWithoutModified):
     list_per_page = 10
 
 
-class JobPostCompanyAdmin(AdminWithoutModified):
+class JobPostCompanyAdmin(admin.ModelAdmin, ):
+    exclude = ['modified', 'slug']
+
     list_display = (
         'name',
         'industry',
@@ -42,6 +45,11 @@ class JobPostCompanyAdmin(AdminWithoutModified):
     ordering = ['id']
     search_fields = ('id',)
     list_per_page = 10
+
+    def get_form(self, request, obj=None, **kwargs):
+        self.exclude = ("slug",)
+        form = super(JobPostCompanyAdmin, self).get_form(request, obj, **kwargs)
+        return form
 
 
 admin.site.register(JobPost, JobPostAdmin)
