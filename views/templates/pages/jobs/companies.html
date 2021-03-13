@@ -26,26 +26,24 @@
     </div>
     <div class="case_study_area case_page">
         <div class="container">
-            <div class="row grid">
-                <table class="table">
-                    <thead>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Perusahaan</th>
+                    <th scope="col">Industri</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for company in page_obj %}
                     <tr>
-                        <th scope="col">Perusahaan</th>
-                        <th scope="col">Industri</th>
-                        <th scope="col"></th>
+                        <td>{{ company.name }}</td>
+                        <td>{{ company.industry }}</td>
+                        <td><a href="{% url 'jobs_company_list' slug=company.slug %}">Detail</a></td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {% for company in page_obj %}
-                        <tr>
-                            <td>{{ company.name }}</td>
-                            <td>{{ company.industry }}</td>
-                            <td><a href="{% url 'jobs_company_list' slug=company.slug %}">Detail</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% endfor %}
+                </tbody>
+            </table>
             {% if page_obj.has_other_pages %}
                 <div>
                     <nav aria-label="Companies Pagination">
@@ -78,5 +76,9 @@
                 </div>
             {% endif %}
         </div>
+    </div>
+
+    <div class="mt-50">
+        {% include 'components/contact.html' %}
     </div>
 {% endblock %}

@@ -27,26 +27,24 @@
     </div>
     <div class="case_study_area case_page">
         <div class="container">
-            <div class="row grid">
-                <table class="table">
-                    <thead>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Posisi</th>
+                    <th scope="col">Lokasi</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for job in page_obj %}
                     <tr>
-                        <th scope="col">Posisi</th>
-                        <th scope="col">Lokasi</th>
-                        <th scope="col"></th>
+                        <td>{{ job.position }}</td>
+                        <td>{{ job.location }}</td>
+                        <td><a href="{% url 'job_detail' slug=job.slug %}">Detail</a></td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {% for job in page_obj %}
-                        <tr>
-                            <td>{{ job.position }}</td>
-                            <td>{{ job.location }}</td>
-                            <td><a href="{% url 'job_detail' slug=job.slug %}">Detail</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                {% endfor %}
+                </tbody>
+            </table>
             {% if page_obj.has_other_pages %}
                 <div>
                     <nav aria-label="jobs Pagination">
