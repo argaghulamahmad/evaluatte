@@ -23,6 +23,8 @@ def order(request):
         consultant_schedule_id = request.data['consultantScheduleId']
         consultant_type = request.data['consultantType']
 
+        # todo set consultant schedule wait for payment to true
+
         unique_code = get_random_string(5) + '-' + date.today().strftime("%m%d%Y")
         order_id = f"evaluatte-{consultant_type}-{str(unique_code)}"
 
