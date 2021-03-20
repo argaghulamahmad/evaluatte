@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .actions import export_as_csv_action
-from .models import Consultant, Client, Meet, MeetPayroll, MeetPayment, Company, ConsultantSchedule
+from .models import Consultant, Client, Meet, MeetPayroll, Company, ConsultantSchedule
 
 admin.site.site_header = 'Evaluatte Administration'
 
@@ -338,6 +338,5 @@ admin.site.register(Client, ClientAdmin)
 admin.site.register(Consultant, ConsultantAdmin)
 admin.site.register(Meet, MeetAdmin)
 admin.site.register(MeetPayroll, MeetPayrollAdmin)
-admin.site.register(MeetPayment, MeetPaymentAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(ConsultantSchedule, ConsultantScheduleAdmin)
