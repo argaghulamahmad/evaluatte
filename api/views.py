@@ -51,9 +51,10 @@ def order(request):
         except IndexError:
             last_name = ''
 
+        order_id = f"evaluatte-{new_order_log.consultant_type}-{str(new_order_log.unique_code)}"
         param = {
             "transaction_details": {
-                "order_id": f"evaluatte-{new_order_log.consultant_type}-{str(new_order_log.unique_code)}",
+                "order_id": order_id,
                 "gross_amount": new_order_log.consultant_price
             },
             "credit_card": {
