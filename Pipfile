@@ -15,6 +15,7 @@ drf-yasg = "*"
 djangorestframework-api-key = "==2.*"
 boto3 = "*"
 django-storages = "*"
+midtransclient = "*"
 
 [dev-packages]
 
