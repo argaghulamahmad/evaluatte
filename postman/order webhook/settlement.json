@@ -1,0 +1,17 @@
+{
+  "transaction_time": "2021-03-20 14:08:53",
+  "transaction_status": "settlement",
+  "transaction_id": "04beaf97-afa0-4bfb-8123-c2af4ae9c434",
+  "store": "indomaret",
+  "status_message": "midtrans payment notification",
+  "status_code": "200",
+  "signature_key": "a6e132764167510efc086e89f6199591cea3da599c36acc7dc17d4f8909cbab147f4f672ef649228e031e2ead676a0e7a4be771d58a9f4627c6d2110878daced",
+  "settlement_time": "2021-03-20 14:10:44",
+  "payment_type": "cstore",
+  "payment_code": "837708770877",
+  "order_id": "transaction-5sLUG-03202021",
+  "merchant_id": "G448637657",
+  "gross_amount": "75000.00",
+  "currency": "IDR",
+  "approval_code": "06502103077087797816"
+}
