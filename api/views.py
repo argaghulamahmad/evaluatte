@@ -23,76 +23,88 @@ def order(request):
     }
     """
 
-    client_email = request.data['clientEmail']
-    client_name = request.data['clientName']
-    client_phone_number = request.data['clientPhoneNumber']
-    client_problem = request.data['clientProblem']
-    client_resume_url = request.data['clientResumeUrl']
-    consultant_id = request.data['consultantId']
-    consultant_name = request.data['consultantName']
-    consultant_price = request.data['consultantPrice']
-    consultant_schedule_id = request.data['consultantScheduleId']
-    consultant_type = request.data['consultantType']
-
-    new_order_log = OrderLog(
-        client_email=client_email,
-        client_name=client_name,
-        client_phone_number=client_phone_number,
-        client_problem=client_problem,
-        client_resume_url=client_resume_url,
-        consultant_id=consultant_id,
-        consultant_name=consultant_name,
-        consultant_price=consultant_price,
-        consultant_schedule_id=consultant_schedule_id,
-        consultant_type=consultant_type,
-    )
-    new_order_log.save()
-
-    snap = midtransclient.Snap(
-        is_production=False,
-        server_key='SB-Mid-server-AURmn6plVIEOIpFE26Pr2kp0'
-    )
-
-    first_name = new_order_log.client_name.split(" ", 1)[0]
     try:
-        last_name = new_order_log.client_name.split(" ", 1)[1]
-    except IndexError:
-        last_name = ''
+        client_email = request.data['clientEmail']
+        client_name = request.data['clientName']
+        client_phone_number = request.data['clientPhoneNumber']
+        client_problem = request.data['clientProblem']
+        client_resume_url = request.data['clientResumeUrl']
+        consultant_id = request.data['consultantId']
+        consultant_name = request.data['consultantName']
+        consultant_price = request.data['consultantPrice']
+        consultant_schedule_id = request.data['consultantScheduleId']
+        consultant_type = request.data['consultantType']
 
-    param = {
-        "transaction_details": {
-            "order_id": "transaction-" + str(new_order_log.id),
-            "gross_amount": new_order_log.consultant_price
-        },
-        "credit_card": {
-            "secure": True
-        },
-        "item_details": [
+        new_order_log = OrderLog(
+            client_email=client_email,
+            client_name=client_name,
+            client_phone_number=client_phone_number,
+            client_problem=client_problem,
+            client_resume_url=client_resume_url,
+            consultant_id=consultant_id,
+            consultant_name=consultant_name,
+            consultant_price=consultant_price,
+            consultant_schedule_id=consultant_schedule_id,
+            consultant_type=consultant_type,
+        )
+        new_order_log.save()
+
+        snap = midtransclient.Snap(
+            is_production=False,
+            server_key='SB-Mid-server-AURmn6plVIEOIpFE26Pr2kp0'
+        )
+
+        first_name = new_order_log.client_name.split(" ", 1)[0]
+        try:
+            last_name = new_order_log.client_name.split(" ", 1)[1]
+        except IndexError:
+            last_name = ''
+
+        param = {
+            "transaction_details": {
+                "order_id": "transaction-" + str(new_order_log.id),
+                "gross_amount": new_order_log.consultant_price
+            },
+            "credit_card": {
+                "secure": True
+            },
+            "item_details": [
+                {
+                    "id": str(new_order_log.consultant_schedule_id),
+                    "price": new_order_log.consultant_price,
+                    "quantity": 1,
+                    "name": f'Konsultasi {str(new_order_log.consultant_type)}'
+                }
+            ],
+            "customer_details": {
+                "first_name": first_name,
+                "last_name": last_name,
+                "email": new_order_log.client_email,
+                "phone": new_order_log.client_phone_number
+            }
+        }
+
+        transaction = snap.create_transaction(param)
+
+        transaction_token = transaction['token']
+        transaction_redirect_url = transaction['redirect_url']
+
+        return Response(
             {
-                "id": str(new_order_log.consultant_schedule_id),
-                "price": new_order_log.consultant_price,
-                "quantity": 1,
-                "name": f'Konsultasi {str(new_order_log.consultant_type)}'
+                "success": True,
+                "message": "Success create new order log and payment link!",
+                "data": {
+                    "transaction_token": transaction_token,
+                    "transaction_redirect_url": transaction_redirect_url
+                }
             }
-        ],
-        "customer_details": {
-            "first_name": first_name,
-            "last_name": last_name,
-            "email": new_order_log.client_email,
-            "phone": new_order_log.client_phone_number
-        }
-    }
+        )
+    except Exception as exp:
+        print(exp)
 
-    transaction = snap.create_transaction(param)
-    transaction_token = transaction['token']
-    transaction_redirect_url = transaction['redirect_url']
-
-    return Response(
-        {
-            "message": "Success create new order log!",
-            "data": {
-                "transaction_token": transaction_token,
-                "transaction_redirect_url": transaction_redirect_url
+        return Response(
+            {
+                "success": False,
+                "message": "Failed create new order log and payment link!"
             }
-        }
-    )
+        )
