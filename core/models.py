@@ -169,6 +169,30 @@ class MeetRating(models.IntegerChoices):
     SANGAT_PUAS = 5, 'Sangat Puas'
 
 
+class MidtransLog(ModelWithAutoTimestamp):
+    transaction_time = models.CharField(null=True, blank=True, max_length=254)
+    transaction_status = models.CharField(null=True, blank=True, max_length=254)
+    transaction_id = models.CharField(null=True, blank=True, max_length=254)
+    store = models.CharField(null=True, blank=True, max_length=254)
+    status_message = models.CharField(null=True, blank=True, max_length=254)
+    status_code = models.CharField(null=True, blank=True, max_length=254)
+    signature_key = models.CharField(null=True, blank=True, max_length=254)
+    payment_type = models.CharField(null=True, blank=True, max_length=254)
+    payment_code = models.CharField(null=True, blank=True, max_length=254)
+    order_id = models.CharField(null=True, blank=True, max_length=254)
+    merchant_id = models.CharField(null=True, blank=True, max_length=254)
+    gross_amount = models.CharField(null=True, blank=True, max_length=254)
+    currency = models.CharField(null=True, blank=True, max_length=254)
+
+    class Meta:
+        db_table = 'core_midtrans_log'
+
+        unique_together = (('transaction_id', 'order_id', 'transaction_status'),)
+        indexes = [
+            models.Index(fields=['transaction_id', 'order_id', 'transaction_status']),
+        ]
+
+
 class Meet(ModelWithAutoTimestamp):
     MEET_TYPES = (
         ('INTERVIEW', 'Interview'),
@@ -177,12 +201,13 @@ class Meet(ModelWithAutoTimestamp):
 
     consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING, related_name='meets')
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING, related_name='meets')
+    client_problem = models.TextField(null=True, blank=True)
     type = models.CharField(max_length=254, choices=MEET_TYPES)
 
     start_datetime = models.DateTimeField(blank=True, null=True)
     end_datetime = models.DateTimeField(blank=True, null=True)
     is_paid = models.BooleanField(default=False)
-    paid_proof = models.FileField(storage=PrivateMediaStorage(), blank=True, null=True)
+    payment_proof = models.ForeignKey(MidtransLog, on_delete=models.DO_NOTHING, related_name='meets', null=True, blank=True)
 
     meet_url = models.URLField(null=True, blank=True, max_length=254)
     is_complete = models.BooleanField(default=False)
@@ -320,27 +345,3 @@ class OrderLog(ModelWithAutoTimestamp):
 
     class Meta:
         db_table = 'core_order_log'
-
-
-class MidtransLog(ModelWithAutoTimestamp):
-    transaction_time = models.CharField(null=True, blank=True, max_length=254)
-    transaction_status = models.CharField(null=True, blank=True, max_length=254)
-    transaction_id = models.CharField(null=True, blank=True, max_length=254)
-    store = models.CharField(null=True, blank=True, max_length=254)
-    status_message = models.CharField(null=True, blank=True, max_length=254)
-    status_code = models.CharField(null=True, blank=True, max_length=254)
-    signature_key = models.CharField(null=True, blank=True, max_length=254)
-    payment_type = models.CharField(null=True, blank=True, max_length=254)
-    payment_code = models.CharField(null=True, blank=True, max_length=254)
-    order_id = models.CharField(null=True, blank=True, max_length=254)
-    merchant_id = models.CharField(null=True, blank=True, max_length=254)
-    gross_amount = models.CharField(null=True, blank=True, max_length=254)
-    currency = models.CharField(null=True, blank=True, max_length=254)
-
-    class Meta:
-        db_table = 'core_midtrans_log'
-
-        unique_together = (('transaction_id', 'order_id', 'transaction_status'),)
-        indexes = [
-            models.Index(fields=['transaction_id', 'order_id', 'transaction_status']),
-        ]
