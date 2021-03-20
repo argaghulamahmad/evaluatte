@@ -107,6 +107,7 @@ class MeetAdmin(AdminWithoutModified):
         'type',
         'client',
         'consultant',
+        'formatted_price',
         'start_date',
         'start_time',
         'end_time',
@@ -278,12 +279,14 @@ class CompanyAdmin(AdminWithoutModified):
 class ConsultantScheduleAdmin(AdminWithoutModified):
     list_display = (
         'consultant',
+        'is_booked',
         'start_date',
         'start_time',
         'end_time',
     )
 
     actions = [export_as_csv_action("CSV Export", fields=['consultant',
+                                                          'is_booked',
                                                           'start_date',
                                                           'start_time',
                                                           'end_time', ])]
@@ -293,6 +296,7 @@ class ConsultantScheduleAdmin(AdminWithoutModified):
     )
     list_filter = (
         'consultant',
+        'is_booked',
         'start_date',
     )
     ordering = ['id']

@@ -192,6 +192,9 @@ class MidtransLog(ModelWithAutoTimestamp):
             models.Index(fields=['transaction_id', 'order_id', 'transaction_status']),
         ]
 
+    def __str__(self):
+        return f"{self.order_id}-{self.transaction_id}"
+
 
 class Meet(ModelWithAutoTimestamp):
     MEET_TYPES = (
@@ -207,9 +210,10 @@ class Meet(ModelWithAutoTimestamp):
     start_date = models.DateField(null=True, blank=True)
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
-    is_paid = models.BooleanField(default=False)
+    is_paid = models.BooleanField(default=False, editable=False)
     payment_proof = models.ForeignKey(MidtransLog,
-                                      on_delete=models.DO_NOTHING, related_name='meets', null=True, blank=True)
+                                      on_delete=models.DO_NOTHING, related_name='meets', null=True, blank=True,
+                                      editable=False)
 
     meet_url = models.URLField(null=True, blank=True, max_length=254)
     is_complete = models.BooleanField(default=False)
@@ -221,7 +225,13 @@ class Meet(ModelWithAutoTimestamp):
     rating = models.IntegerField(default=MeetRating.BIASA, choices=MeetRating.choices)
     show_rating = models.BooleanField(default=False)
 
-    price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2, editable=False)
+
+    @property
+    def formatted_price(self):
+        if self.price:
+            return locale.currency(self.price, symbol=True, grouping=True)
+        return locale.currency(0, symbol=True, grouping=True)
 
     note = models.TextField(null=True, blank=True)
 
@@ -230,10 +240,14 @@ class Meet(ModelWithAutoTimestamp):
 
     def __str__(self):
         return self.consultant.full_name + ' - ' + self.client.full_name + ' - ' \
-               + ("" if self.start_datetime is None
-                  else self.start_datetime.strftime("%m/%d/%Y, ""%H:%M:%S")) \
-               + ("" if self.end_datetime is None
-                  else self.end_datetime.strftime("%m/%d/%Y, ""%H:%M:%S"))
+               + ("" if self.start_date is None
+                  else self.start_date.strftime("%m/%d/%Y")) \
+               + " - " \
+               + ("" if self.start_time is None
+                  else self.start_time.strftime("%H:%M:%S")) \
+               + " - " \
+               + ("" if self.end_time is None
+                  else self.end_time.strftime("%H:%M:%S"))
 
 
 class MeetPayment(ModelWithAutoTimestamp):
