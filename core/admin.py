@@ -107,16 +107,18 @@ class MeetAdmin(AdminWithoutModified):
         'type',
         'client',
         'consultant',
-        'start_datetime',
-        'end_datetime',
+        'start_date',
+        'start_time',
+        'end_time',
         'note',
     )
 
     actions = [export_as_csv_action("CSV Export", fields=['type',
                                                           'client',
                                                           'consultant',
-                                                          'start_datetime',
-                                                          'end_datetime',
+                                                          'start_date',
+                                                          'start_time',
+                                                          'end_time',
                                                           'note', ])]
 
     list_display_links = (
@@ -124,11 +126,11 @@ class MeetAdmin(AdminWithoutModified):
         'consultant',
     )
     list_filter = (
-        'start_datetime',
+        'start_date',
     )
     ordering = ['id']
     search_fields = ('id', 'client',
-                     'consultant', 'start_datetime', 'note')
+                     'consultant', 'start_date', 'note')
     list_per_page = 10
 
     def get_queryset(self, request):
@@ -210,7 +212,8 @@ class MeetPayrollAdmin(AdminWithoutModified):
         'consultant',
     )
     list_filter = (
-        'meet__start_datetime',
+        'meet__start_date',
+        'meet__start_time',
         'is_consultant_paid',
         'consultant',
     )

@@ -204,10 +204,12 @@ class Meet(ModelWithAutoTimestamp):
     client_problem = models.TextField(null=True, blank=True)
     type = models.CharField(max_length=254, choices=MEET_TYPES)
 
-    start_datetime = models.DateTimeField(blank=True, null=True)
-    end_datetime = models.DateTimeField(blank=True, null=True)
+    start_date = models.DateField(null=True, blank=True)
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
     is_paid = models.BooleanField(default=False)
-    payment_proof = models.ForeignKey(MidtransLog, on_delete=models.DO_NOTHING, related_name='meets', null=True, blank=True)
+    payment_proof = models.ForeignKey(MidtransLog,
+                                      on_delete=models.DO_NOTHING, related_name='meets', null=True, blank=True)
 
     meet_url = models.URLField(null=True, blank=True, max_length=254)
     is_complete = models.BooleanField(default=False)
