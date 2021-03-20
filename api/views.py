@@ -7,17 +7,18 @@ def order(request):
     """
     Example of the post data body:
     {
-        "clientEmail": "asas@gmail.com",
-        "clientName": "asas",
-        "clientPhoneNumber": "0877862323",
-        "clientProblem": "test test",
-        "clientResumeUrl": "https://evaluatte-system.s3.amazonaws.com/CV/252-1613658265272.jpg.jpeg",
-        "consultantId": 1,
-        "consultantScheduleId": 1
+        clientEmail: "test@gmail.com"
+        clientName: "test"
+        clientPhoneNumber: "0888888"
+        clientProblem: "asasas"
+        clientResumeUrl: "https://evaluatte-system.s3.amazonaws.com/CV/776-1613658265272.jpg.jpeg"
+        consultantId: 1
+        consultantName: "Teguh Priyantono"
+        consultantPrice: "75000.00"
+        consultantScheduleId: 2
+        consultantType: "CV"
     }
     """
-
-    request_data = request.data
 
     client_email = request.data.clientEmail
     client_name = request.data.clientName
@@ -25,9 +26,12 @@ def order(request):
     client_problem = request.data.clientProblem
     client_resume_url = request.data.clientResumeUrl
     consultant_id = request.data.consultantId
+    consultant_name = request.data.consultantName
+    consultant_price = request.data.consultantPrice
     consultant_schedule_id = request.data.consultantScheduleId
+    consultant_type = request.data.consultantType
 
     # todo create new row object and save using django - client
     # todo create new row object and save using django - meet
 
-    return Response({"message": "Got some data!", "data": request_data})
+    return Response({"message": "Got some data!", "data": request.data})
