@@ -119,22 +119,41 @@ def order_webhook(request):
         gross_amount = request.data['gross_amount']
         currency = request.data['currency']
 
-        new_midtrans_log = MidtransLog(
-            transaction_time=transaction_time,
-            transaction_status=transaction_status,
-            transaction_id=transaction_id,
-            store=store,
-            status_message=status_message,
-            status_code=status_code,
-            signature_key=signature_key,
-            payment_type=payment_type,
-            payment_code=payment_code,
-            order_id=order_id,
-            merchant_id=merchant_id,
-            gross_amount=gross_amount,
-            currency=currency
-        )
-        new_midtrans_log.save()
+        try:
+            MidtransLog.objects.get(order_id=order_id)
+        except MidtransLog.DoesNotExist:
+            new_midtrans_log = MidtransLog(
+                transaction_time=transaction_time,
+                transaction_status=transaction_status,
+                transaction_id=transaction_id,
+                store=store,
+                status_message=status_message,
+                status_code=status_code,
+                signature_key=signature_key,
+                payment_type=payment_type,
+                payment_code=payment_code,
+                order_id=order_id,
+                merchant_id=merchant_id,
+                gross_amount=gross_amount,
+                currency=currency
+            )
+            new_midtrans_log.save()
+
+        if transaction_status == 'settlement':
+            order_log = OrderLog.objects.get(order_id=order_id)
+
+            client_email = order_log.client_email
+            client_name = order_log.client_name
+            client_phone_number = order_log.client_phone_number
+            client_problem = order_log.client_problem
+            client_resume_url = order_log.client_resume_url
+
+            consultant_id = order_log.consultant_id
+            consultant_schedule_id = order_log.consultant_schedule_id
+            consultant_name = order_log.consultant_name
+            consultant_price = order_log.consultant_price
+
+            print('test')
 
         return Response(
             {
