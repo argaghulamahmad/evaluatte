@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from app import settings
 from core.models import OrderLog, MidtransLog, Client, Meet, ConsultantSchedule
 
 
@@ -44,7 +45,7 @@ def order(request):
 
         snap = midtransclient.Snap(
             is_production=False,
-            server_key='SB-Mid-server-AURmn6plVIEOIpFE26Pr2kp0'
+            server_key=settings.MIDTRANS_SERVER_KEY
         )
 
         first_name = new_order_log.client_name.split(" ", 1)[0]

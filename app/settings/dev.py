@@ -8,6 +8,8 @@ AWS_SECRET_ACCESS_KEY = '+Hw9lQoWuH72zFoWFIIG3iv4fQSraeZEy1eN+J9o'
 AWS_STORAGE_BUCKET_NAME = 'evaluatte-system-test'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
+MIDTRANS_SERVER_KEY = 'SB-Mid-server-AURmn6plVIEOIpFE26Pr2kp0'
+
 
 # Django Debug Toolbar
 def show_toolbar(request):
