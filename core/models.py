@@ -300,3 +300,16 @@ class MeetPayroll(ModelWithAutoTimestamp):
                 str(self.for_company) + ' - ' +
                 str(self.is_consultant_paid)
         )
+
+
+class OrderLog(ModelWithAutoTimestamp):
+    client_email = models.EmailField(null=True, blank=True, max_length=254)
+    client_name = models.CharField(null=True, blank=True, max_length=254)
+    client_phone_number = models.CharField(null=True, blank=True, max_length=254)
+    client_problem = models.TextField(null=True, blank=True)
+    client_resume_url = models.URLField(null=True, blank=True, max_length=254)
+    consultant_id = models.IntegerField()
+    consultant_schedule_id = models.IntegerField()
+
+    class Meta:
+        db_table = 'core_order_log'
