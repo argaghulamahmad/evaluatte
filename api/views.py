@@ -85,12 +85,14 @@ def order(request):
 
     transaction = snap.create_transaction(param)
     transaction_token = transaction['token']
+    transaction_redirect_url = transaction['redirect_url']
 
     return Response(
         {
             "message": "Success create new order log!",
             "data": {
-                "transaction_token": transaction_token
+                "transaction_token": transaction_token,
+                "transaction_redirect_url": transaction_redirect_url
             }
         }
     )
