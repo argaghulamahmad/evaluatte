@@ -5,7 +5,7 @@ from django.utils.crypto import get_random_string
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from core.models import OrderLog
+from core.models import OrderLog, MidtransLog
 
 
 @api_view(['POST'])
@@ -111,6 +111,56 @@ def order(request):
             {
                 "success": False,
                 "message": "Failed create new order slog and payment link!",
+                "error": str(exp)
+            }
+        )
+
+
+@api_view(['POST'])
+def order_webhook(request):
+    try:
+        transaction_time = request.data['transaction_time']
+        transaction_status = request.data['transaction_status']
+        transaction_id = request.data['transaction_id']
+        store = request.data['store']
+        status_message = request.data['status_message']
+        status_code = request.data['status_code']
+        signature_key = request.data['signature_key']
+        payment_type = request.data['payment_type']
+        payment_code = request.data['payment_code']
+        order_id = request.data['order_id']
+        merchant_id = request.data['merchant_id']
+        gross_amount = request.data['gross_amount']
+        currency = request.data['currency']
+
+        new_midtrans_log = MidtransLog(
+            transaction_time=transaction_time,
+            transaction_status=transaction_status,
+            transaction_id=transaction_id,
+            store=store,
+            status_message=status_message,
+            status_code=status_code,
+            signature_key=signature_key,
+            payment_type=payment_type,
+            payment_code=payment_code,
+            order_id=order_id,
+            merchant_id=merchant_id,
+            gross_amount=gross_amount,
+            currency=currency
+        )
+        new_midtrans_log.save()
+
+        return Response(
+            {
+                "success": True,
+                "message": "Success create new payment log and meet!",
+            }
+        )
+    except Exception as exp:
+        return Response(
+            {
+                "success": False,
+                "message": "Failed create new meet!",
                 "error": str(exp)
             }
         )
