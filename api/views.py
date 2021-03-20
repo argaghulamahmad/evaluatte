@@ -10,22 +10,6 @@ from core.models import OrderLog, MidtransLog
 
 @api_view(['POST'])
 def order(request):
-    """
-    Example of the post data body:
-    {
-        clientEmail: "arga@gmail.com"
-        clientName: "arga"
-        clientPhoneNumber: "087708770877"
-        clientProblem: "087708770877"
-        clientResumeUrl: "https://evaluatte-system.s3.amazonaws.com/CV/748-1613658265272.jpg.jpeg"
-        consultantId: 1
-        consultantName: "Teguh Priyantono"
-        consultantPrice: "75000.00"
-        consultantScheduleId: 1
-        consultantType: "CV"
-    }
-    """
-
     try:
         unique_code = get_random_string(5) + '-' + date.today().strftime("%m%d%Y")
 
