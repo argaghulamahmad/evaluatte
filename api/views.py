@@ -1,3 +1,4 @@
+import midtransclient
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -47,7 +48,49 @@ def order(request):
     )
     new_order_log.save()
 
-    # todo create new row object and save using django - client
-    # todo create new row object and save using django - meet
+    snap = midtransclient.Snap(
+        is_production=False,
+        server_key='SB-Mid-server-AURmn6plVIEOIpFE26Pr2kp0'
+    )
 
-    return Response({"message": "Got some data!", "data": request.data})
+    first_name = new_order_log.client_name.split(" ", 1)[0]
+    try:
+        last_name = new_order_log.client_name.split(" ", 1)[1]
+    except IndexError:
+        last_name = ''
+
+    param = {
+        "transaction_details": {
+            "order_id": "transaction-" + str(new_order_log.id),
+            "gross_amount": new_order_log.consultant_price
+        },
+        "credit_card": {
+            "secure": True
+        },
+        "item_details": [
+            {
+                "id": str(new_order_log.consultant_schedule_id),
+                "price": new_order_log.consultant_price,
+                "quantity": 1,
+                "name": f'Konsultasi {str(new_order_log.consultant_type)}'
+            }
+        ],
+        "customer_details": {
+            "first_name": first_name,
+            "last_name": last_name,
+            "email": new_order_log.client_email,
+            "phone": new_order_log.client_phone_number
+        }
+    }
+
+    transaction = snap.create_transaction(param)
+    transaction_token = transaction['token']
+
+    return Response(
+        {
+            "message": "Success create new order log!",
+            "data": {
+                "transaction_token": transaction_token
+            }
+        }
+    )
