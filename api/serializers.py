@@ -6,7 +6,7 @@ from core.models import Consultant, Company, ConsultantSchedule, Meet, Client
 class ConsultantScheduleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ConsultantSchedule
-        fields = ['id', 'formatted_option']
+        fields = ['id', 'formatted_option', 'is_booked']
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
