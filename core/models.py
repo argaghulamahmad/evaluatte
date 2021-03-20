@@ -1,4 +1,5 @@
 import locale
+import uuid
 from datetime import datetime
 
 from django.contrib.auth.models import User
@@ -303,6 +304,8 @@ class MeetPayroll(ModelWithAutoTimestamp):
 
 
 class OrderLog(ModelWithAutoTimestamp):
+    unique_code = models.CharField(null=True, blank=True, max_length=254, editable=False, unique=True)
+
     client_email = models.EmailField(null=True, blank=True, max_length=254)
     client_name = models.CharField(null=True, blank=True, max_length=254)
     client_phone_number = models.CharField(null=True, blank=True, max_length=254)

@@ -1,4 +1,7 @@
+from datetime import date
+
 import midtransclient
+from django.utils.crypto import get_random_string
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -24,6 +27,8 @@ def order(request):
     """
 
     try:
+        unique_code = get_random_string(5) + '-' + date.today().strftime("%m%d%Y")
+
         client_email = request.data['clientEmail']
         client_name = request.data['clientName']
         client_phone_number = request.data['clientPhoneNumber']
@@ -36,6 +41,8 @@ def order(request):
         consultant_type = request.data['consultantType']
 
         new_order_log = OrderLog(
+            unique_code=str(unique_code),
+
             client_email=client_email,
             client_name=client_name,
             client_phone_number=client_phone_number,
@@ -62,7 +69,7 @@ def order(request):
 
         param = {
             "transaction_details": {
-                "order_id": "transaction-" + str(new_order_log.id),
+                "order_id": "transaction-" + str(new_order_log.unique_code),
                 "gross_amount": new_order_log.consultant_price
             },
             "credit_card": {
