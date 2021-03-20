@@ -312,11 +312,30 @@ class OrderLog(ModelWithAutoTimestamp):
     client_problem = models.TextField(null=True, blank=True)
     client_resume_url = models.URLField(null=True, blank=True, max_length=254)
 
-    consultant_id = models.IntegerField(null=True, blank=True,)
+    consultant_id = models.IntegerField(null=True, blank=True, )
     consultant_name = models.CharField(null=True, blank=True, max_length=254)
     consultant_price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
-    consultant_schedule_id = models.IntegerField(null=True, blank=True,)
+    consultant_schedule_id = models.IntegerField(null=True, blank=True, )
     consultant_type = models.CharField(null=True, blank=True, max_length=254)
 
     class Meta:
         db_table = 'core_order_log'
+
+
+class MidtransLog(ModelWithAutoTimestamp):
+    transaction_time = models.CharField(null=True, blank=True, max_length=254)
+    transaction_status = models.CharField(null=True, blank=True, max_length=254)
+    transaction_id = models.CharField(null=True, blank=True, max_length=254)
+    store = models.CharField(null=True, blank=True, max_length=254)
+    status_message = models.CharField(null=True, blank=True, max_length=254)
+    status_code = models.CharField(null=True, blank=True, max_length=254)
+    signature_key = models.CharField(null=True, blank=True, max_length=254)
+    payment_type = models.CharField(null=True, blank=True, max_length=254)
+    payment_code = models.CharField(null=True, blank=True, max_length=254)
+    order_id = models.CharField(null=True, blank=True, max_length=254)
+    merchant_id = models.CharField(null=True, blank=True, max_length=254)
+    gross_amount = models.CharField(null=True, blank=True, max_length=254)
+    currency = models.CharField(null=True, blank=True, max_length=254)
+
+    class Meta:
+        db_table = 'core_midtrans_log'
