@@ -308,8 +308,12 @@ class OrderLog(ModelWithAutoTimestamp):
     client_phone_number = models.CharField(null=True, blank=True, max_length=254)
     client_problem = models.TextField(null=True, blank=True)
     client_resume_url = models.URLField(null=True, blank=True, max_length=254)
-    consultant_id = models.IntegerField()
-    consultant_schedule_id = models.IntegerField()
+
+    consultant_id = models.IntegerField(null=True, blank=True,)
+    consultant_name = models.CharField(null=True, blank=True, max_length=254)
+    consultant_price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
+    consultant_schedule_id = models.IntegerField(null=True, blank=True,)
+    consultant_type = models.CharField(null=True, blank=True, max_length=254)
 
     class Meta:
         db_table = 'core_order_log'
