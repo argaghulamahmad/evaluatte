@@ -27,4 +27,6 @@ def order(request):
     consultant_id = request.data.consultantId
     consultant_schedule_id = request.data.consultantScheduleId
 
+    # todo create new row object and save using django - meet
+
     return Response({"message": "Got some data!", "data": request_data})
