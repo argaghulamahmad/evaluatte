@@ -149,7 +149,7 @@ class Client(ModelWithAutoTimestamp):
     profile_image = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
     title = models.CharField(max_length=254)
     cv_url = models.URLField(null=True, blank=True, max_length=254)
-    email = models.EmailField(max_length=254)
+    email = models.EmailField(max_length=254, unique=True)
     phone_number = models.CharField(max_length=254)
     linkedin_profile = models.URLField(null=True, blank=True, max_length=254)
     instagram_profile = models.URLField(null=True, blank=True, max_length=254)
