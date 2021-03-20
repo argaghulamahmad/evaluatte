@@ -238,6 +238,11 @@ class Meet(ModelWithAutoTimestamp):
     class Meta:
         db_table = 'core_meet'
 
+        unique_together = (('client_id', 'consultant_id', 'payment_proof_id'),)
+        indexes = [
+            models.Index(fields=['client_id', 'consultant_id', 'payment_proof_id']),
+        ]
+
     def __str__(self):
         return self.consultant.full_name + ' - ' + self.client.full_name + ' - ' \
                + ("" if self.start_date is None
