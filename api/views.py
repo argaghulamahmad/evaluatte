@@ -11,8 +11,6 @@ from core.models import OrderLog, MidtransLog
 @api_view(['POST'])
 def order(request):
     try:
-        unique_code = get_random_string(5) + '-' + date.today().strftime("%m%d%Y")
-
         client_email = request.data['clientEmail']
         client_name = request.data['clientName']
         client_phone_number = request.data['clientPhoneNumber']
@@ -24,7 +22,11 @@ def order(request):
         consultant_schedule_id = request.data['consultantScheduleId']
         consultant_type = request.data['consultantType']
 
+        unique_code = get_random_string(5) + '-' + date.today().strftime("%m%d%Y")
+        order_id = f"evaluatte-{consultant_type}-{str(unique_code)}"
+
         new_order_log = OrderLog(
+            order_id=order_id,
             unique_code=str(unique_code),
 
             client_email=client_email,
@@ -51,7 +53,6 @@ def order(request):
         except IndexError:
             last_name = ''
 
-        order_id = f"evaluatte-{new_order_log.consultant_type}-{str(new_order_log.unique_code)}"
         param = {
             "transaction_details": {
                 "order_id": order_id,

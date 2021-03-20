@@ -303,6 +303,7 @@ class MeetPayroll(ModelWithAutoTimestamp):
 
 
 class OrderLog(ModelWithAutoTimestamp):
+    order_id = models.CharField(null=True, blank=True, max_length=254, editable=False, unique=True)
     unique_code = models.CharField(null=True, blank=True, max_length=254, editable=False, unique=True)
 
     client_email = models.EmailField(null=True, blank=True, max_length=254)
