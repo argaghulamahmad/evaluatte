@@ -5,7 +5,7 @@ from django.utils.crypto import get_random_string
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from core.models import OrderLog, MidtransLog
+from core.models import OrderLog, MidtransLog, Client, Meet, ConsultantSchedule
 
 
 @api_view(['POST'])
@@ -120,9 +120,9 @@ def order_webhook(request):
         currency = request.data['currency']
 
         try:
-            MidtransLog.objects.get(order_id=order_id)
+            midtrans_log = MidtransLog.objects.get(order_id=order_id)
         except MidtransLog.DoesNotExist:
-            new_midtrans_log = MidtransLog(
+            midtrans_log = MidtransLog(
                 transaction_time=transaction_time,
                 transaction_status=transaction_status,
                 transaction_id=transaction_id,
@@ -137,7 +137,7 @@ def order_webhook(request):
                 gross_amount=gross_amount,
                 currency=currency
             )
-            new_midtrans_log.save()
+            midtrans_log.save()
 
         if transaction_status == 'settlement':
             order_log = OrderLog.objects.get(order_id=order_id)
@@ -148,19 +148,56 @@ def order_webhook(request):
             client_problem = order_log.client_problem
             client_resume_url = order_log.client_resume_url
 
-            consultant_id = order_log.consultant_id
-            consultant_schedule_id = order_log.consultant_schedule_id
-            consultant_name = order_log.consultant_name
+            consultant_type = order_log.consultant_type
             consultant_price = order_log.consultant_price
 
-            print('test')
+            try:
+                client = Client.objects.get(email=client_email)
+                client_id = client.id
+            except Client.DoesNotExist:
+                client = Client(
+                    full_name=client_name,
+                    email=client_email,
+                    cv_url=client_resume_url,
+                    phone_number=client_phone_number
+                )
+                client_id = client.id
+                client.save()
 
-        return Response(
-            {
-                "success": True,
-                "message": "Success create new payment log and meet!",
-            }
-        )
+            consultant_id = order_log.consultant_id
+            consultant_schedule_id = order_log.consultant_schedule_id
+
+            consultant_schedule = ConsultantSchedule.objects.get(id=consultant_schedule_id)
+            consultant_schedule.is_booked = True
+            consultant_schedule.save()
+
+            meet = Meet(consultant_id=consultant_id,
+                        client_id=client_id,
+                        client_problem=client_problem,
+                        type=consultant_type,
+                        price=consultant_price,
+                        payment_proof=midtrans_log,
+                        is_paid=True,
+                        start_date=consultant_schedule.start_date,
+                        start_time=consultant_schedule.start_time,
+                        end_time=consultant_schedule.end_time)
+            meet.save()
+
+            return Response(
+                {
+                    "success": True,
+                    "message": "Success create new payment log and meet!",
+                }
+            )
+
+        if transaction_status != 'settlement':
+            return Response(
+                {
+                    "success": False,
+                    "message": "Failed create new meet! Because, transaction_status is not settlement!",
+                }
+            )
+
     except Exception as exp:
         return Response(
             {
