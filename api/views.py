@@ -69,7 +69,7 @@ def order(request):
 
         param = {
             "transaction_details": {
-                "order_id": "transaction-" + str(new_order_log.unique_code),
+                "order_id": f"evaluatte-{new_order_log.consultant_type}-{str(new_order_log.unique_code)}",
                 "gross_amount": new_order_log.consultant_price
             },
             "credit_card": {
