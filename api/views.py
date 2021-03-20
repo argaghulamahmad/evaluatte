@@ -100,11 +100,10 @@ def order(request):
             }
         )
     except Exception as exp:
-        print(exp)
-
         return Response(
             {
                 "success": False,
-                "message": "Failed create new order log and payment link!"
+                "message": "Failed create new order slog and payment link!",
+                "error": str(exp)
             }
         )
