@@ -1,5 +1,4 @@
 import locale
-import uuid
 from datetime import datetime
 
 from django.contrib.auth.models import User
@@ -325,17 +324,22 @@ class OrderLog(ModelWithAutoTimestamp):
 class MidtransLog(ModelWithAutoTimestamp):
     transaction_time = models.CharField(null=True, blank=True, max_length=254)
     transaction_status = models.CharField(null=True, blank=True, max_length=254)
-    transaction_id = models.CharField(null=True, blank=True, max_length=254, unique=True)
+    transaction_id = models.CharField(null=True, blank=True, max_length=254)
     store = models.CharField(null=True, blank=True, max_length=254)
     status_message = models.CharField(null=True, blank=True, max_length=254)
     status_code = models.CharField(null=True, blank=True, max_length=254)
     signature_key = models.CharField(null=True, blank=True, max_length=254)
     payment_type = models.CharField(null=True, blank=True, max_length=254)
     payment_code = models.CharField(null=True, blank=True, max_length=254)
-    order_id = models.CharField(null=True, blank=True, max_length=254, unique=True)
+    order_id = models.CharField(null=True, blank=True, max_length=254)
     merchant_id = models.CharField(null=True, blank=True, max_length=254)
     gross_amount = models.CharField(null=True, blank=True, max_length=254)
     currency = models.CharField(null=True, blank=True, max_length=254)
 
     class Meta:
         db_table = 'core_midtrans_log'
+
+        unique_together = (('transaction_id', 'order_id', 'transaction_status'),)
+        indexes = [
+            models.Index(fields=['transaction_id', 'order_id', 'transaction_status']),
+        ]
