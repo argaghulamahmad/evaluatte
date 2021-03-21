@@ -2,6 +2,8 @@
 """
 - logging doesnt show print output
 
+- waiting for payment
+
 - generate sitemap testimonials
 - generate sitemap lowongan kerja
 
