@@ -123,31 +123,31 @@ def order_webhook(request):
         gross_amount = request.data['gross_amount']
         currency = request.data['currency']
 
-        is_midtrans_log_exist = MidtransLog.objects.filter(
-            order_id=order_id,
-            transaction_status=transaction_status
-        ).exists()
-        if is_midtrans_log_exist:
-            midtrans_log = MidtransLog.objects.get(order_id=order_id, transaction_status=transaction_status)
-        else:
-            midtrans_log = MidtransLog(
-                transaction_time=transaction_time,
-                transaction_status=transaction_status,
-                transaction_id=transaction_id,
-                store=store,
-                status_message=status_message,
-                status_code=status_code,
-                signature_key=signature_key,
-                payment_type=payment_type,
-                payment_code=payment_code,
-                order_id=order_id,
-                merchant_id=merchant_id,
-                gross_amount=gross_amount,
-                currency=currency
-            )
-            midtrans_log.save()
-
         if transaction_status == 'settlement':
+            is_midtrans_log_exist = MidtransLog.objects.filter(
+                order_id=order_id,
+                transaction_status=transaction_status
+            ).exists()
+            if is_midtrans_log_exist:
+                midtrans_log = MidtransLog.objects.get(order_id=order_id, transaction_status=transaction_status)
+            else:
+                midtrans_log = MidtransLog(
+                    transaction_time=transaction_time,
+                    transaction_status=transaction_status,
+                    transaction_id=transaction_id,
+                    store=store,
+                    status_message=status_message,
+                    status_code=status_code,
+                    signature_key=signature_key,
+                    payment_type=payment_type,
+                    payment_code=payment_code,
+                    order_id=order_id,
+                    merchant_id=merchant_id,
+                    gross_amount=gross_amount,
+                    currency=currency
+                )
+                midtrans_log.save()
+
             order_log = OrderLog.objects.get(order_id=order_id)
 
             client_email = order_log.client_email
@@ -205,6 +205,28 @@ def order_webhook(request):
             )
 
         if transaction_status != 'settlement':
+            is_midtrans_log_exist = MidtransLog.objects.filter(
+                order_id=order_id,
+                transaction_status=transaction_status
+            ).exists()
+            if not is_midtrans_log_exist:
+                midtrans_log = MidtransLog(
+                    transaction_time=transaction_time,
+                    transaction_status=transaction_status,
+                    transaction_id=transaction_id,
+                    store=store,
+                    status_message=status_message,
+                    status_code=status_code,
+                    signature_key=signature_key,
+                    payment_type=payment_type,
+                    payment_code=payment_code,
+                    order_id=order_id,
+                    merchant_id=merchant_id,
+                    gross_amount=gross_amount,
+                    currency=currency
+                )
+                midtrans_log.save()
+
             response_data = {
                 "success": False,
                 "message": "Failed create new meet! Because, transaction_status is not settlement!",
