@@ -1,5 +1,7 @@
 # Understanding The Problem
 """
+- logging doesnt show print output
+
 - generate sitemap testimonials
 - generate sitemap lowongan kerja
 
