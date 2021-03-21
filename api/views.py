@@ -2,6 +2,7 @@ from datetime import date
 
 import midtransclient
 from django.utils.crypto import get_random_string
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -122,9 +123,12 @@ def order_webhook(request):
         gross_amount = request.data['gross_amount']
         currency = request.data['currency']
 
-        is_midtrans_log_exist = MidtransLog.objects.filter(order_id=order_id).exists()
+        is_midtrans_log_exist = MidtransLog.objects.filter(
+            order_id=order_id,
+            transaction_status=transaction_status
+        ).exists()
         if is_midtrans_log_exist:
-            midtrans_log = MidtransLog.objects.get(order_id=order_id)
+            midtrans_log = MidtransLog.objects.get(order_id=order_id, transaction_status=transaction_status)
         else:
             midtrans_log = MidtransLog(
                 transaction_time=transaction_time,
@@ -196,7 +200,8 @@ def order_webhook(request):
             print(response_data)
 
             return Response(
-                response_data
+                response_data,
+                status=status.HTTP_200_OK
             )
 
         if transaction_status != 'settlement':
@@ -208,7 +213,8 @@ def order_webhook(request):
             print(response_data)
 
             return Response(
-                response_data
+                response_data,
+                status=status.HTTP_400_BAD_REQUEST
             )
 
     except Exception as exp:
@@ -221,5 +227,6 @@ def order_webhook(request):
         print(response_data)
 
         return Response(
-            response_data
+            response_data,
+            status=status.HTTP_400_BAD_REQUEST
         )
