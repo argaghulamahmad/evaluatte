@@ -46,6 +46,8 @@ def order(request):
         )
         new_order_log.save()
 
+        consultant_schedule = ConsultantSchedule.objects.get(id=consultant_schedule_id)
+
         snap = midtransclient.Snap(
             is_production=False,
             server_key=settings.MIDTRANS_SERVER_KEY
@@ -70,7 +72,11 @@ def order(request):
                     "id": str(new_order_log.consultant_schedule_id),
                     "price": new_order_log.consultant_price,
                     "quantity": 1,
-                    "name": f'Konsultasi {str(new_order_log.consultant_type)}'
+                    "name": f'Konsultasi {str(new_order_log.consultant_type)} {str(new_order_log.client_name)} '
+                            f'dengan {str(new_order_log.consultant_name)} '
+                            f'pada tanggal {str(consultant_schedule.formatted_date)}'
+                            f'dari jam {str(consultant_schedule.formatted_start_time)}'
+                            f'hingga jam {str(consultant_schedule.formatted_end_time)}'
                 }
             ],
             "customer_details": {
