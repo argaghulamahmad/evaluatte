@@ -73,7 +73,7 @@ def order(request):
                     "price": new_order_log.consultant_price,
                     "quantity": 1,
                     "name": f'Konsultasi {str(new_order_log.consultant_type)} '
-                            f'w/ {str(new_order_log.consultant_name)} '
+                            f'w/ {str(new_order_log.consultant_name.split(" ", 1)[0])} '
                             f'{str(consultant_schedule.formatted_date)} '
                             f'{str(consultant_schedule.formatted_start_time)} '
                             f'- {str(consultant_schedule.formatted_end_time)}'
