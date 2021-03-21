@@ -122,9 +122,10 @@ def order_webhook(request):
         gross_amount = request.data['gross_amount']
         currency = request.data['currency']
 
-        try:
+        is_midtrans_log_exist = MidtransLog.objects.filter(order_id=order_id).exists()
+        if is_midtrans_log_exist:
             midtrans_log = MidtransLog.objects.get(order_id=order_id)
-        except MidtransLog.DoesNotExist:
+        else:
             midtrans_log = MidtransLog(
                 transaction_time=transaction_time,
                 transaction_status=transaction_status,
@@ -154,8 +155,9 @@ def order_webhook(request):
             consultant_type = order_log.consultant_type
             consultant_price = order_log.consultant_price
 
-            client = Client.objects.filter(email=client_email).exists()
-            if client:
+            is_client_exist = Client.objects.filter(email=client_email).exists()
+            if is_client_exist:
+                client = Client.objects.get(email=client_email)
                 client_id = client.id
             else:
                 client = Client(
@@ -186,26 +188,38 @@ def order_webhook(request):
                         end_time=consultant_schedule.end_time)
             meet.save()
 
+            response_data = {
+                "success": True,
+                "message": "Success create new payment log and meet!",
+            }
+
+            print(response_data)
+
             return Response(
-                {
-                    "success": True,
-                    "message": "Success create new payment log and meet!",
-                }
+                response_data
             )
 
         if transaction_status != 'settlement':
+            response_data = {
+                "success": False,
+                "message": "Failed create new meet! Because, transaction_status is not settlement!",
+            }
+
+            print(response_data)
+
             return Response(
-                {
-                    "success": False,
-                    "message": "Failed create new meet! Because, transaction_status is not settlement!",
-                }
+                response_data
             )
 
     except Exception as exp:
+        response_data = {
+            "success": False,
+            "message": "Failed create new payment log and meet!",
+            "error": str(exp)
+        }
+
+        print(response_data)
+
         return Response(
-            {
-                "success": False,
-                "message": "Failed create new meet!",
-                "error": str(exp)
-            }
+            response_data
         )
