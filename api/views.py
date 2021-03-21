@@ -154,10 +154,10 @@ def order_webhook(request):
             consultant_type = order_log.consultant_type
             consultant_price = order_log.consultant_price
 
-            try:
-                client = Client.objects.get(email=client_email)
+            client = Client.objects.filter(email=client_email).exists()
+            if client:
                 client_id = client.id
-            except Client.DoesNotExist:
+            else:
                 client = Client(
                     full_name=client_name,
                     email=client_email,
