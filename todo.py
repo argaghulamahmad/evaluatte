@@ -1,5 +1,8 @@
 # Understanding The Problem
 """
+- generate sitemap testimonials
+- generate sitemap lowongan kerja
+
 - create roles for consultant, chief, sales, finance
     - consultant
         - ngisi jadwal sendiri
@@ -31,16 +34,16 @@
     - create models
     - create api
 
-- take all data from backend and display it to frontend
+- take all data from backend and display it to frontend - done
 
 - tampilkan sales information ke user di mobile app
 
-- integrasi antara payment dengan backend
-- integrasi antara backend dengan frontend
+- integrasi antara payment dengan backend - done
+- integrasi antara backend dengan frontend - done
 
-- interviewee harus bisa ngasih data dari main business app ke backend
+- interviewee harus bisa ngasih data dari main business app ke backend - done
 
-- interviewee harus bisa lihat konsultan nya siapa saja
+- interviewee harus bisa lihat konsultan nya siapa saja - done
     - interviewee harus bisa lihat jadwal free nya si konsultan
     - interviewee harus bisa booking si konsultan
     - interviewee harus bisa bayar
@@ -62,11 +65,9 @@
     - dapat melihat data order
 
 
-- fix broken style consultants corp web pages
-- fix pagination testimonials
-- add linkedin profile link at consultant profile card
-- generate sitemap
-
+- fix broken style consultants corp web pages - done
+- fix pagination testimonials - done
+- add linkedin profile link at consultant profile card - done
 - consultants pagination - done
 - migrate semua gambar ke s3 - done
 - fix layout yang dikasih ica - done
