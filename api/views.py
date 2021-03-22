@@ -50,6 +50,8 @@ def order(request):
         new_order_log.save()
 
         consultant_schedule = ConsultantSchedule.objects.get(id=consultant_schedule_id)
+        consultant_schedule.is_booked = True
+        consultant_schedule.save()
 
         snap = midtransclient.Snap(
             is_production=False,
@@ -148,7 +150,9 @@ def order_webhook(request):
                                      transaction_status, transaction_time)
 
         if transaction_status == 'expired':
-            pass
+            return handle_expired_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
+                                          signature_key, status_code, status_message, store, transaction_id,
+                                          transaction_status, transaction_time)
 
         if transaction_status != 'settlement':
             return handle_if_not_paid_yet(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
@@ -169,6 +173,50 @@ def order_webhook(request):
             response_data,
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+def handle_expired_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type, signature_key,
+                           status_code, status_message, store, transaction_id, transaction_status, transaction_time):
+    is_midtrans_log_exist = MidtransLog.objects.filter(
+        order_id=order_id,
+        transaction_status=transaction_status
+    ).exists()
+    if not is_midtrans_log_exist:
+        midtrans_log = MidtransLog(
+            transaction_time=transaction_time,
+            transaction_status=transaction_status,
+            transaction_id=transaction_id,
+            store=store,
+            status_message=status_message,
+            status_code=status_code,
+            signature_key=signature_key,
+            payment_type=payment_type,
+            payment_code=payment_code,
+            order_id=order_id,
+            merchant_id=merchant_id,
+            gross_amount=gross_amount,
+            currency=currency
+        )
+        midtrans_log.save()
+
+    order_log = OrderLog.objects.get(order_id=order_id)
+
+    consultant_schedule_id = order_log.consultant_schedule_id
+    consultant_schedule = ConsultantSchedule.objects.get(consultant_schedule_id=consultant_schedule_id)
+    consultant_schedule.is_booked = False
+
+    response_data = {
+        "success": True,
+        "message": f"Payment with order id {str(order_id)} is expired, set the consultant schedule is booked to false!",
+    }
+
+    print(response_data)
+    logger.info(response_data)
+
+    return Response(
+        response_data,
+        status=status.HTTP_200_OK
+    )
 
 
 def handle_if_not_paid_yet(currency, gross_amount, merchant_id, order_id, payment_code, payment_type, signature_key,
@@ -194,12 +242,15 @@ def handle_if_not_paid_yet(currency, gross_amount, merchant_id, order_id, paymen
             currency=currency
         )
         midtrans_log.save()
+
     response_data = {
         "success": False,
         "message": "Failed create new meet! Because, transaction_status is not settlement!",
     }
+
     print(response_data)
     logger.error(response_data)
+
     return Response(
         response_data,
         status=status.HTTP_400_BAD_REQUEST
@@ -231,6 +282,7 @@ def handle_after_paid(currency, gross_amount, merchant_id, order_id, payment_cod
             currency=currency
         )
         midtrans_log.save()
+
     order_log = OrderLog.objects.get(order_id=order_id)
     client_email = order_log.client_email
     client_name = order_log.client_name
@@ -239,6 +291,7 @@ def handle_after_paid(currency, gross_amount, merchant_id, order_id, payment_cod
     client_resume_url = order_log.client_resume_url
     consultant_type = order_log.consultant_type
     consultant_price = order_log.consultant_price
+
     is_client_exist = Client.objects.filter(email=client_email).exists()
     if is_client_exist:
         client = Client.objects.get(email=client_email)
@@ -252,11 +305,13 @@ def handle_after_paid(currency, gross_amount, merchant_id, order_id, payment_cod
         )
         client_id = client.id
         client.save()
+
     consultant_id = order_log.consultant_id
     consultant_schedule_id = order_log.consultant_schedule_id
     consultant_schedule = ConsultantSchedule.objects.get(id=consultant_schedule_id)
     consultant_schedule.is_booked = True
     consultant_schedule.save()
+
     meet = Meet(consultant_id=consultant_id,
                 client_id=client_id,
                 client_problem=client_problem,
@@ -268,12 +323,15 @@ def handle_after_paid(currency, gross_amount, merchant_id, order_id, payment_cod
                 start_time=consultant_schedule.start_time,
                 end_time=consultant_schedule.end_time)
     meet.save()
+
     response_data = {
         "success": True,
         "message": "Success create new payment log and meet!",
     }
+
     print(response_data)
     logger.info(response_data)
+
     return Response(
         response_data,
         status=status.HTTP_200_OK
