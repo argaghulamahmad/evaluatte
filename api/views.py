@@ -200,8 +200,9 @@ def handle_expire_payment(currency, gross_amount, merchant_id, order_id, payment
     order_log = OrderLog.objects.get(order_id=order_id)
 
     consultant_schedule_id = order_log.consultant_schedule_id
-    consultant_schedule = ConsultantSchedule.objects.get(consultant_schedule_id=consultant_schedule_id)
+    consultant_schedule = ConsultantSchedule.objects.get(id=consultant_schedule_id)
     consultant_schedule.is_booked = False
+    consultant_schedule.save()
 
     response_data = {
         "success": True,
