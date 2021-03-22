@@ -143,9 +143,9 @@ def order_webhook(request):
         logger.info(request.data)
 
         if transaction_status == 'settlement':
-            return handle_after_paid(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
-                                     signature_key, status_code, status_message, store, transaction_id,
-                                     transaction_status, transaction_time)
+            return handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
+                                         signature_key, status_code, status_message, store, transaction_id,
+                                         transaction_status, transaction_time)
 
         if transaction_status == 'expired':
             return handle_expired_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
@@ -153,9 +153,9 @@ def order_webhook(request):
                                           transaction_status, transaction_time)
 
         if transaction_status != 'settlement':
-            return handle_if_not_paid_yet(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
-                                          signature_key, status_code, status_message, store, transaction_id,
-                                          transaction_status, transaction_time)
+            return handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
+                                             signature_key, status_code, status_message, store, transaction_id,
+                                             transaction_status, transaction_time)
 
     except Exception as exp:
         response_data = {
@@ -217,8 +217,8 @@ def handle_expired_payment(currency, gross_amount, merchant_id, order_id, paymen
     )
 
 
-def handle_if_not_paid_yet(currency, gross_amount, merchant_id, order_id, payment_code, payment_type, signature_key,
-                           status_code, status_message, store, transaction_id, transaction_status, transaction_time):
+def handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type, signature_key,
+                              status_code, status_message, store, transaction_id, transaction_status, transaction_time):
     is_midtrans_log_exist = MidtransLog.objects.filter(
         order_id=order_id,
         transaction_status=transaction_status
@@ -255,8 +255,8 @@ def handle_if_not_paid_yet(currency, gross_amount, merchant_id, order_id, paymen
     )
 
 
-def handle_after_paid(currency, gross_amount, merchant_id, order_id, payment_code, payment_type, signature_key,
-                      status_code, status_message, store, transaction_id, transaction_status, transaction_time):
+def handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type, signature_key,
+                          status_code, status_message, store, transaction_id, transaction_status, transaction_time):
     is_midtrans_log_exist = MidtransLog.objects.filter(
         order_id=order_id,
         transaction_status=transaction_status
