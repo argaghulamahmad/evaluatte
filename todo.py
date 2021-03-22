@@ -8,7 +8,7 @@
 
 - rotate log
 
-- create backup database
+- create backup database, per day, remove three last day
 
 - waiting for payment - done
 
