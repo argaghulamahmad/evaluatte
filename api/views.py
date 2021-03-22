@@ -112,7 +112,7 @@ def order(request):
     except Exception as exp:
         response_data = {
             "success": False,
-            "message": "Failed create new order slog and payment link!",
+            "message": "Failed create new order log and payment link!",
             "error": str(exp)
         }
 
@@ -251,7 +251,7 @@ def handle_if_not_paid_yet(currency, gross_amount, merchant_id, order_id, paymen
 
     return Response(
         response_data,
-        status=status.HTTP_400_BAD_REQUEST
+        status=status.HTTP_200_OK
     )
 
 
