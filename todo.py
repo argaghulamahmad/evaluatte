@@ -6,6 +6,8 @@
 
 - rotate log
 
+- create backup database
+
 - waiting for payment - done
 
 - generate sitemap testimonials
