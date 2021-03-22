@@ -1,5 +1,9 @@
 # Understanding The Problem
 """
+- accounts untuk konsultan, staff
+
+- filter di admin
+
 - benerin filter sesuai yang ica kasih
 
 - fix only return the free schedule
