@@ -1,5 +1,7 @@
 # Understanding The Problem
 """
+- handle https://evaluatte.com/api/payment/finish?order_id=evaluatte-CV-NiiB4-03222021&status_code=201&transaction_status=pending
+
 - logging doesnt show print output
 
 - waiting for payment
