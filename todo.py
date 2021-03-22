@@ -1,6 +1,6 @@
 # Understanding The Problem
 """
-- fix only return the free shedule
+- fix only return the free schedule
 
 - handle https://evaluatte.com/api/payment/finish?order_id=evaluatte-CV-NiiB4-03222021&status_code=201&transaction_status=pending - done
 
