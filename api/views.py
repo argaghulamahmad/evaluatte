@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from app import settings
 from core.models import OrderLog, MidtransLog, Client, Meet, ConsultantSchedule
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('api-views')
 
 
 @api_view(['POST'])
