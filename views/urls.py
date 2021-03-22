@@ -19,6 +19,10 @@ urlpatterns = [
     url(r'^testimonials/$', views.testimonials, name='testimonials'),
     url(r'^contact/$', views.contact, name='contact'),
 
+    url(r'^payment/finish$', views.payment_redirect, name='payment_finish'),
+    url(r'^payment/unfinish$', views.payment_redirect, name='payment_unfinish'),
+    url(r'^payment/error$', views.payment_redirect, name='payment_error'),
+
     re_path(r'^consultants/(?P<type>[-\w]+)$', views.ConsultantListView.as_view(), name='consultants'),
 
     re_path(r'^jobs/(?P<slug>[-\w]+)$', views.JobPostListView.as_view(), name='jobs_company_list'),

@@ -164,3 +164,33 @@ def testimonials(request):
 
 def contact(request):
     return render(request, 'pages/contact.html')
+
+
+def payment_redirect(request):
+    request_path = request.path
+    if request_path == '/payment/finish':
+        order_id = request.GET['order_id']
+        status_code = request.GET['status_code']
+        transaction_status = request.GET['transaction_status']
+
+        data = {
+            'status': 'Payment Finished!',
+
+            'order_id': order_id,
+            'status_code': status_code,
+            'transaction_status': transaction_status
+        }
+
+        return render(request, 'pages/payment/index.html', data)
+    if request_path == '/payment/unfinish':
+        data = {
+            'status': 'Payment Unfinished!',
+        }
+
+        return render(request, 'pages/payment/index.html', data)
+    if request_path == '/payment/error':
+        data = {
+            'status': 'Payment Error!',
+        }
+
+        return render(request, 'pages/payment/index.html', data)
