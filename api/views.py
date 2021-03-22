@@ -1,3 +1,4 @@
+import logging
 from datetime import date
 
 import midtransclient
@@ -8,6 +9,8 @@ from rest_framework.response import Response
 
 from app import settings
 from core.models import OrderLog, MidtransLog, Client, Meet, ConsultantSchedule
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['POST'])
@@ -75,8 +78,8 @@ def order(request):
                     "name": f'Konsultasi {str(new_order_log.consultant_type)} '
                             f'w/ {str(new_order_log.consultant_name.split(" ", 1)[0])} '
                             f'{str(consultant_schedule.formatted_date)} '
-                            # f'{str(consultant_schedule.formatted_start_time)} '
-                            # f'- {str(consultant_schedule.formatted_end_time)}'
+                    # f'{str(consultant_schedule.formatted_start_time)} '
+                    # f'- {str(consultant_schedule.formatted_end_time)}'
                 }
             ],
             "customer_details": {
@@ -92,23 +95,31 @@ def order(request):
         transaction_token = transaction['token']
         transaction_redirect_url = transaction['redirect_url']
 
-        return Response(
-            {
-                "success": True,
-                "message": "Success create new order log and payment link!",
-                "data": {
-                    "transaction_token": transaction_token,
-                    "transaction_redirect_url": transaction_redirect_url
-                }
+        response_data = {
+            "success": True,
+            "message": "Success create new order log and payment link!",
+            "data": {
+                "transaction_token": transaction_token,
+                "transaction_redirect_url": transaction_redirect_url
             }
+        }
+
+        logger.error(response_data)
+
+        return Response(
+            response_data
         )
     except Exception as exp:
+        response_data = {
+            "success": False,
+            "message": "Failed create new order slog and payment link!",
+            "error": str(exp)
+        }
+
+        logger.error(response_data)
+
         return Response(
-            {
-                "success": False,
-                "message": "Failed create new order slog and payment link!",
-                "error": str(exp)
-            }
+            response_data
         )
 
 
@@ -204,6 +215,7 @@ def order_webhook(request):
             }
 
             print(response_data)
+            logger.info(response_data)
 
             return Response(
                 response_data,
@@ -239,6 +251,7 @@ def order_webhook(request):
             }
 
             print(response_data)
+            logger.error(response_data)
 
             return Response(
                 response_data,
@@ -253,6 +266,7 @@ def order_webhook(request):
         }
 
         print(response_data)
+        logger.error(response_data)
 
         return Response(
             response_data,
