@@ -1,5 +1,3 @@
-from app.settings.defaults import *
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -75,5 +73,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False
         },
+
+        'api-views': {
+            'handlers': ['evaluatte-file-handler-debug'],
+            'level': 'DEBUG',
+            'propagate': False
+        }
     },
 }
