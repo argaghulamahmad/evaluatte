@@ -44,6 +44,17 @@ class ClientAdmin(AdminWithoutModified):
 
 
 class ConsultantAdmin(AdminWithoutModified):
+    def get_readonly_fields(self, request, obj=None):
+        user_id = request.user.id
+        user_is_consultant = Consultant.objects.filter(user_id=user_id).exists()
+
+        if user_is_consultant:
+            return [
+                'user',
+                'cv_price',
+                'interview_price',
+            ]
+
     list_display = (
         'full_name',
         'role',
