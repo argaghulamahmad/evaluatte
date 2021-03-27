@@ -109,6 +109,17 @@ class ConsultantAdmin(AdminWithoutModified):
 
 
 class MeetAdmin(AdminWithoutModified):
+    def get_readonly_fields(self, request, obj=None):
+        return [
+            'type',
+            'client_problem',
+            'client',
+            'consultant',
+            'start_date',
+            'start_time',
+            'end_time',
+        ]
+
     list_display = (
         'type',
         'client',
