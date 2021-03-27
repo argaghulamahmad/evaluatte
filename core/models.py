@@ -97,7 +97,20 @@ class Consultant(ModelWithAutoTimestamp):
 
     @property
     def rating(self):
-        return Meet.objects.filter(show_rating=True, consultant_id=self.id).aggregate(Avg('rating'))['rating__avg']
+        rating__avg_ = (
+            Meet.objects
+            .filter(show_rating=True, consultant_id=self.id)
+            .aggregate(Avg('rating'))['rating__avg']
+        )
+
+        if rating__avg_ is not None:
+            return round(
+                rating__avg_,
+                2
+            )
+
+        if rating__avg_ is None:
+            return 0
 
     @property
     def total(self):
