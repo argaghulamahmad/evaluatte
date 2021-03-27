@@ -18,9 +18,9 @@ GROUPS = {
     },
     'Sales': {
         'PERMISSIONS': {
-            'meet': ['add', 'change', 'view', 'delete'],
-            'client': ['add', 'change', 'view', 'delete'],
-            'consultant': ['add', 'change', 'view'],
+            'meet': ['change', 'view'],
+            'client': ['change', 'view'],
+            'consultant': ['change', 'view'],
         }
     },
     'Consultant': {
