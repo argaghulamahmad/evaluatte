@@ -71,9 +71,10 @@ class ConsultantAdmin(AdminWithoutModified):
 
     def get_queryset(self, request):
         user_is_superuser = request.user.is_superuser
+        user_is_sales = request.user.groups.filter(name='Sales').exists()
         user_id = request.user.id
 
-        if user_is_superuser:
+        if user_is_superuser or user_is_sales:
             qs = super(ConsultantAdmin, self).get_queryset(request)
             return qs
 
@@ -120,9 +121,10 @@ class MeetAdmin(AdminWithoutModified):
 
     def get_queryset(self, request):
         user_is_superuser = request.user.is_superuser
+        user_is_sales = request.user.groups.filter(name='Sales').exists()
         user_id = request.user.id
 
-        if user_is_superuser:
+        if user_is_superuser or user_is_sales:
             qs = super(MeetAdmin, self).get_queryset(request)
             return qs
 
