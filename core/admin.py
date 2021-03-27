@@ -14,6 +14,14 @@ class AdminWithoutModified(admin.ModelAdmin):
 
 
 class ClientAdmin(AdminWithoutModified):
+    def get_readonly_fields(self, request, obj=None):
+        user_is_sales = request.user.groups.filter(name='Sales').exists()
+
+        if user_is_sales:
+            return [
+                'cv_url',
+            ]
+
     list_display = (
         'full_name',
         'cv_url',
