@@ -295,6 +295,9 @@ def handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment
     if is_client_exist:
         client = Client.objects.get(email=client_email)
         client_id = client.id
+        client.phone_number = client_phone_number
+        client.cv_url = client_resume_url
+        client.save()
     else:
         client = Client(
             full_name=client_name,
