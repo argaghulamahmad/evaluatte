@@ -99,8 +99,8 @@ class Consultant(ModelWithAutoTimestamp):
     def rating(self):
         rating__avg_ = (
             Meet.objects
-            .filter(show_rating=True, consultant_id=self.id)
-            .aggregate(Avg('rating'))['rating__avg']
+                .filter(show_rating=True, consultant_id=self.id)
+                .aggregate(Avg('rating'))['rating__avg']
         )
 
         if rating__avg_ is not None:
@@ -271,43 +271,6 @@ class Meet(ModelWithAutoTimestamp):
                + " - " \
                + ("" if self.end_time is None
                   else self.end_time.strftime("%H:%M:%S"))
-
-
-class MeetPayment(ModelWithAutoTimestamp):
-    PAYMENT_METHODS = (
-        ('BCA', 'Transfer BCA'),
-        ('BNI', 'Transfer BNI'),
-    )
-
-    meet = models.ForeignKey(Meet, on_delete=models.DO_NOTHING, related_name='meet_payments')
-
-    due_datetime = models.DateTimeField()
-
-    method = models.CharField(null=True, blank=True, max_length=254, choices=PAYMENT_METHODS)
-
-    price = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
-    admin_cost = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
-    total = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
-
-    @property
-    def get_total(self):
-        return self.price + self.admin_cost
-
-    def save(self, *args, **kwargs):
-        self.total = self.get_total
-        super(MeetPayment, self).save(*args, **kwargs)
-
-    note = models.TextField(null=True, blank=True)
-
-    class Meta:
-        db_table = 'core_meet_payment'
-
-    def __str__(self):
-        return (
-                str(self.meet) + ' - ' +
-                self.due_datetime.strftime("%m/%d/%Y, %H:%M:%S") + ' - ' +
-                str(self.total)
-        )
 
 
 class MeetPayroll(ModelWithAutoTimestamp):
