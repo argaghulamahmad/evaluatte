@@ -113,11 +113,16 @@ class Consultant(ModelWithAutoTimestamp):
 
 
 class ConsultantSchedule(ModelWithAutoTimestamp):
+    MEET_TYPES = (
+        ('INTERVIEW', 'Interview'),
+        ('CV', 'CV'),
+    )
+
     consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING, related_name='consultant_schedules')
     start_date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
-
+    type = models.CharField(max_length=254, choices=MEET_TYPES)
     is_booked = models.BooleanField(default=False)
 
     class Meta:
