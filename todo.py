@@ -1,22 +1,22 @@
 # Understanding The Problem
 """
-1. 28 maret 2021:
-a. buat backend untuk konsultan (schedule type incl: cv or interview)
-b. tambahin menu "meet payrolls"
-c. benerin bug:
-- tim sales yg gabisa liat info meets
-- disable cv url
-- rating cukup 1 angka dibelakang koma
-- jadwal konsultasi di main business untuk seminggu kedepan
-- sebagai akun konsultan gabisa rubah info cv & interview price
-- tambahin role SEO
+1. 28 maret 2021 - done:
+    a. buat backend untuk konsultan (schedule type incl: cv or interview)
+    b. tambahin menu "meet payrolls"
+    c. benerin bug:
+        - tim sales yg gabisa liat info meets
+        - disable cv url
+        - rating cukup 1 angka dibelakang koma
+        - jadwal konsultasi di main business untuk seminggu kedepan
+        - sebagai akun konsultan gabisa rubah info cv & interview price
+        - tambahin role SEO
 
 2. 4 april 2021
-a. buat model product biar bisa di edit2 info productnya
-b. buat links
+    a. buat model product biar bisa di edit2 info productnya
+    b. buat links
 
 3. 11 April 2021
-a. edit fitur header & footer dari hasil brief tim graphic design nanti
+    a. edit fitur header & footer dari hasil brief tim graphic design nanti
 
 - accounts untuk konsultan, staff
 
