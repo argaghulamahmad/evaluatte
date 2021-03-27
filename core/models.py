@@ -122,7 +122,7 @@ class ConsultantSchedule(ModelWithAutoTimestamp):
     start_date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
-    type = models.CharField(max_length=254, choices=MEET_TYPES)
+    type = models.CharField(max_length=254, choices=MEET_TYPES, blank=True, null=True)
     is_booked = models.BooleanField(default=False)
 
     class Meta:
