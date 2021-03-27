@@ -85,22 +85,6 @@ class ConsultantAdmin(AdminWithoutModified):
 
         return Consultant.objects.none()
 
-    def has_add_permission(self, request, obj=None):
-        user_is_superuser = request.user.is_superuser
-        user_id = request.user.id
-
-        if user_is_superuser:
-            qs = super(ConsultantAdmin, self).has_add_permission(request)
-            return qs
-
-        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
-        user_is_consultant = len(consultant_objects_filter_user) > 0
-
-        if user_is_consultant:
-            return False
-
-        return False
-
 
 class MeetAdmin(AdminWithoutModified):
     list_display = (
@@ -151,38 +135,6 @@ class MeetAdmin(AdminWithoutModified):
 
         return Meet.objects.none()
 
-    def has_add_permission(self, request, obj=None):
-        user_is_superuser = request.user.is_superuser
-        user_id = request.user.id
-
-        qs = super(MeetAdmin, self).has_add_permission(request)
-        if user_is_superuser:
-            return qs
-
-        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
-        user_is_consultant = len(consultant_objects_filter_user) > 0
-
-        if user_is_consultant:
-            return False
-
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        user_is_superuser = request.user.is_superuser
-        user_id = request.user.id
-
-        qs = super(MeetAdmin, self).has_change_permission(request)
-        if user_is_superuser:
-            return qs
-
-        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
-        user_is_consultant = len(consultant_objects_filter_user) > 0
-
-        if user_is_consultant:
-            return False
-
-        return False
-
 
 class MeetPayrollAdmin(AdminWithoutModified):
     def get_readonly_fields(self, request, obj=None):
@@ -221,6 +173,25 @@ class MeetPayrollAdmin(AdminWithoutModified):
     ordering = ['id']
     search_fields = ('id', 'consultant')
     list_per_page = 10
+
+    def get_queryset(self, request):
+        user_is_superuser = request.user.is_superuser
+        user_is_finance = request.user.groups.filter(name='Finance').exists()
+
+        user_id = request.user.id
+
+        if user_is_superuser or user_is_finance:
+            qs = super(MeetPayrollAdmin, self).get_queryset(request)
+            return qs
+
+        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
+        user_is_consultant = len(consultant_objects_filter_user) > 0
+
+        if user_is_consultant:
+            payroll_objects_filter = MeetPayroll.objects.filter(consultant__user_id=user_id)
+            return payroll_objects_filter
+
+        return MeetPayroll.objects.none()
 
 
 class MeetPaymentAdmin(AdminWithoutModified):
