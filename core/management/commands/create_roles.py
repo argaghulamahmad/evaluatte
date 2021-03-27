@@ -49,6 +49,8 @@ class Command(BaseCommand):
     help = 'Creates read only default permission groups for users'
 
     def handle(self, *args, **options):
+        self.truncate_group_permissions()
+
         for group_name in GROUPS.keys():
             group_permission = GROUPS[group_name]['PERMISSIONS']
             new_group, created = Group.objects.get_or_create(name=group_name)
@@ -66,3 +68,9 @@ class Command(BaseCommand):
                     new_group.permissions.add(model_add_perm)
 
         print("Created default group and permissions.")
+
+    @staticmethod
+    def truncate_group_permissions():
+        groups = Group.objects.all()
+        for group in groups:
+            group.permissions.clear()
