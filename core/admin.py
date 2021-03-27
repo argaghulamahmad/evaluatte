@@ -141,7 +141,9 @@ class MeetAdmin(AdminWithoutModified):
 class MeetPayrollAdmin(AdminWithoutModified):
     def get_readonly_fields(self, request, obj=None):
         return [
+            'meet',
             'consultant',
+            'price',
             'for_consultant',
             'for_company',
             'is_consultant_paid',
