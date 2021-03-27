@@ -106,7 +106,7 @@ class Consultant(ModelWithAutoTimestamp):
         if rating__avg_ is not None:
             return round(
                 rating__avg_,
-                2
+                1
             )
 
         if rating__avg_ is None:
