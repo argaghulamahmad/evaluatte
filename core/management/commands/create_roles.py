@@ -32,6 +32,13 @@ GROUPS = {
     },
     'Finance': {
         'PERMISSIONS': {
+            'meet payroll': ['view', 'change'],
+        }
+    },
+    'SEO': {
+        'PERMISSIONS': {
+            'job post': ['add', 'change', 'view', 'delete'],
+            'job post company': ['add', 'change', 'view', 'delete'],
         }
     }
 }
