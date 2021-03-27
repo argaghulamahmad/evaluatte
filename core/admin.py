@@ -55,13 +55,15 @@ class ConsultantAdmin(AdminWithoutModified):
     def get_readonly_fields(self, request, obj=None):
         user_id = request.user.id
         user_is_consultant = Consultant.objects.filter(user_id=user_id).exists()
+        user_is_sales = request.user.groups.filter(name='Sales').exists()
 
-        if user_is_consultant:
+        if user_is_consultant or user_is_sales:
             return [
                 'user',
                 'cv_price',
                 'interview_price',
             ]
+        return []
 
     list_display = (
         'full_name',
