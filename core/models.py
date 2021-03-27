@@ -233,7 +233,6 @@ class Meet(ModelWithAutoTimestamp):
                                       on_delete=models.DO_NOTHING, related_name='meets', null=True, blank=True,
                                       editable=False)
 
-    meet_url = models.URLField(null=True, blank=True, max_length=254)
     is_complete = models.BooleanField(default=False)
 
     testimony = models.TextField(null=True, blank=True)
