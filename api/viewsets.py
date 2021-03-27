@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.db.models import Prefetch
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
@@ -16,7 +18,13 @@ class ConsultantViewSet(FetchViewSet):
 
     def get_queryset(self):
         consultants = Consultant.objects.filter(is_active=True).prefetch_related(
-            Prefetch('consultant_schedules', queryset=ConsultantSchedule.objects.filter(is_booked=False)),
+            Prefetch('consultant_schedules',
+                         queryset=ConsultantSchedule.objects.filter(
+                             is_booked=False,
+                             start_date__gte=datetime.today() + timedelta(days=1),
+                             start_date__lt=datetime.today() + timedelta(days=8)
+                         )
+                     ),
         )
         return consultants
 
