@@ -198,39 +198,6 @@ class MeetPayrollAdmin(AdminWithoutModified):
         return MeetPayroll.objects.none()
 
 
-class MeetPaymentAdmin(AdminWithoutModified):
-    def get_readonly_fields(self, request, obj=None):
-        return ['total']
-
-    list_display = (
-        'meet',
-        'due_datetime',
-        'method',
-        'price',
-        'admin_cost',
-        'total',
-        'note',
-    )
-
-    actions = [export_as_csv_action("CSV Export", fields=['meet',
-                                                          'due_datetime',
-                                                          'method',
-                                                          'price',
-                                                          'admin_cost',
-                                                          'total',
-                                                          'note', ])]
-
-    list_display_links = (
-        'meet',
-    )
-    list_filter = (
-        'method',
-    )
-    ordering = ['id']
-    search_fields = ('id', 'method')
-    list_per_page = 10
-
-
 class CompanyAdmin(AdminWithoutModified):
     list_display = (
         'name',
