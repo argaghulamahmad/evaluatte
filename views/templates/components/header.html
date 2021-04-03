@@ -56,9 +56,6 @@
                                 <nav>
                                     <ul id="navigation">
                                         <li>
-                                            <a class="{% if request.resolver_match.url_name == "home" %}active{% endif %}"
-                                               href="{% url 'home' %}">Beranda</a></li>
-                                        <li>
                                             <a class="{% if request.resolver_match.url_name == "about" %}active{% endif %}"
                                                href="{% url 'about' %}">Tentang</a></li>
                                         <li>
