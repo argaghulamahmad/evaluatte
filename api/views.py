@@ -179,7 +179,7 @@ def is_previous_payment_finished(client_email):
         if row:
             transaction_status_ = row['transaction_status']
 
-            if transaction_status_ == 'settlement':
+            if transaction_status_ in ['settlement', 'expired']:
                 return True
             else:
                 return False
