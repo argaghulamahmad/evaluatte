@@ -68,9 +68,19 @@
                                             <a class="{% if request.resolver_match.url_name == "testimonials" %}active{% endif %}"
                                                href="{% url 'testimonials' %}">Testimoni</a></li>
                                         <li>
-                                            <a class="{% if request.resolver_match.url_name == "jobs_companies" %}active{% endif %}"
-                                               href="{% url 'jobs_companies' %}">Lowongan</a></li>
-                                        <li><a href="https://evaluatte.wordpress.com/">Blog</a></li>
+                                            <a href="#">Info
+                                                <i class="ti-angle-down"></i>
+                                            </a>
+                                            <ul class="submenu">
+                                                <li>
+                                                    <a href="https://evaluatte.wordpress.com/">Blog</a>
+                                                </li>
+                                                <li>
+                                                    <a class="{% if request.resolver_match.url_name == "jobs_companies" %}active{% endif %}"
+                                                       href="{% url 'jobs_companies' %}">Lowongan</a>
+                                                </li>
+                                            </ul>
+                                        </li>
                                         <li>
                                             <a class="{% if request.resolver_match.url_name == "contact" %}active{% endif %}"
                                                href="{% url 'contact' %}">Kontak</a></li>
