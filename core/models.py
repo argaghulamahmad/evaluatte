@@ -147,11 +147,11 @@ class ConsultantSchedule(ModelWithAutoTimestamp):
 
     @property
     def formatted_start_time(self):
-        return self.start_time.strftime("%I:%M %p")
+        return self.start_time.strftime("%H:%M")
 
     @property
     def formatted_end_time(self):
-        return self.end_time.strftime("%I:%M %p")
+        return self.start_time.strftime("%H:%M")
 
     @property
     def formatted_option(self):
@@ -159,7 +159,7 @@ class ConsultantSchedule(ModelWithAutoTimestamp):
 
     def __str__(self):
         return str(self.consultant) + ' | ' + str(self.start_date) + ' at ' \
-               + str(self.start_time) + ' to ' + str(self.end_time)
+               + str(self.formatted_start_time) + ' to ' + str(self.formatted_end_time)
 
 
 class Client(ModelWithAutoTimestamp):
