@@ -68,36 +68,20 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="case_active owl-carousel">
-                            <div class="single_case">
-                                <div class="case_thumb">
-                                    <img src="https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/layanan+kami+-+cv-min.png"
-                                         alt="">
+                            {% for product in products %}
+                                <div class="single_case">
+                                    <div class="case_thumb">
+                                        <img src="https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/layanan+kami+-+cv-min.png"
+                                             alt="">
+                                    </div>
+                                    <div class="case_heading">
+                                        <span>Layanan #{{ forloop.counter }}</span>
+                                        <h3>
+                                            <a href="{% url 'service' slug=product.slug %}">{{ product.name }}</a>
+                                        </h3>
+                                    </div>
                                 </div>
-                                <div class="case_heading">
-                                    <span>Layanan #1</span>
-                                    <h3><a href="{% url 'service_resume' %}">Konsultasi CV</a></h3>
-                                </div>
-                            </div>
-                            <div class="single_case">
-                                <div class="case_thumb">
-                                    <img src="https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/layanan+kami+-+interview-min.png"
-                                         alt="">
-                                </div>
-                                <div class="case_heading">
-                                    <span>Layanan #2</span>
-                                    <h3><a href="{% url 'service_interview' %}">Konsultasi Interview</a></h3>
-                                </div>
-                            </div>
-                            <div class="single_case">
-                                <div class="case_thumb">
-                                    <img src="https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/layanan+kami+-+webinar-min.png"
-                                         alt="">
-                                </div>
-                                <div class="case_heading">
-                                    <span>Layanan #3</span>
-                                    <h3><a href="{% url 'service_webinar' %}">Webinar</a></h3>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

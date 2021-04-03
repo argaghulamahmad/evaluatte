@@ -5,6 +5,7 @@ from django.db.models import Q, Avg
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
+from cms.models import Product
 from core.models import Consultant, Meet
 from office.models import Employee
 from seo.models import JobPost, JobPostCompany
@@ -17,15 +18,18 @@ def home(request):
             .order_by('id')
     )
 
+    products = Product.objects.all()
+
     total_variant_of_companies = Consultant.objects.values('company').distinct().count()
     total_success_meets = Meet.objects.filter(is_paid=True).values('client').distinct().count()
     average_rating = Meet.objects.filter(show_rating=True).aggregate(Avg('rating'))
 
     data = {
-        "consultants": consultants,
-        "total_variant_of_companies": total_variant_of_companies,
-        "total_success_meets": total_success_meets,
         "average_rating": average_rating,
+        "consultants": consultants,
+        "products": products,
+        "total_success_meets": total_success_meets,
+        "total_variant_of_companies": total_variant_of_companies,
     }
 
     return render(request, 'pages/home.html', data)
@@ -55,19 +59,22 @@ def about(request):
 
 
 def services(request):
-    return render(request, 'pages/services.html')
+    products = Product.objects.all()
+
+    data = {
+        "products": products
+    }
+
+    return render(request, 'pages/services.html', data)
 
 
-def service_resume(request):
-    return render(request, 'pages/services/resume.html')
+class ServiceDetailView(DetailView):
+    model = Product
+    template_name = 'pages/services/detail.html'
 
-
-def service_interview(request):
-    return render(request, 'pages/services/interview.html')
-
-
-def service_webinar(request):
-    return render(request, 'pages/services/webinar.html')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 class ConsultantListView(ListView):

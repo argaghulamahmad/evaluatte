@@ -12,10 +12,10 @@ sitemaps = {
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^about/$', views.about, name='about'),
+
+    re_path(r'^services/(?P<slug>[-\w]+)$', views.ServiceDetailView.as_view(), name='service'),
     url(r'^services/$', views.services, name='services'),
-    url(r'^services/resume$', views.service_resume, name='service_resume'),
-    url(r'^services/interview$', views.service_interview, name='service_interview'),
-    url(r'^services/webinar$', views.service_webinar, name='service_webinar'),
+
     url(r'^testimonials/$', views.testimonials, name='testimonials'),
     url(r'^contact/$', views.contact, name='contact'),
 
