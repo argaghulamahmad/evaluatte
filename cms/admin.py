@@ -8,7 +8,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     list_display = (
         'name',
-        'link_to_product',
+        'link',
         'slug',
     )
     list_display_links = (

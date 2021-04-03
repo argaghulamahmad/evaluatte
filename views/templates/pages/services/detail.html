@@ -19,7 +19,7 @@
             <div class="border_bottom">
                 <div class="row">
                     <div class="col-xl-6 col-12 service-img"
-                         style="background-image: url(https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/konsultasi+cv+-+klik-min.png); background-size: cover;">
+                         style="background-image: url({{ product.image.url }}); background-size: cover;">
                     </div>
                     <div class="col-xl-6 col-12">
                         <div class="col-xl-12">
@@ -43,7 +43,7 @@
                                     {{ product.description }}
                                 </p>
                             </div>
-                            <a href="{{ product.link_to_product }}" class="boxed-btn3">Konsultasikan Sekarang</a>
+                            <a href="{{ product.link }}" class="boxed-btn3">{{ product.cta_text }}</a>
                         </div>
                     </div>
                 </div>
