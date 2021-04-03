@@ -33,8 +33,8 @@
                             {% for product in products %}
                                 <div class="single_case">
                                     <div class="case_thumb">
-                                        <img src="https://evaluatte-assets.s3-ap-southeast-1.amazonaws.com/layanan+kami+-+cv-min.png"
-                                             alt="">
+                                        <img src="{{ product.image.url }}"
+                                             alt="{{ product.name }}">
                                     </div>
                                     <div class="case_heading">
                                         <span>Layanan #{{ forloop.counter }}</span>
