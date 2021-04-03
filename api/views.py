@@ -156,8 +156,11 @@ def is_previous_payment_finished(client_email):
                     limit 1;
             """
         cursor.execute(last_order_log_by_client_email, [client_email])
-        row = dict_fetch_all(cursor)[0]
+        rows = dict_fetch_all(cursor)
+        if not rows:
+            return True
 
+        row = rows[0]
         if row is None:
             return True
 
@@ -171,10 +174,13 @@ def is_previous_payment_finished(client_email):
                 limit 1;
         """
         cursor.execute(last_midtrans_log_by_order_id, [order_id])
-        row = dict_fetch_all(cursor)[0]
+        rows = dict_fetch_all(cursor)
+        if not rows:
+            return True
 
+        row = rows[0]
         if row is None:
-            return False
+            return True
 
         if row:
             transaction_status_ = row['transaction_status']
