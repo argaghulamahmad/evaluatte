@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'core',
     'office',
     'seo',
+    'cms',
 
     'views',
 
