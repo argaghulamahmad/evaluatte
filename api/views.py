@@ -37,7 +37,7 @@ def order(request):
         consultant_schedule_id = request.data['consultantScheduleId']
         consultant_type = request.data['consultantType']
 
-        is_previous_payment_finished(client_email)
+        previous_payment_finished = is_previous_payment_finished(client_email)
 
         unique_code = get_random_string(5) + '-' + date.today().strftime("%m%d%Y")
         order_id = f"evaluatte-{consultant_type}-{str(unique_code)}"
@@ -147,6 +147,9 @@ def is_previous_payment_finished(client_email):
         cursor.execute(last_order_log_by_client_email, [client_email])
         row = dict_fetch_all(cursor)[0]
 
+        if row is None:
+            return True
+
         order_id = row['order_id']
 
         last_midtrans_log_by_order_id = """
@@ -157,13 +160,18 @@ def is_previous_payment_finished(client_email):
                 limit 1;
         """
         cursor.execute(last_midtrans_log_by_order_id, [order_id])
-        row = cursor.fetchone()
+        row = dict_fetch_all(cursor)[0]
 
         if row is None:
-            raise Exception
+            return False
 
-        # handle is it settlement or not
-        # test and check using hardcoded order id
+        if row:
+            transaction_status_ = row['transaction_status']
+
+            if transaction_status_ == 'settlement':
+                return True
+            else:
+                return False
 
 
 @api_view(['POST'])
