@@ -24,7 +24,7 @@
                     <div class="col-xl-6 col-12">
                         <div class="col-xl-12">
                             <div class="details_title" style="margin-bottom: 20px;">
-                                <h3>Konsultasi CV</h3>
+                                <h3>{{ product.name }}</h3>
                             </div>
                         </div>
                         <div class="col-xl-12">
@@ -33,21 +33,17 @@
                                     text-align: justify;
                                     min-width: 100%;
                                 ">
-                                    <li>Rahasia CV super lolos screening (berdasarkan perusahaan konsultan)</li>
-                                    <li>Pengetahuan tentang CV (with case)</li>
-                                    <li>Pengetahuan sistem kerja ATS</li>
-                                    <li>Template CV super</li>
-                                    <li>Resume hasil konsultasi CV</li>
-                                    <li>Kesempatan direkrut langsung oleh Talent Acquisition</li>
+                                    {% for product_item in product.items_as_list %}
+                                        <li>{{ product_item }}</li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <div>
-                                <p style="min-width: 100%; text-align: justify; color: #212529; font-weight: normal;">Di
-                                    sini kamu akan berkonsultasi langsung dengan Talent Acquisition perusahaan yang
-                                    sudah berpengalaman dalam melakukan screening CV, sehingga kamu akan tahu hal - hal
-                                    apa saja yang membuat CV kamu lolos screening.</p>
+                                <p style="min-width: 100%; text-align: justify; color: #212529; font-weight: normal;">
+                                    {{ product.description }}
+                                </p>
                             </div>
-                            <a href="https://m.evaluatte.com/" class="boxed-btn3">Konsultasikan Sekarang</a>
+                            <a href="{{ product.link_to_product }}" class="boxed-btn3">Konsultasikan Sekarang</a>
                         </div>
                     </div>
                 </div>
