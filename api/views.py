@@ -37,7 +37,7 @@ def order(request):
         consultant_schedule_id = request.data['consultantScheduleId']
         consultant_type = request.data['consultantType']
 
-        previous_payment_finished = is_previous_payment_finished(client_email)
+        previous_payment_finished = is_previous_payment_finished(client_email, client_phone_number)
         if previous_payment_finished is False:
             response_data = {
                 "success": False,
@@ -146,16 +146,16 @@ def order(request):
         )
 
 
-def is_previous_payment_finished(client_email):
+def is_previous_payment_finished(client_email, client_phone_number):
     with connection.cursor() as cursor:
-        last_order_log_by_client_email = """
+        last_order_log_by_client_email_phone_number = """
                 select client_email, order_id
                     from core_order_log
-                    where client_email = %s
+                    where client_email = %s and client_phone_number = %s
                     order by id desc
                     limit 1;
             """
-        cursor.execute(last_order_log_by_client_email, [client_email])
+        cursor.execute(last_order_log_by_client_email_phone_number, [client_email, client_phone_number])
         rows = dict_fetch_all(cursor)
         if not rows:
             return True
