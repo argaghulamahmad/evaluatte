@@ -2,6 +2,7 @@ import logging
 from datetime import date
 
 import midtransclient
+from django.db import connection
 from django.utils.crypto import get_random_string
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -11,6 +12,15 @@ from app import settings
 from core.models import OrderLog, MidtransLog, Client, Meet, ConsultantSchedule
 
 logger = logging.getLogger('api-views')
+
+
+def dict_fetch_all(cursor):
+    """Returns all rows from a cursor as a dict"""
+    desc = cursor.description
+    return [
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
+    ]
 
 
 @api_view(['POST'])
@@ -26,6 +36,8 @@ def order(request):
         consultant_price = request.data['consultantPrice']
         consultant_schedule_id = request.data['consultantScheduleId']
         consultant_type = request.data['consultantType']
+
+        is_previous_payment_finished(client_email)
 
         unique_code = get_random_string(5) + '-' + date.today().strftime("%m%d%Y")
         order_id = f"evaluatte-{consultant_type}-{str(unique_code)}"
@@ -121,6 +133,37 @@ def order(request):
         return Response(
             response_data
         )
+
+
+def is_previous_payment_finished(client_email):
+    with connection.cursor() as cursor:
+        last_order_log_by_client_email = """
+                select client_email, order_id
+                    from core_order_log
+                    where client_email = %s
+                    order by id desc
+                    limit 1;
+            """
+        cursor.execute(last_order_log_by_client_email, [client_email])
+        row = dict_fetch_all(cursor)[0]
+
+        order_id = row['order_id']
+
+        last_midtrans_log_by_order_id = """
+            select order_id, transaction_status
+                from core_midtrans_log
+                where order_id = %s
+                order by id desc
+                limit 1;
+        """
+        cursor.execute(last_midtrans_log_by_order_id, [order_id])
+        row = cursor.fetchone()
+
+        if row is None:
+            raise Exception
+
+        # handle is it settlement or not
+        # test and check using hardcoded order id
 
 
 @api_view(['POST'])
