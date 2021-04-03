@@ -151,7 +151,7 @@ class ConsultantSchedule(ModelWithAutoTimestamp):
 
     @property
     def formatted_end_time(self):
-        return self.start_time.strftime("%H:%M")
+        return self.end_time.strftime("%H:%M")
 
     @property
     def formatted_option(self):
