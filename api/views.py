@@ -38,6 +38,17 @@ def order(request):
         consultant_type = request.data['consultantType']
 
         previous_payment_finished = is_previous_payment_finished(client_email)
+        if previous_payment_finished is False:
+            response_data = {
+                "success": False,
+                "message": "Silahkan selesaikan pembayaran order sebelumnya terlebih dahulu!"
+            }
+
+            logger.info(response_data)
+
+            return Response(
+                response_data
+            )
 
         unique_code = get_random_string(5) + '-' + date.today().strftime("%m%d%Y")
         order_id = f"evaluatte-{consultant_type}-{str(unique_code)}"
@@ -116,7 +127,7 @@ def order(request):
             }
         }
 
-        logger.error(response_data)
+        logger.info(response_data)
 
         return Response(
             response_data
