@@ -151,7 +151,7 @@ def is_previous_payment_finished(client_email, client_phone_number):
         last_order_log_by_client_email_phone_number = """
                 select client_email, order_id
                     from core_order_log
-                    where client_email = %s and client_phone_number = %s
+                    where client_email = %s or client_phone_number = %s
                     order by id desc
                     limit 1;
             """
