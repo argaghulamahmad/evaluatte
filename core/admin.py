@@ -64,6 +64,9 @@ class ConsultantAdmin(AdminWithoutModified):
                 'user',
                 'cv_price',
                 'interview_price',
+                'is_active',
+                'is_cv',
+                'is_interview'
             ]
         return []
 
