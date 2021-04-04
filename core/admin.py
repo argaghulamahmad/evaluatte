@@ -22,6 +22,8 @@ class ClientAdmin(AdminWithoutModified):
                 'cv_url',
             ]
 
+        return []
+
     list_display = (
         'full_name',
         'cv_url',
