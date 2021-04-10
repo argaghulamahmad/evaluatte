@@ -42,6 +42,7 @@ def order(request):
             response_data = {
                 "success": False,
                 "message": "Pastikan semua data yang dimasukkan sudah benar!",
+                "param": request.data,
                 "error": str(exp)
             }
 
@@ -53,9 +54,11 @@ def order(request):
 
         previous_payment_finished = is_previous_payment_finished(client_email, client_phone_number)
         if previous_payment_finished is False:
+            client_phone_number_email = client_email + ' ' + client_phone_number
             response_data = {
                 "success": False,
-                "message": "Silahkan selesaikan pembayaran order sebelumnya terlebih dahulu!"
+                "message": "Silahkan selesaikan pembayaran order sebelumnya terlebih dahulu!",
+                "param": client_phone_number_email,
             }
 
             logger.info(response_data)
@@ -133,6 +136,7 @@ def order(request):
             response_data = {
                 "success": False,
                 "message": "Oops, Ada kesalahan di dalam sistem kami. Silahkan coba lagi nanti!",
+                "param": param,
                 "error": str(exp)
             }
 
