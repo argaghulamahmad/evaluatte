@@ -26,16 +26,30 @@ def dict_fetch_all(cursor):
 @api_view(['POST'])
 def order(request):
     try:
-        client_email = request.data['clientEmail']
-        client_name = request.data['clientName']
-        client_phone_number = request.data['clientPhoneNumber']
-        client_problem = request.data['clientProblem']
-        client_resume_url = request.data['clientResumeUrl']
-        consultant_id = request.data['consultantId']
-        consultant_name = request.data['consultantName']
-        consultant_price = request.data['consultantPrice']
-        consultant_schedule_id = request.data['consultantScheduleId']
-        consultant_type = request.data['consultantType']
+        # noinspection PyBroadException
+        try:
+            client_email = request.data['clientEmail']
+            client_name = request.data['clientName']
+            client_phone_number = request.data['clientPhoneNumber']
+            client_problem = request.data['clientProblem']
+            client_resume_url = request.data['clientResumeUrl']
+            consultant_id = request.data['consultantId']
+            consultant_name = request.data['consultantName']
+            consultant_price = request.data['consultantPrice']
+            consultant_schedule_id = request.data['consultantScheduleId']
+            consultant_type = request.data['consultantType']
+        except Exception as exp:
+            response_data = {
+                "success": False,
+                "message": "Pastikan semua data yang dimasukkan sudah benar!",
+                "error": str(exp)
+            }
+
+            logger.info(response_data)
+
+            return Response(
+                response_data
+            )
 
         previous_payment_finished = is_previous_payment_finished(client_email, client_phone_number)
         if previous_payment_finished is False:
@@ -113,7 +127,20 @@ def order(request):
             }
         }
 
-        transaction = snap.create_transaction(param)
+        try:
+            transaction = snap.create_transaction(param)
+        except Exception as exp:
+            response_data = {
+                "success": False,
+                "message": "Oops, Ada kesalahan di dalam sistem kami. Silahkan coba lagi nanti!",
+                "error": str(exp)
+            }
+
+            logger.info(response_data)
+
+            return Response(
+                response_data
+            )
 
         transaction_token = transaction['token']
         transaction_redirect_url = transaction['redirect_url']
