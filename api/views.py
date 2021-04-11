@@ -9,6 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from app import settings
+from app.settings import MIDTRANS_IS_PRODUCTION
 from core.models import OrderLog, MidtransLog, Client, Meet, ConsultantSchedule
 
 logger = logging.getLogger('api-views')
@@ -92,7 +93,7 @@ def order(request):
         consultant_schedule.save()
 
         snap = midtransclient.Snap(
-            is_production=True,
+            is_production=MIDTRANS_IS_PRODUCTION,
             server_key=settings.MIDTRANS_SERVER_KEY
         )
 

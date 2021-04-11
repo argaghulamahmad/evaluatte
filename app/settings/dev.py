@@ -9,6 +9,7 @@ AWS_STORAGE_BUCKET_NAME = 'evaluatte-system-test'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 MIDTRANS_SERVER_KEY = 'REDACTED_SECRET_ASSIGN_7'
+MIDTRANS_IS_PRODUCTION = False
 
 
 # Django Debug Toolbar
