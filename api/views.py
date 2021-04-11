@@ -92,7 +92,7 @@ def order(request):
         consultant_schedule.save()
 
         snap = midtransclient.Snap(
-            is_production=False,
+            is_production=True,
             server_key=settings.MIDTRANS_SERVER_KEY
         )
 
