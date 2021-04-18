@@ -226,6 +226,8 @@ def is_previous_payment_finished(client_email, client_phone_number):
 @api_view(['POST'])
 def order_webhook(request):
     try:
+        logger.info(request.data)
+
         transaction_time = request.data['transaction_time']
         transaction_status = request.data['transaction_status']
         transaction_id = request.data['transaction_id']
