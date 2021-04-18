@@ -27,6 +27,8 @@ def dict_fetch_all(cursor):
 @api_view(['POST'])
 def order(request):
     try:
+        logger.info(request.data)
+
         # noinspection PyBroadException
         try:
             client_email = request.data['clientEmail']
