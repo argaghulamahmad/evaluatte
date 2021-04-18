@@ -229,12 +229,10 @@ def order_webhook(request):
         transaction_time = request.data['transaction_time']
         transaction_status = request.data['transaction_status']
         transaction_id = request.data['transaction_id']
-        store = request.data['store']
         status_message = request.data['status_message']
         status_code = request.data['status_code']
         signature_key = request.data['signature_key']
         payment_type = request.data['payment_type']
-        payment_code = request.data['payment_code']
         order_id = request.data['order_id']
         merchant_id = request.data['merchant_id']
         gross_amount = request.data['gross_amount']
@@ -243,18 +241,18 @@ def order_webhook(request):
         logger.info(request.data)
 
         if transaction_status == 'settlement':
-            return handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
-                                         signature_key, status_code, status_message, store, transaction_id,
+            return handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment_type,
+                                         signature_key, status_code, status_message, transaction_id,
                                          transaction_status, transaction_time)
 
         if transaction_status == 'expire':
-            return handle_expire_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
-                                         signature_key, status_code, status_message, store, transaction_id,
+            return handle_expire_payment(currency, gross_amount, merchant_id, order_id, payment_type,
+                                         signature_key, status_code, status_message, transaction_id,
                                          transaction_status, transaction_time)
 
         if transaction_status != 'settlement':
-            return handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type,
-                                             signature_key, status_code, status_message, store, transaction_id,
+            return handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, payment_type,
+                                             signature_key, status_code, status_message, transaction_id,
                                              transaction_status, transaction_time)
 
     except Exception as exp:
@@ -273,8 +271,9 @@ def order_webhook(request):
         )
 
 
-def handle_expire_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type, signature_key,
-                          status_code, status_message, store, transaction_id, transaction_status, transaction_time):
+def handle_expire_payment(currency, gross_amount, merchant_id, order_id, payment_type,
+                                         signature_key, status_code, status_message, transaction_id,
+                                         transaction_status, transaction_time):
     is_midtrans_log_exist = MidtransLog.objects.filter(
         order_id=order_id,
         transaction_status=transaction_status
@@ -284,12 +283,10 @@ def handle_expire_payment(currency, gross_amount, merchant_id, order_id, payment
             transaction_time=transaction_time,
             transaction_status=transaction_status,
             transaction_id=transaction_id,
-            store=store,
             status_message=status_message,
             status_code=status_code,
             signature_key=signature_key,
             payment_type=payment_type,
-            payment_code=payment_code,
             order_id=order_id,
             merchant_id=merchant_id,
             gross_amount=gross_amount,
@@ -318,8 +315,9 @@ def handle_expire_payment(currency, gross_amount, merchant_id, order_id, payment
     )
 
 
-def handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type, signature_key,
-                              status_code, status_message, store, transaction_id, transaction_status, transaction_time):
+def handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, payment_type,
+                                         signature_key, status_code, status_message, transaction_id,
+                                         transaction_status, transaction_time):
     is_midtrans_log_exist = MidtransLog.objects.filter(
         order_id=order_id,
         transaction_status=transaction_status
@@ -329,12 +327,10 @@ def handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, pay
             transaction_time=transaction_time,
             transaction_status=transaction_status,
             transaction_id=transaction_id,
-            store=store,
             status_message=status_message,
             status_code=status_code,
             signature_key=signature_key,
             payment_type=payment_type,
-            payment_code=payment_code,
             order_id=order_id,
             merchant_id=merchant_id,
             gross_amount=gross_amount,
@@ -356,8 +352,9 @@ def handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, pay
     )
 
 
-def handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment_code, payment_type, signature_key,
-                          status_code, status_message, store, transaction_id, transaction_status, transaction_time):
+def handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment_type,
+                                         signature_key, status_code, status_message, transaction_id,
+                                         transaction_status, transaction_time):
     is_midtrans_log_exist = MidtransLog.objects.filter(
         order_id=order_id,
         transaction_status=transaction_status
@@ -369,12 +366,10 @@ def handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment
             transaction_time=transaction_time,
             transaction_status=transaction_status,
             transaction_id=transaction_id,
-            store=store,
             status_message=status_message,
             status_code=status_code,
             signature_key=signature_key,
             payment_type=payment_type,
-            payment_code=payment_code,
             order_id=order_id,
             merchant_id=merchant_id,
             gross_amount=gross_amount,
