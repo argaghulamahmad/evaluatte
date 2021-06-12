@@ -39,3 +39,8 @@ Markdown = "==3.3.4"
 MarkupSafe = "==1.1.1"
 
 [dev-packages]
+
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = false
+name = "pypipython"
