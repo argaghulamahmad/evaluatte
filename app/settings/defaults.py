@@ -44,6 +44,7 @@ CORS_ORIGIN_WHITELIST = (
     'https://evaluatte.com',
     'https://evaluatte.argaghulamahmad.dev',
     'https://m.evaluatte.com',
+    'https://m.evaluatte.argaghulamahmad.dev',
 )
 
 CORS_ALLOW_HEADERS = default_headers + (
