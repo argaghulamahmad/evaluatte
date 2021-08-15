@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['127.0.0.1',
                  '0.0.0.0',
                  '192.168.1.20',
                  'evaluatte.com',
+                 'evaluatte.argaghulamahmad.dev',
                  'www.evaluatte.com',
                  ]
 
