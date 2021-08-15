@@ -42,6 +42,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://0.0.0.0',
     'http://192.168.1.20:8080',
     'https://evaluatte.com',
+    'https://evaluatte.argaghulamahmad.dev',
     'https://m.evaluatte.com',
 )
 
