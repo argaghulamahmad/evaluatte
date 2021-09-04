@@ -43,3 +43,19 @@ class Product(ModelWithAutoTimestamp):
         return (
             f'{str(self.name)} - {str(self.link)}'
         )
+
+
+class Banner(ModelWithAutoTimestamp):
+    name = models.CharField(max_length=100)
+    image = models.FileField(upload_to='banner/%Y/%m/%d/', blank=True, null=True)
+    description = models.TextField(null=True, blank=True)
+    link = models.URLField(null=True, blank=True, max_length=254)
+    cta_text = models.CharField(max_length=100, null=True, blank=True)
+
+    class Meta:
+        db_table = 'cms_banner'
+
+    def __str__(self):
+        return (
+            f'{str(self.name)}'
+        )
