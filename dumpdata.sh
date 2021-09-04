@@ -1,1 +1,0 @@
-cd /home/argaghulamahmad/github/evaluatte/ && /usr/local/bin/pipenv run /home/argaghulamahmad/.local/share/virtualenvs/evaluatte-K11_Va8d/bin/python /home/argaghulamahmad/github/evaluatte/manage.py dumpdata > ~/backup/evaluatte.db.json
