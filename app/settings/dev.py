@@ -3,6 +3,19 @@ from app.settings.defaults import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'evaluatte',
+        'USER': 'postgres',
+        'HOST': '192.168.1.251',
+        'PORT': '5432',
+    }
+}
+
 AWS_ACCESS_KEY_ID = 'AKIAYUZSJ2AQIYJ2CNYJ'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'evaluatte-system-test'
