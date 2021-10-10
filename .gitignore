@@ -462,3 +462,4 @@ cython_debug/
 /app/staticfiles/rest_framework/js/default.js
 /app/staticfiles/rest_framework/js/jquery-3.5.1.min.js
 /app/staticfiles/rest_framework/js/prettify-min.js
+/app/media/

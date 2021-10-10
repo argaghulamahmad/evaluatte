@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from app.storage_backends import PublicMediaStorage, PrivateMediaStorage
 from core.models import ModelWithAutoTimestamp
 
 
@@ -16,7 +15,7 @@ class Employee(ModelWithAutoTimestamp):
 
     user = models.OneToOneField(User, on_delete=models.DO_NOTHING, null=True, blank=True)
 
-    profile_image = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
+    profile_image = models.FileField(upload_to='profile-image/%Y/%m/%d/', blank=True, null=True)
     full_name = models.CharField(max_length=254)
     position = models.CharField(max_length=254)
     salary = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
@@ -42,7 +41,7 @@ class EmployeePayroll(ModelWithAutoTimestamp):
 
     total = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
 
-    employee_paid_proof = models.FileField(storage=PrivateMediaStorage(), blank=True, null=True)
+    employee_paid_proof = models.FileField(upload_to='employee-paid-proof/%Y/%m/%d/', blank=True, null=True)
     is_employee_paid = models.BooleanField(default=False)
 
     @property

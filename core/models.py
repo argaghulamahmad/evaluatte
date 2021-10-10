@@ -6,8 +6,6 @@ from django.db import models
 from django.db.models import Avg
 from django.utils import timezone
 
-from app.storage_backends import PublicMediaStorage, PrivateMediaStorage
-
 
 class ModelWithAutoTimestamp(models.Model):
     created = models.DateTimeField(editable=False)
@@ -41,7 +39,7 @@ class Company(ModelWithAutoTimestamp):
 class Consultant(ModelWithAutoTimestamp):
     user = models.OneToOneField(User, on_delete=models.DO_NOTHING, null=True, blank=True)
 
-    profile_image = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
+    profile_image = models.FileField(upload_to='profile-image/%Y/%m/%d/', blank=True, null=True)
     full_name = models.CharField(null=True, blank=True, max_length=254)
     role = models.CharField(null=True, blank=True, max_length=254)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, related_name='consultants')
@@ -164,7 +162,7 @@ class ConsultantSchedule(ModelWithAutoTimestamp):
 
 class Client(ModelWithAutoTimestamp):
     full_name = models.CharField(max_length=254)
-    profile_image = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
+    profile_image = models.FileField(upload_to='profile-image/%Y/%m/%d/', blank=True, null=True)
     title = models.CharField(max_length=254)
     cv_url = models.URLField(null=True, blank=True, max_length=254)
     email = models.EmailField(max_length=254, unique=True)
@@ -236,7 +234,7 @@ class Meet(ModelWithAutoTimestamp):
     is_complete = models.BooleanField(default=False)
 
     testimony = models.TextField(null=True, blank=True)
-    testimony_proof = models.FileField(storage=PublicMediaStorage(), blank=True, null=True)
+    testimony_proof = models.FileField(upload_to='testimony-proof/%Y/%m/%d/', blank=True, null=True)
     show_testimony = models.BooleanField(default=False)
 
     rating = models.IntegerField(default=MeetRating.BIASA, choices=MeetRating.choices)
@@ -283,7 +281,7 @@ class MeetPayroll(ModelWithAutoTimestamp):
     for_consultant = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
     for_company = models.DecimalField(null=True, blank=True, max_digits=100, decimal_places=2)
 
-    consultant_paid_proof = models.FileField(storage=PrivateMediaStorage(), blank=True, null=True)
+    consultant_paid_proof = models.FileField(upload_to='consultant-paid-proof/%Y/%m/%d/', blank=True, null=True)
     is_consultant_paid = models.BooleanField(default=False)
 
     @property
