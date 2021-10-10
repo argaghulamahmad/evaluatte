@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['127.0.0.1',
                  '0.0.0.0',
                  '192.168.1.20',
                  'evaluatte.com',
+                 'evaluatte.argaghulamahmad.dev',
                  'www.evaluatte.com',
                  ]
 
@@ -41,7 +42,9 @@ CORS_ORIGIN_WHITELIST = (
     'http://0.0.0.0',
     'http://192.168.1.20:8080',
     'https://evaluatte.com',
+    'https://evaluatte.argaghulamahmad.dev',
     'https://m.evaluatte.com',
+    'https://m.evaluatte.argaghulamahmad.dev',
 )
 
 CORS_ALLOW_HEADERS = default_headers + (
@@ -181,13 +184,10 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 }
 
-# AWS
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-
-AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
-DEFAULT_FILE_STORAGE = 'app.storage_backends.PublicMediaStorage'
-
-AWS_PRIVATE_MEDIA_LOCATION = 'media/private'
-PRIVATE_FILE_STORAGE = 'app.storage_backends.PrivateMediaStorage'
+# File Upload - Media Urls
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://pfb.argaghulamahmad.dev/media/"
+MEDIA_URL = '/media/'
