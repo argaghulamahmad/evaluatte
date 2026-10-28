@@ -5,6 +5,15 @@ from app.settings.defaults import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+if len(SECRET_KEY) < 50:
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured('DJANGO_SECRET_KEY must be at least 50 characters in production')
+
+# Cookies are only sent over HTTPS. HSTS and SSL redirect are left to the reverse proxy config.
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 ALLOWED_HOSTS += [
     '35.223.165.71',
     'evaluatte.com',
