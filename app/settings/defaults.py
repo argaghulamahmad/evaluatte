@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import locale
+import logging
 import os
 from pathlib import Path
+
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from corsheaders.defaults import default_headers
@@ -22,17 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'REDACTED_SECRET_ASSIGN_3'
+# Secret is read from the environment only; never commit it.
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '')
+if not SECRET_KEY:
+    raise ImproperlyConfigured('DJANGO_SECRET_KEY environment variable is required')
 
-ALLOWED_HOSTS = ['127.0.0.1',
-                 '35.223.165.71',
-                 'localhost',
-                 '0.0.0.0',
-                 '192.168.1.20',
-                 'evaluatte.com',
-                 'evaluatte.argaghulamahmad.dev',
-                 'www.evaluatte.com',
-                 ]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0']
+ALLOWED_HOSTS += [h for h in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',') if h]
 
 CORS_ORIGIN_ALLOW_ALL = False
 
@@ -144,7 +143,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-locale.setlocale(locale.LC_ALL, 'id_ID.UTF-8')
+try:
+    locale.setlocale(locale.LC_ALL, 'id_ID.UTF-8')
+except locale.Error:
+    # Locale not installed on this host (slim Docker image, CI). Currency formatting falls back to C locale.
+    logging.getLogger('evaluatte').warning('id_ID.UTF-8 locale unavailable; currency formatting degraded')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -191,3 +194,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # trailing slash.
 # Examples: "http://pfb.argaghulamahmad.dev/media/"
 MEDIA_URL = '/media/'
+
+# Direct-to-S3 uploads (presigned POST). Credentials come from the environment, never from the frontend bundle.
+AWS_UPLOAD_BUCKET = os.environ.get('AWS_UPLOAD_BUCKET', '')
+AWS_UPLOAD_REGION = os.environ.get('AWS_UPLOAD_REGION', 'ap-southeast-1')
+AWS_UPLOAD_PUBLIC_DOMAIN = os.environ.get('AWS_UPLOAD_PUBLIC_DOMAIN', '')

@@ -1,7 +1,16 @@
+import os
+
 from app.settings.defaults import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+
+ALLOWED_HOSTS += [
+    '35.223.165.71',
+    'evaluatte.com',
+    'evaluatte.argaghulamahmad.dev',
+    'www.evaluatte.com',
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -9,12 +18,20 @@ DEBUG = False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'evaluatte',
+        'NAME': os.environ.get('DB_NAME', 'evaluatte'),
+        'USER': os.environ.get('DB_USER', ''),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', ''),
+        'PORT': os.environ.get('DB_PORT', ''),
     }
 }
 
-MIDTRANS_SERVER_KEY = 'REDACTED_SECRET_ASSIGN_6'
+MIDTRANS_SERVER_KEY = os.environ.get('MIDTRANS_SERVER_KEY', '')
 MIDTRANS_IS_PRODUCTION = True
+if not MIDTRANS_SERVER_KEY:
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured('MIDTRANS_SERVER_KEY environment variable is required in production')
 
 
 # Django Debug Toolbar
@@ -27,6 +44,8 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 # Logging
+# Never enable django.db.backends at DEBUG here: it writes every SQL statement, including bound parameters (PII).
+LOG_DIR = os.environ.get('LOG_DIR') or '/home/argaghulamahmad/logs'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -40,24 +59,14 @@ LOGGING = {
         'evaluatte-file-handler': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': '/home/argaghulamahmad/logs/evaluatte.log',
+            'filename': os.path.join(LOG_DIR, 'evaluatte.log'),
             'formatter': 'verbose'
-        },
-        'evaluatte-file-handler-debug': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/home/argaghulamahmad/logs/evaluatte.debug.log',
-            'formatter': 'verbose'
-        },
-        'sql-debug-handler': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/home/argaghulamahmad/logs/evaluatte.sql-debug.log'
         },
         'django-error-handler': {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
-            'filename': '/home/argaghulamahmad/logs/evaluatte.django.log'
+            'filename': os.path.join(LOG_DIR, 'evaluatte.django.log'),
+            'formatter': 'verbose'
         },
     },
     'loggers': {
@@ -66,14 +75,9 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True
         },
-        'evaluatte.debug': {
-            'handlers': ['evaluatte-file-handler-debug'],
-            'level': 'DEBUG',
-            'propagate': False
-        },
-        'django.db.backends': {
-            'handlers': ['sql-debug-handler'],
-            'level': 'DEBUG',
+        'api-views': {
+            'handlers': ['evaluatte-file-handler'],
+            'level': 'INFO',
             'propagate': False
         },
         'django': {
@@ -81,11 +85,5 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False
         },
-
-        'api-views': {
-            'handlers': ['evaluatte-file-handler-debug'],
-            'level': 'DEBUG',
-            'propagate': False
-        }
     },
 }
