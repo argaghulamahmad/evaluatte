@@ -14,6 +14,9 @@ if len(SECRET_KEY) < 50:
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
+# Serve collected static files from the app process (admin CSS/JS, template assets) when DEBUG is off.
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
 ALLOWED_HOSTS += [
     '35.223.165.71',
     'evaluatte.com',

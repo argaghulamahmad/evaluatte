@@ -38,6 +38,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost',
     'http://0.0.0.0',
     'http://192.168.1.20:8080',
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
     'https://evaluatte.com',
     'https://evaluatte.argaghulamahmad.dev',
     'https://m.evaluatte.com',
