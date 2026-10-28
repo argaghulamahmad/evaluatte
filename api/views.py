@@ -1,439 +1,340 @@
+import hashlib
+import hmac
 import logging
 from datetime import date
+from decimal import Decimal, InvalidOperation
 
 import midtransclient
-from django.db import connection
+from django.db import transaction
+from django.db.models import Q
+from django.utils import timezone
 from django.utils.crypto import get_random_string
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from app import settings
-from app.settings import MIDTRANS_IS_PRODUCTION
-from core.models import OrderLog, MidtransLog, Client, Meet, ConsultantSchedule
+from django.conf import settings
+from core.models import OrderLog, MidtransLog, Client, Meet, Consultant, ConsultantSchedule
 
 logger = logging.getLogger('api-views')
 
+# Price is always read from the consultant record, never from the request.
+PRICE_FIELD_BY_TYPE = {'CV': 'cv_price', 'INTERVIEW': 'interview_price'}
+OFFER_FLAG_BY_TYPE = {'CV': 'is_cv', 'INTERVIEW': 'is_interview'}
 
-def dict_fetch_all(cursor):
-    """Returns all rows from a cursor as a dict"""
-    desc = cursor.description
-    return [
-        dict(zip([col[0] for col in desc], row))
-        for row in cursor.fetchall()
-    ]
+ORDER_REQUIRED_FIELDS = (
+    'clientEmail', 'clientName', 'clientPhoneNumber', 'clientProblem',
+    'clientResumeUrl', 'consultantId', 'consultantScheduleId', 'consultantType',
+)
+
+# Midtrans statuses after which the reserved schedule must be released again.
+RELEASE_STATUSES = ('expire', 'cancel', 'deny', 'failure')
+
+
+class OrderRejected(Exception):
+    """Business-rule rejection raised inside the atomic block so nothing is persisted."""
+
+    def __init__(self, message, http_status):
+        super().__init__(message)
+        self.message = message
+        self.http_status = http_status
+
+
+def _error(message, http_status):
+    return Response({"success": False, "message": message}, status=http_status)
+
+
+def create_order_and_payment_link(data, consultant_id, consultant_schedule_id, consultant_type,
+                                  price_field, offer_flag):
+    consultant = (
+        Consultant.objects.select_for_update()
+        .filter(id=consultant_id, is_active=True, **{offer_flag: True})
+        .first()
+    )
+    if consultant is None:
+        raise OrderRejected("Konsultan tidak tersedia untuk tipe konsultasi ini!", status.HTTP_400_BAD_REQUEST)
+
+    schedule = (
+        ConsultantSchedule.objects.select_for_update()
+        .filter(id=consultant_schedule_id, consultant_id=consultant.id)
+        .first()
+    )
+    if schedule is None:
+        raise OrderRejected("Jadwal konsultasi tidak ditemukan!", status.HTTP_400_BAD_REQUEST)
+    if schedule.start_date < timezone.localdate():
+        raise OrderRejected("Jadwal konsultasi sudah lewat!", status.HTTP_400_BAD_REQUEST)
+    if schedule.is_booked:
+        raise OrderRejected("Maaf, jadwal ini sudah dipesan. Silahkan pilih jadwal lain!", status.HTTP_409_CONFLICT)
+
+    client_email = str(data['clientEmail'])
+    client_phone_number = str(data['clientPhoneNumber'])
+    if not is_previous_payment_finished(client_email, client_phone_number):
+        raise OrderRejected("Silahkan selesaikan pembayaran order sebelumnya terlebih dahulu!",
+                            status.HTTP_409_CONFLICT)
+
+    # Price comes from the consultant record. Client-supplied amounts are never trusted.
+    price = getattr(consultant, price_field)
+    if price is None:
+        raise OrderRejected("Harga konsultasi belum tersedia!", status.HTTP_400_BAD_REQUEST)
+
+    unique_code = get_random_string(10) + '-' + date.today().strftime("%m%d%Y")
+    order_id = f"evaluatte-{consultant_type}-{unique_code}"
+
+    order_log = OrderLog.objects.create(
+        order_id=order_id,
+        unique_code=unique_code,
+
+        client_email=client_email,
+        client_name=str(data['clientName']),
+        client_phone_number=client_phone_number,
+        client_problem=str(data['clientProblem']),
+        client_resume_url=str(data['clientResumeUrl']),
+        consultant_id=consultant.id,
+        consultant_name=consultant.full_name,
+        consultant_price=price,
+        consultant_schedule_id=schedule.id,
+        consultant_type=consultant_type,
+    )
+
+    schedule.is_booked = True
+    schedule.save(update_fields=['is_booked', 'modified'])
+
+    snap = midtransclient.Snap(
+        is_production=settings.MIDTRANS_IS_PRODUCTION,
+        server_key=settings.MIDTRANS_SERVER_KEY
+    )
+    transaction_result = snap.create_transaction(build_snap_param(order_log, schedule))
+    return transaction_result, order_id
 
 
 @api_view(['POST'])
 def order(request):
+    data = request.data
+
+    missing = [field for field in ORDER_REQUIRED_FIELDS if not data.get(field)]
+    if missing:
+        logger.info('order rejected: missing fields %s', missing)
+        return _error("Pastikan semua data yang dimasukkan sudah benar!", status.HTTP_400_BAD_REQUEST)
+
+    consultant_type = str(data['consultantType'])
+    price_field = PRICE_FIELD_BY_TYPE.get(consultant_type)
+    offer_flag = OFFER_FLAG_BY_TYPE.get(consultant_type)
+    if price_field is None:
+        return _error("Pastikan semua data yang dimasukkan sudah benar!", status.HTTP_400_BAD_REQUEST)
+
     try:
-        logger.info(request.data)
+        consultant_id = int(data['consultantId'])
+        consultant_schedule_id = int(data['consultantScheduleId'])
+    except (TypeError, ValueError):
+        return _error("Pastikan semua data yang dimasukkan sudah benar!", status.HTTP_400_BAD_REQUEST)
 
-        # noinspection PyBroadException
-        try:
-            client_email = request.data['clientEmail']
-            client_name = request.data['clientName']
-            client_phone_number = request.data['clientPhoneNumber']
-            client_problem = request.data['clientProblem']
-            client_resume_url = request.data['clientResumeUrl']
-            consultant_id = request.data['consultantId']
-            consultant_name = request.data['consultantName']
-            consultant_price = request.data['consultantPrice']
-            consultant_schedule_id = request.data['consultantScheduleId']
-            consultant_type = request.data['consultantType']
-        except Exception as exp:
-            response_data = {
-                "success": False,
-                "message": "Pastikan semua data yang dimasukkan sudah benar!",
-                "param": request.data,
-                "error": str(exp)
-            }
-
-            logger.info(response_data)
-
-            return Response(
-                response_data
+    try:
+        with transaction.atomic():
+            transaction_result, order_id = create_order_and_payment_link(
+                data, consultant_id, consultant_schedule_id, consultant_type, price_field, offer_flag,
             )
+    except OrderRejected as rejected:
+        return _error(rejected.message, rejected.http_status)
+    except Exception:
+        # Raised inside the atomic block, so the booking and order log were rolled back.
+        logger.exception('order create failed, consultant_schedule_id=%s', consultant_schedule_id)
+        return _error("Oops, Ada kesalahan di dalam sistem kami. Silahkan coba lagi nanti!",
+                      status.HTTP_502_BAD_GATEWAY)
 
-        previous_payment_finished = is_previous_payment_finished(client_email, client_phone_number)
-        if previous_payment_finished is False:
-            client_phone_number_email = client_email + ' ' + client_phone_number
-            response_data = {
-                "success": False,
-                "message": "Silahkan selesaikan pembayaran order sebelumnya terlebih dahulu!",
-                "param": client_phone_number_email,
-            }
-
-            logger.info(response_data)
-
-            return Response(
-                response_data
-            )
-
-        unique_code = get_random_string(5) + '-' + date.today().strftime("%m%d%Y")
-        order_id = f"evaluatte-{consultant_type}-{str(unique_code)}"
-
-        new_order_log = OrderLog(
-            order_id=order_id,
-            unique_code=str(unique_code),
-
-            client_email=client_email,
-            client_name=client_name,
-            client_phone_number=client_phone_number,
-            client_problem=client_problem,
-            client_resume_url=client_resume_url,
-            consultant_id=consultant_id,
-            consultant_name=consultant_name,
-            consultant_price=consultant_price,
-            consultant_schedule_id=consultant_schedule_id,
-            consultant_type=consultant_type,
-        )
-        new_order_log.save()
-
-        consultant_schedule = ConsultantSchedule.objects.get(id=consultant_schedule_id)
-        consultant_schedule.is_booked = True
-        consultant_schedule.save()
-
-        snap = midtransclient.Snap(
-            is_production=MIDTRANS_IS_PRODUCTION,
-            server_key=settings.MIDTRANS_SERVER_KEY
-        )
-
-        first_name = new_order_log.client_name.split(" ", 1)[0]
-        try:
-            last_name = new_order_log.client_name.split(" ", 1)[1]
-        except IndexError:
-            last_name = ''
-
-        param = {
-            "transaction_details": {
-                "order_id": order_id,
-                "gross_amount": new_order_log.consultant_price
-            },
-            "credit_card": {
-                "secure": True
-            },
-            "item_details": [
-                {
-                    "id": str(new_order_log.consultant_schedule_id),
-                    "price": new_order_log.consultant_price,
-                    "quantity": 1,
-                    "name": f'Konsultasi {str(new_order_log.consultant_type)} '
-                    # f'w/ {str(new_order_log.consultant_name.split(" ", 1)[0])} '
-                    # f'{str(consultant_schedule.formatted_date)} '
-                    # f'{str(consultant_schedule.formatted_start_time)} '
-                    # f'- {str(consultant_schedule.formatted_end_time)}'
-                }
-            ],
-            "customer_details": {
-                "first_name": first_name,
-                "last_name": last_name,
-                "email": new_order_log.client_email,
-                "phone": new_order_log.client_phone_number
-            }
+    logger.info('order created order_id=%s', order_id)
+    return Response({
+        "success": True,
+        "message": "Success create new order log and payment link!",
+        "data": {
+            "transaction_token": transaction_result['token'],
+            "transaction_redirect_url": transaction_result['redirect_url'],
         }
+    })
 
-        try:
-            transaction = snap.create_transaction(param)
-        except Exception as exp:
-            response_data = {
-                "success": False,
-                "message": "Oops, Ada kesalahan di dalam sistem kami. Silahkan coba lagi nanti!",
-                "param": param,
-                "error": str(exp)
+
+def build_snap_param(order_log, schedule):
+    first_name, _, last_name = order_log.client_name.partition(" ")
+
+    return {
+        "transaction_details": {
+            "order_id": order_log.order_id,
+            # IDR has no minor unit; Midtrans expects an integer amount.
+            "gross_amount": int(order_log.consultant_price),
+        },
+        "credit_card": {
+            "secure": True
+        },
+        "item_details": [
+            {
+                "id": str(schedule.id),
+                "price": int(order_log.consultant_price),
+                "quantity": 1,
+                "name": f'Konsultasi {order_log.consultant_type}',
             }
-
-            logger.info(response_data)
-
-            return Response(
-                response_data
-            )
-
-        transaction_token = transaction['token']
-        transaction_redirect_url = transaction['redirect_url']
-
-        response_data = {
-            "success": True,
-            "message": "Success create new order log and payment link!",
-            "data": {
-                "transaction_token": transaction_token,
-                "transaction_redirect_url": transaction_redirect_url
-            }
+        ],
+        "customer_details": {
+            "first_name": first_name,
+            "last_name": last_name,
+            "email": order_log.client_email,
+            "phone": order_log.client_phone_number
         }
-
-        logger.info(response_data)
-
-        return Response(
-            response_data
-        )
-    except Exception as exp:
-        response_data = {
-            "success": False,
-            "message": "Failed create new order log and payment link!",
-            "error": str(exp)
-        }
-
-        logger.error(response_data)
-
-        return Response(
-            response_data
-        )
+    }
 
 
 def is_previous_payment_finished(client_email, client_phone_number):
-    with connection.cursor() as cursor:
-        last_order_log_by_client_email_phone_number = """
-                select client_email, order_id
-                    from core_order_log
-                    where client_email = %s or client_phone_number = %s
-                    order by id desc
-                    limit 1;
-            """
-        cursor.execute(last_order_log_by_client_email_phone_number, [client_email, client_phone_number])
-        rows = dict_fetch_all(cursor)
-        if not rows:
-            return True
+    last_order = (
+        OrderLog.objects
+        .filter(Q(client_email=client_email) | Q(client_phone_number=client_phone_number))
+        .order_by('-id')
+        .first()
+    )
+    if last_order is None:
+        return True
 
-        row = rows[0]
-        if row is None:
-            return True
+    last_midtrans_log = (
+        MidtransLog.objects
+        .filter(order_id=last_order.order_id)
+        .order_by('-id')
+        .first()
+    )
+    if last_midtrans_log is None:
+        return True
 
-        order_id = row['order_id']
+    return last_midtrans_log.transaction_status in ('settlement', 'expire')
 
-        last_midtrans_log_by_order_id = """
-            select order_id, transaction_status
-                from core_midtrans_log
-                where order_id = %s
-                order by id desc
-                limit 1;
-        """
-        cursor.execute(last_midtrans_log_by_order_id, [order_id])
-        rows = dict_fetch_all(cursor)
-        if not rows:
-            return True
 
-        row = rows[0]
-        if row is None:
-            return True
-
-        if row:
-            transaction_status_ = row['transaction_status']
-
-            if transaction_status_ in ['settlement', 'expired']:
-                return True
-            else:
-                return False
+def is_valid_midtrans_signature(order_id, status_code, gross_amount, signature_key):
+    # Midtrans: SHA512(order_id + status_code + gross_amount + ServerKey)
+    expected = hashlib.sha512(
+        f'{order_id}{status_code}{gross_amount}{settings.MIDTRANS_SERVER_KEY}'.encode('utf-8')
+    ).hexdigest()
+    return hmac.compare_digest(expected, str(signature_key))
 
 
 @api_view(['POST'])
 def order_webhook(request):
+    data = request.data
+
     try:
-        logger.info(request.data)
+        transaction_time = data['transaction_time']
+        transaction_status = data['transaction_status']
+        transaction_id = data['transaction_id']
+        status_message = data['status_message']
+        status_code = data['status_code']
+        signature_key = data['signature_key']
+        payment_type = data['payment_type']
+        order_id = data['order_id']
+        merchant_id = data['merchant_id']
+        gross_amount = data['gross_amount']
+        currency = data['currency']
+    except KeyError as exp:
+        logger.warning('webhook rejected: missing field %s', exp)
+        return _error("Payload webhook tidak lengkap!", status.HTTP_400_BAD_REQUEST)
 
-        transaction_time = request.data['transaction_time']
-        transaction_status = request.data['transaction_status']
-        transaction_id = request.data['transaction_id']
-        status_message = request.data['status_message']
-        status_code = request.data['status_code']
-        signature_key = request.data['signature_key']
-        payment_type = request.data['payment_type']
-        order_id = request.data['order_id']
-        merchant_id = request.data['merchant_id']
-        gross_amount = request.data['gross_amount']
-        currency = request.data['currency']
+    if not is_valid_midtrans_signature(order_id, status_code, gross_amount, signature_key):
+        logger.warning('webhook rejected: invalid signature, order_id=%s', order_id)
+        return _error("Invalid signature!", status.HTTP_403_FORBIDDEN)
 
-        logger.info(request.data)
+    midtrans_fields = {
+        'transaction_time': transaction_time,
+        'transaction_id': transaction_id,
+        'status_message': status_message,
+        'status_code': status_code,
+        'signature_key': signature_key,
+        'payment_type': payment_type,
+        'merchant_id': merchant_id,
+        'gross_amount': gross_amount,
+        'currency': currency,
+    }
+
+    with transaction.atomic():
+        order_log = OrderLog.objects.select_for_update().filter(order_id=order_id).first()
+        if order_log is None:
+            logger.error('webhook for unknown order_id=%s, status=%s', order_id, transaction_status)
+            return _error("Order tidak ditemukan!", status.HTTP_404_NOT_FOUND)
+
+        midtrans_log, _ = MidtransLog.objects.get_or_create(
+            transaction_id=transaction_id,
+            order_id=order_id,
+            transaction_status=transaction_status,
+            defaults=midtrans_fields,
+        )
 
         if transaction_status == 'settlement':
-            return handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment_type,
-                                         signature_key, status_code, status_message, transaction_id,
-                                         transaction_status, transaction_time)
+            return handle_settle_payment(order_log, midtrans_log, gross_amount)
 
-        if transaction_status == 'expire':
-            return handle_expire_payment(currency, gross_amount, merchant_id, order_id, payment_type,
-                                         signature_key, status_code, status_message, transaction_id,
-                                         transaction_status, transaction_time)
+        if transaction_status in RELEASE_STATUSES:
+            return handle_release_schedule(order_log, transaction_status)
 
-        if transaction_status != 'settlement':
-            return handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, payment_type,
-                                             signature_key, status_code, status_message, transaction_id,
-                                             transaction_status, transaction_time)
+        logger.info('webhook noop order_id=%s status=%s', order_id, transaction_status)
+        return Response({"success": True, "message": "Status tidak memerlukan tindakan."})
 
-    except Exception as exp:
-        response_data = {
-            "success": False,
-            "message": "Failed create new payment log and meet!",
-            "error": str(exp)
-        }
 
-        print(response_data)
-        logger.error(response_data)
+def handle_release_schedule(order_log, transaction_status):
+    if is_order_settled(order_log.order_id):
+        logger.warning('release ignored, order already settled order_id=%s status=%s',
+                       order_log.order_id, transaction_status)
+        return Response({"success": True, "message": "Order sudah lunas, jadwal tidak dilepas."})
 
-        return Response(
-            response_data,
-            status=status.HTTP_400_BAD_REQUEST
+    schedule = ConsultantSchedule.objects.select_for_update().filter(id=order_log.consultant_schedule_id).first()
+    if schedule is not None and schedule.is_booked:
+        schedule.is_booked = False
+        schedule.save(update_fields=['is_booked', 'modified'])
+
+    logger.info('schedule released order_id=%s status=%s', order_log.order_id, transaction_status)
+    return Response({"success": True, "message": f"Jadwal dilepas karena status {transaction_status}."})
+
+
+def is_order_settled(order_id):
+    return Meet.objects.filter(payment_proof__order_id=order_id, is_paid=True).exists()
+
+
+def handle_settle_payment(order_log, midtrans_log, gross_amount):
+    try:
+        paid_amount = Decimal(str(gross_amount))
+    except (InvalidOperation, TypeError):
+        paid_amount = None
+
+    if paid_amount is None or paid_amount != order_log.consultant_price:
+        # Money moved but does not match the order. Do not create a Meet; needs manual review.
+        logger.error('settlement amount mismatch order_id=%s expected=%s got=%s',
+                     order_log.order_id, order_log.consultant_price, gross_amount)
+        return Response({"success": False, "message": "Nominal pembayaran tidak sesuai."},
+                        status=status.HTTP_200_OK)
+
+    # Idempotent: Midtrans retries webhooks, so a Meet already linked to this payment means nothing to do.
+    if Meet.objects.filter(payment_proof=midtrans_log).exists():
+        return Response({"success": True, "message": "Pembayaran sudah diproses sebelumnya."})
+
+    client = Client.objects.filter(email=order_log.client_email).first()
+    if client is None:
+        client = Client.objects.create(
+            full_name=order_log.client_name,
+            email=order_log.client_email,
+            cv_url=order_log.client_resume_url,
+            phone_number=order_log.client_phone_number,
         )
-
-
-def handle_expire_payment(currency, gross_amount, merchant_id, order_id, payment_type,
-                                         signature_key, status_code, status_message, transaction_id,
-                                         transaction_status, transaction_time):
-    is_midtrans_log_exist = MidtransLog.objects.filter(
-        order_id=order_id,
-        transaction_status=transaction_status
-    ).exists()
-    if not is_midtrans_log_exist:
-        midtrans_log = MidtransLog(
-            transaction_time=transaction_time,
-            transaction_status=transaction_status,
-            transaction_id=transaction_id,
-            status_message=status_message,
-            status_code=status_code,
-            signature_key=signature_key,
-            payment_type=payment_type,
-            order_id=order_id,
-            merchant_id=merchant_id,
-            gross_amount=gross_amount,
-            currency=currency
-        )
-        midtrans_log.save()
-
-    order_log = OrderLog.objects.get(order_id=order_id)
-
-    consultant_schedule_id = order_log.consultant_schedule_id
-    consultant_schedule = ConsultantSchedule.objects.get(id=consultant_schedule_id)
-    consultant_schedule.is_booked = False
-    consultant_schedule.save()
-
-    response_data = {
-        "success": True,
-        "message": f"Payment with order id {str(order_id)} is expired, set the consultant schedule is booked to false!",
-    }
-
-    print(response_data)
-    logger.info(response_data)
-
-    return Response(
-        response_data,
-        status=status.HTTP_200_OK
-    )
-
-
-def handle_not_settle_payment(currency, gross_amount, merchant_id, order_id, payment_type,
-                                         signature_key, status_code, status_message, transaction_id,
-                                         transaction_status, transaction_time):
-    is_midtrans_log_exist = MidtransLog.objects.filter(
-        order_id=order_id,
-        transaction_status=transaction_status
-    ).exists()
-    if not is_midtrans_log_exist:
-        midtrans_log = MidtransLog(
-            transaction_time=transaction_time,
-            transaction_status=transaction_status,
-            transaction_id=transaction_id,
-            status_message=status_message,
-            status_code=status_code,
-            signature_key=signature_key,
-            payment_type=payment_type,
-            order_id=order_id,
-            merchant_id=merchant_id,
-            gross_amount=gross_amount,
-            currency=currency
-        )
-        midtrans_log.save()
-
-    response_data = {
-        "success": False,
-        "message": "Failed create new meet! Because, transaction_status is not settlement!",
-    }
-
-    print(response_data)
-    logger.error(response_data)
-
-    return Response(
-        response_data,
-        status=status.HTTP_200_OK
-    )
-
-
-def handle_settle_payment(currency, gross_amount, merchant_id, order_id, payment_type,
-                                         signature_key, status_code, status_message, transaction_id,
-                                         transaction_status, transaction_time):
-    is_midtrans_log_exist = MidtransLog.objects.filter(
-        order_id=order_id,
-        transaction_status=transaction_status
-    ).exists()
-    if is_midtrans_log_exist:
-        midtrans_log = MidtransLog.objects.get(order_id=order_id, transaction_status=transaction_status)
     else:
-        midtrans_log = MidtransLog(
-            transaction_time=transaction_time,
-            transaction_status=transaction_status,
-            transaction_id=transaction_id,
-            status_message=status_message,
-            status_code=status_code,
-            signature_key=signature_key,
-            payment_type=payment_type,
-            order_id=order_id,
-            merchant_id=merchant_id,
-            gross_amount=gross_amount,
-            currency=currency
-        )
-        midtrans_log.save()
-
-    order_log = OrderLog.objects.get(order_id=order_id)
-    client_email = order_log.client_email
-    client_name = order_log.client_name
-    client_phone_number = order_log.client_phone_number
-    client_problem = order_log.client_problem
-    client_resume_url = order_log.client_resume_url
-    consultant_type = order_log.consultant_type
-    consultant_price = order_log.consultant_price
-
-    is_client_exist = Client.objects.filter(email=client_email).exists()
-    if is_client_exist:
-        client = Client.objects.get(email=client_email)
-        client_id = client.id
-        client.phone_number = client_phone_number
-        client.cv_url = client_resume_url
-        client.save()
-    else:
-        client = Client(
-            full_name=client_name,
-            email=client_email,
-            cv_url=client_resume_url,
-            phone_number=client_phone_number
-        )
-        client_id = client.id
+        client.phone_number = order_log.client_phone_number
+        client.cv_url = order_log.client_resume_url
         client.save()
 
-    consultant_id = order_log.consultant_id
-    consultant_schedule_id = order_log.consultant_schedule_id
-    consultant_schedule = ConsultantSchedule.objects.get(id=consultant_schedule_id)
-    consultant_schedule.is_booked = True
-    consultant_schedule.save()
+    schedule = ConsultantSchedule.objects.select_for_update().get(id=order_log.consultant_schedule_id)
+    schedule.is_booked = True
+    schedule.save(update_fields=['is_booked', 'modified'])
 
-    meet = Meet(consultant_id=consultant_id,
-                client_id=client_id,
-                client_problem=client_problem,
-                type=consultant_type,
-                price=consultant_price,
-                payment_proof=midtrans_log,
-                is_paid=True,
-                start_date=consultant_schedule.start_date,
-                start_time=consultant_schedule.start_time,
-                end_time=consultant_schedule.end_time)
-    meet.save()
-
-    response_data = {
-        "success": True,
-        "message": "Success create new payment log and meet!",
-    }
-
-    print(response_data)
-    logger.info(response_data)
-
-    return Response(
-        response_data,
-        status=status.HTTP_200_OK
+    Meet.objects.create(
+        consultant_id=order_log.consultant_id,
+        client_id=client.id,
+        client_problem=order_log.client_problem,
+        type=order_log.consultant_type,
+        price=order_log.consultant_price,
+        payment_proof=midtrans_log,
+        is_paid=True,
+        start_date=schedule.start_date,
+        start_time=schedule.start_time,
+        end_time=schedule.end_time,
     )
+
+    logger.info('payment settled order_id=%s', order_log.order_id)
+    return Response({"success": True, "message": "Success create new payment log and meet!"})
