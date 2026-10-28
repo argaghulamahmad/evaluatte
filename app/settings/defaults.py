@@ -33,9 +33,7 @@ if not SECRET_KEY:
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0']
 ALLOWED_HOSTS += [h for h in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',') if h]
 
-CORS_ORIGIN_ALLOW_ALL = False
-
-CORS_ORIGIN_WHITELIST = (
+CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1',
     'http://localhost',
     'http://0.0.0.0',
@@ -44,7 +42,7 @@ CORS_ORIGIN_WHITELIST = (
     'https://evaluatte.argaghulamahmad.dev',
     'https://m.evaluatte.com',
     'https://m.evaluatte.argaghulamahmad.dev',
-)
+]
 
 CORS_ALLOW_HEADERS = default_headers + (
 )
@@ -139,9 +137,9 @@ TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 try:
     locale.setlocale(locale.LC_ALL, 'id_ID.UTF-8')

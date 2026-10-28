@@ -1,6 +1,5 @@
-from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
-from django.urls import re_path, path
+from django.urls import path, re_path
 
 from . import views
 from .sitemaps import StaticViewSitemap
@@ -10,18 +9,18 @@ sitemaps = {
 }
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
-    url(r'^about/$', views.about, name='about'),
+    re_path(r'^$', views.home, name='home'),
+    re_path(r'^about/$', views.about, name='about'),
 
     re_path(r'^services/(?P<slug>[-\w]+)$', views.ServiceDetailView.as_view(), name='service'),
-    url(r'^services/$', views.services, name='services'),
+    re_path(r'^services/$', views.services, name='services'),
 
-    url(r'^testimonials/$', views.testimonials, name='testimonials'),
-    url(r'^contact/$', views.contact, name='contact'),
+    re_path(r'^testimonials/$', views.testimonials, name='testimonials'),
+    re_path(r'^contact/$', views.contact, name='contact'),
 
-    url(r'^payment/finish$', views.payment_redirect, name='payment_finish'),
-    url(r'^payment/unfinish$', views.payment_redirect, name='payment_unfinish'),
-    url(r'^payment/error$', views.payment_redirect, name='payment_error'),
+    re_path(r'^payment/finish$', views.payment_redirect, name='payment_finish'),
+    re_path(r'^payment/unfinish$', views.payment_redirect, name='payment_unfinish'),
+    re_path(r'^payment/error$', views.payment_redirect, name='payment_error'),
 
     re_path(r'^consultants/(?P<type>[-\w]+)$', views.ConsultantListView.as_view(), name='consultants'),
 
