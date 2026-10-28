@@ -2,6 +2,7 @@ from datetime import date
 
 from django.core.paginator import Paginator
 from django.db.models import Q, Avg
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
@@ -126,7 +127,9 @@ class JobPostListView(ListView):
         context = super().get_context_data(**kwargs)
 
         slug = self.kwargs['slug']
-        company = JobPostCompany.objects.get(slug=slug)
+        company = JobPostCompany.objects.filter(slug=slug).first()
+        if company is None:
+            raise Http404('Perusahaan tidak ditemukan')
         context['company'] = company
 
         return context
@@ -176,16 +179,12 @@ def contact(request):
 def payment_redirect(request):
     request_path = request.path
     if request_path == '/payment/finish':
-        order_id = request.GET['order_id']
-        status_code = request.GET['status_code']
-        transaction_status = request.GET['transaction_status']
-
         data = {
             'status': 'Payment Finished!',
 
-            'order_id': order_id,
-            'status_code': status_code,
-            'transaction_status': transaction_status
+            'order_id': request.GET.get('order_id', ''),
+            'status_code': request.GET.get('status_code', ''),
+            'transaction_status': request.GET.get('transaction_status', ''),
         }
 
         return render(request, 'pages/payment/index.html', data)
@@ -201,3 +200,5 @@ def payment_redirect(request):
         }
 
         return render(request, 'pages/payment/index.html', data)
+
+    raise Http404('Halaman pembayaran tidak ditemukan')

@@ -1,6 +1,7 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.db.models import Prefetch
+from django.utils import timezone
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -17,12 +18,13 @@ class ConsultantViewSet(FetchViewSet):
     serializer_class = ConsultantSerializer
 
     def get_queryset(self):
+        today = timezone.localdate()
         consultants = Consultant.objects.filter(is_active=True).prefetch_related(
             Prefetch('consultant_schedules',
                          queryset=ConsultantSchedule.objects.filter(
                              is_booked=False,
-                             start_date__gte=datetime.today() + timedelta(days=1),
-                             start_date__lt=datetime.today() + timedelta(days=8)
+                             start_date__gte=today + timedelta(days=1),
+                             start_date__lt=today + timedelta(days=8)
                          )
                      ),
         )
@@ -49,9 +51,14 @@ class ConsultantScheduleViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-class TestimonialViewSet(FetchViewSet):
+class TestimonialViewSet(mixins.ListModelMixin, GenericViewSet):
+    # List only: slicing the queryset breaks get_object(), so retrieve is intentionally not exposed.
     serializer_class = TestimonialSerializer
 
     def get_queryset(self):
-        testimonials = Meet.objects.filter(show_testimony=True).order_by('-id')[:5]
-        return testimonials
+        return Meet.objects.filter(show_testimony=True).order_by('-id')
+
+    def list(self, request, *args, **kwargs):
+        testimonials = self.get_queryset()[:5]
+        serializer = self.get_serializer(testimonials, many=True)
+        return Response(serializer.data)

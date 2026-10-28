@@ -1,5 +1,5 @@
 import locale
-from datetime import datetime
+from decimal import Decimal
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -78,20 +78,24 @@ class Consultant(ModelWithAutoTimestamp):
 
     @property
     def year_of_experience(self):
-        now = datetime.now()
-        return now.year - self.start_date.year
+        return timezone.localdate().year - self.start_date.year
+
+    @staticmethod
+    def _as_lines(text):
+        # Nullable TextFields: a missing value must serialize as an empty list, not crash the endpoint.
+        return text.split('\n') if text else []
 
     @property
     def experience_as_list(self):
-        return self.experience.split('\n')
+        return self._as_lines(self.experience)
 
     @property
     def job_description_as_list(self):
-        return self.job_description.split('\n')
+        return self._as_lines(self.job_description)
 
     @property
     def role_expertise_as_list(self):
-        return self.role_expertise.split('\n')
+        return self._as_lines(self.role_expertise)
 
     @property
     def rating(self):
@@ -101,14 +105,9 @@ class Consultant(ModelWithAutoTimestamp):
                 .aggregate(Avg('rating'))['rating__avg']
         )
 
-        if rating__avg_ is not None:
-            return round(
-                rating__avg_,
-                1
-            )
-
         if rating__avg_ is None:
             return 0
+        return round(rating__avg_, 1)
 
     @property
     def total(self):
@@ -120,7 +119,7 @@ class Consultant(ModelWithAutoTimestamp):
         db_table = 'core_consultant'
 
     def __str__(self):
-        return self.full_name + ' - ' + self.role + ' at ' + self.company.name
+        return f'{self.full_name or ""} - {self.role or ""} at {self.company.name}'
 
 
 class ConsultantSchedule(ModelWithAutoTimestamp):
@@ -271,8 +270,8 @@ class Meet(ModelWithAutoTimestamp):
 
 
 class MeetPayroll(ModelWithAutoTimestamp):
-    FOR_CONSULTANT = 0.6
-    FOR_COMPANY = 0.4
+    FOR_CONSULTANT = Decimal('0.6')
+    FOR_COMPANY = Decimal('0.4')
 
     consultant = models.ForeignKey(Consultant, on_delete=models.DO_NOTHING, related_name='meet_payrolls')
     meet = models.ForeignKey(Meet, on_delete=models.CASCADE, related_name='meet_payrolls')
@@ -284,13 +283,20 @@ class MeetPayroll(ModelWithAutoTimestamp):
     consultant_paid_proof = models.FileField(upload_to='consultant-paid-proof/%Y/%m/%d/', blank=True, null=True)
     is_consultant_paid = models.BooleanField(default=False)
 
+    @staticmethod
+    def _share(price, ratio):
+        # Money is Decimal end-to-end; float rounding here would drift payroll totals.
+        if price is None:
+            return None
+        return (Decimal(price) * ratio).quantize(Decimal('0.01'))
+
     @property
     def get_for_consultant(self):
-        return float(self.price) * self.FOR_CONSULTANT
+        return self._share(self.price, self.FOR_CONSULTANT)
 
     @property
     def get_for_company(self):
-        return float(self.price) * self.FOR_COMPANY
+        return self._share(self.price, self.FOR_COMPANY)
 
     @property
     def get_consultant(self):

@@ -92,7 +92,7 @@ class ConsultantAdmin(AdminWithoutModified):
         'role'
     )
     ordering = ['id']
-    search_fields = ('id', 'full_name', 'role', 'company', 'email', 'phone_number')
+    search_fields = ('id', 'full_name', 'role', 'company__name', 'email', 'phone_number')
     list_per_page = 10
 
     def get_queryset(self, request):
@@ -152,8 +152,8 @@ class MeetAdmin(AdminWithoutModified):
         'start_date',
     )
     ordering = ['id']
-    search_fields = ('id', 'client',
-                     'consultant', 'start_date', 'note')
+    search_fields = ('id', 'client__full_name',
+                     'consultant__full_name', 'note')
     list_per_page = 10
 
     def get_queryset(self, request):
@@ -212,7 +212,7 @@ class MeetPayrollAdmin(AdminWithoutModified):
         'consultant',
     )
     ordering = ['id']
-    search_fields = ('id', 'consultant')
+    search_fields = ('id', 'consultant__full_name')
     list_per_page = 10
 
     def get_queryset(self, request):
@@ -279,28 +279,25 @@ class ConsultantScheduleAdmin(AdminWithoutModified):
         'start_date',
     )
     ordering = ['id']
-    search_fields = ('id', 'consultant')
+    search_fields = ('id', 'consultant__full_name')
     list_per_page = 10
 
     def get_form(self, request, obj=None, **kwargs):
+        form = super(ConsultantScheduleAdmin, self).get_form(request, obj, **kwargs)
+
         user_is_superuser = request.user.is_superuser
         user_id = request.user.id
 
         if user_is_superuser:
-            form = super(ConsultantScheduleAdmin, self).get_form(request, obj, **kwargs)
             return form
 
-        consultant_objects_filter_user = Consultant.objects.filter(user_id=user_id)
-        user_is_consultant = len(consultant_objects_filter_user) > 0
-
-        if user_is_consultant:
-            consultant = Consultant.objects.get(user_id=user_id)
-
-            form = super(ConsultantScheduleAdmin, self).get_form(request, obj, **kwargs)
+        consultant = Consultant.objects.filter(user_id=user_id).first()
+        if consultant is not None:
             form.base_fields['consultant'].initial = consultant
             form.base_fields['consultant'].disabled = True
 
-            return form
+        # Non-consultant users get the default form; get_queryset already limits what they can see.
+        return form
 
     def get_queryset(self, request):
         user_is_superuser = request.user.is_superuser
